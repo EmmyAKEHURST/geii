@@ -24,3 +24,12 @@ temps, supports).
 emploi du temps).
 • Garantir une administration centralisée du contenu par le personnel du
 département.
+
+## Technologies utilisés
+
+Pour réaliser ce projet, nous utiliserons le framework Symfony (PHP) ainsi que bootstrap pour se simplifier le travail côté design.
+
+## Equipe
+
+AKEHURST Emmy
+TAMDA Zohir
