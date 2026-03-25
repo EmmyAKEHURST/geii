@@ -31,3 +31,30 @@ Pour réaliser ce projet, nous utiliserons le framework Symfony (PHP) ainsi que 
 
 - AKEHURST Emmy
 - TAMDA Zohir
+
+## Règles de nommage
+
+### HP / classes (controllers, entities, services)
+Nommage des classes : PascalCase (ex: UserController, OrderRepository).
+Nommage des fichiers : le nom du fichier correspond à la classe (ex: UserController.php).
+Namespace : correspond à l’arborescence via composer.json (App\ pointe vers src/).
+Donc une classe App\Controller\HelloController doit être dans src/Controller/HelloController.php.
+
+### Méthodes de contrôleur
+Les méthodes sont généralement en camelCase (ex: index(), show(), create()).
+Les méthodes “action” peuvent être n’importe comment côté PHP, mais côté Symfony, utiliser surtout avec #[Route(...)].
+
+### Routes (URLs / noms de routes)
+URL (le chemin) : souvent en minuscules, avec tirets - (ex: /admin/users-list).
+Les paramètres d’URL : en snake_case ou minuscules (ex: /{user_id}).
+Nom de route (name: ...) : unique, souvent en camelCase ou snake_case/kebab-case selon le projet (le plus courant : user_list, admin_dashboard, etc.). L’important : c’est unique et lisible.
+
+### Templates Twig
+Les fichiers Twig finissent en .html.twig.
+Conventions courantes :
+soit un chemin explicite, ex: templates/admin/dashboard.html.twig
+soit des noms descriptifs en kebab-case/snake_case (selon ton projet).
+Pour réutiliser : extends "base.html.twig" puis remplir les {% block %}.
+
+### Variables Twig / données
+Les variables passées au template sont souvent en camelCase (ex: user, userProfile)
