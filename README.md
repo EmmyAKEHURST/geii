@@ -23,7 +23,7 @@ temps, supports).
 - Permettre aux enseignants de gérer leurs ressources pédagogiques (cours, notes, emploi du temps).
 - Garantir une administration centralisée du contenu par le personnel du département.
 
-## Technologies utilisés
+## Technologies utilisées
 
 Pour réaliser ce projet, nous utiliserons le framework Symfony (PHP) ainsi que Bootstrap (CSS) pour simplifier le travail côté design.
 
