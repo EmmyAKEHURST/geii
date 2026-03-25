@@ -33,7 +33,7 @@ Pour la réalisation de ce projet, le framework Symfony ainsi que Bootstrap CSS 
 
 ## Les règles de nommage
 
-### HP / classes (controllers, entities, services)
+### PHP / classes (controllers, entities, services)
 
 Concernant le nommage des classes, elles seront écrites en PascalCase (par exemple : `UserController`, `OrderRepository`).
 
