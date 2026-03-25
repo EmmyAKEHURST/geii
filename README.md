@@ -45,7 +45,7 @@ Tous les fichiers source possèdent un namespace au niveau du début de fichier.
 
 ### Les méthodes de contrôleur
 
-Les méthodes sont généralement en camelCase (ex: `index()`, `show()`, `create()`). Sur Syfmony, l'attribut `#[Route(...)]` sera systématiquement utilisée pour créer des routes accessibles.
+Les méthodes sont généralement en camelCase (ex: `index()`, `show()`, `create()`). Sur Symfony, l'attribut `#[Route(...)]` sera systématiquement utilisée pour créer des routes accessibles.
 
 ### Les routes (URLs / noms de routes)
 
