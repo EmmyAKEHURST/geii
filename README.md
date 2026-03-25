@@ -14,14 +14,19 @@ Ce projet n'est pas un projet officiel pour le GEII, mais nous feront tout comme
 ## Objectifs du site
 
 Le but de ce site sera de :
+
 • Valoriser l&#39;offre de formation du département GEII (DUT GEII, Licences
 Professionnelles).
+
 • Informer les entreprises sur les modalités de partenariat (alternance, projets
 tuteurés).
+
 • Offrir aux étudiants inscrits un espace personnel sécurisé (notes, emploi du
 temps, supports).
+
 • Permettre aux enseignants de gérer leurs ressources pédagogiques (cours, notes,
 emploi du temps).
+
 • Garantir une administration centralisée du contenu par le personnel du
 département.
 
