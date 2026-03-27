@@ -23,4 +23,4 @@ jobs:
       - name: Static analysis
         run: vendor/bin/phpstan analyse -l max src tests
       - name: Run tests
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit --configuration phpunit.dist.xml
