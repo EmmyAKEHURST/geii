@@ -11,6 +11,12 @@ jobs:
     strategy:
       matrix:
         php-version: ['8.3', '8.4']
+    env:
+      APP_ENV: test
+      APP_SECRET: une_cle_secrete
+      DATABASE_URL: "sqlite:///:memory:"
+      MAILER_DSN: null://null
+      MESSENGER_TRANSPORT_DSN: doctrine://default?auto_setup=0
     steps:
       - uses: actions/checkout@v4
       - name: Set up PHP
