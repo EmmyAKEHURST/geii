@@ -1,0 +1,26 @@
+name: ci
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['8.2', '8.3', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest --no-interaction --no-scripts
+      - name: Static analysis
+        run: vendor/bin/phpstan analyse -l max src tests
+      - name: Run tests
+        run: vendor/bin/phpunit --configuration phpunit.dist.xml
