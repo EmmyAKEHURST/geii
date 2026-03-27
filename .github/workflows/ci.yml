@@ -25,6 +25,10 @@ jobs:
           php-version: ${{ matrix.php-version }}
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest --no-interaction --no-scripts
+      - name: Create test database
+        run: bin/console doctrine:database:create --env=test --no-interaction
+      - name: Run migrations
+        run: bin/console doctrine:migrations:migrate --env=test --no-interaction
       - name: Static analysis
         run: vendor/bin/phpstan analyze --level 9 src/
       - name: Run tests
