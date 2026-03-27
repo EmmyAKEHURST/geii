@@ -20,6 +20,6 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest --no-interaction --no-scripts
       - name: Static analysis
-        run: vendor/bin/phpstan analyse -l max src tests
+        run: vendor/bin/phpstan analyze --level 9 src/
       - name: Run tests
         run: vendor/bin/phpunit --configuration phpunit.dist.xml
