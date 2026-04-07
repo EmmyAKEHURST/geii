@@ -1,0 +1,455 @@
+﻿La Charte Graphique — Site Web GEII
+  
+
+LA CHARTE GRAPHIQUE
+Site Web du Département GEII
+————————————————————
+Identité visuelle · Couleurs · Typographie · Composants Bootstrap
+Version
+	1.0
+	Date
+	25 mars 2026
+	Statut
+	Document de référence
+	Framework CSS
+	Bootstrap 5.3
+	________________
+
+
+1. Identité visuelle
+1.1 Analyse du logo
+Le logo du département GEII est construit autour d'une forme en lemniscate (∞) stylisée évoquant à la fois le mouvement continu, l'électricité et les boucles logiques. Il se compose de deux éléments chromatiques distincts :
+* Un tracé jaune vif (#FFD700) représentant l'énergie, le dynamisme et l'innovation.
+* Un tracé noir (#1A1A1A) apportant rigueur, lisibilité et ancrage institutionnel.
+Cette dualité jaune/noir constitue le socle de toute la charte graphique du site.
+
+
+1.2 Règles d'utilisation du logo
+Règle
+	Détails
+	Zone de protection
+	Marge minimum = hauteur de la lettre « G » du logo tout autour
+	Taille minimale
+	80 px de large sur écran, 25 mm à l'impression
+	Fond autorisé
+	Blanc (#FFFFFF) ou Noir (#1A1A1A)
+	Fond interdit
+	Fond coloré saturé, fond image chargée, fond jaune
+	Déformation
+	Strictement interdite (proportions fixes)
+	Recolorisation
+	Interdite — uniquement jaune/noir ou version monochrome noire
+	________________
+
+
+2. La palette de couleurs
+La palette est directement dérivée du logo. Elle s'articule autour de deux couleurs primaires et d'une couleur secondaire institutionnelle, complétées par des neutres fonctionnels.
+2.1 Couleurs primaires (logo)
+
+
+	Nom
+	Hex / RGB
+	Usage principal
+	
+
+	Jaune GEII
+	#FFD700
+	Accent, CTA, surbrillance, bordures actives, liens hover
+	
+
+	Noir GEII
+	#1A1A1A
+	Texte principal, navbar sombre, footer, icônes
+	
+
+2.2 Couleur secondaire institutionnelle
+
+
+	Nom
+	Hex / RGB
+	Usage principal
+	
+
+	Bleu IUT
+	#1E40AF
+	En-têtes de section, badges, boutons secondaires
+	
+
+2.3 Neutres fonctionnels
+
+
+	Nom
+	Hex / RGB
+	Usage principal
+	
+
+	Blanc
+	#FFFFFF
+	Fond général des pages, cartes, espaces vierges
+	
+
+	Gris très clair
+	#F5F5F5
+	Fond de section alternée, tableaux pairs
+	
+
+	Gris moyen
+	#E0E0E0
+	Bordures, séparateurs, hr
+	
+
+	Gris texte
+	#4A4A4A
+	Corps de texte, sous-titres, labels de formulaire
+	
+
+________________
+2.4 Correspondances Bootstrap 5 — variables CSS
+Les variables Bootstrap devront être surchargées dans le fichier variables.scss (ou dans un :root CSS) avant compilation :
+
+
+:root {
+  --bs-primary:        #FFD700;   /* Jaune GEII  */
+  --bs-secondary:      #1E40AF;   /* Bleu IUT    */
+  --bs-dark:           #1A1A1A;   /* Noir GEII   */
+  --bs-body-color:     #4A4A4A;
+  --bs-body-bg:        #FFFFFF;
+  --bs-border-color:   #E0E0E0;
+}
+________________
+
+
+3. Typographie
+3.1 Polices sélectionnées
+Rôle(s)
+	Police(s)
+	Source
+	Caractéristiques
+	Titres (H1–H3)
+	Barlow Semi Condensed Bold
+	Google Fonts
+	Moderne, compact, technique
+	Corps de texte
+	Inter
+	Google Fonts
+	Lisible, neutre, universel
+	Code / Mono
+	JetBrains Mono
+	Google Fonts
+	Code, extraits techniques
+	Fallback système
+	Arial, Helvetica, sans-serif
+	Système
+	Compatibilité universelle
+	
+
+Import Google Fonts à inclure dans le <head> de chaque page :
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+3.2 Échelle typographique
+Élément
+	Police
+	Taille
+	Graisse
+	Couleur / Note
+	H1 (hero)
+	Barlow Semi Condensed
+	2.5 rem
+	700
+	Noir #1A1A1A — une par page
+	H2
+	Barlow Semi Condensed
+	1.75 rem
+	600
+	Bleu #1A3C6E — soulignement jaune
+	H3
+	Barlow Semi Condensed
+	1.25 rem
+	600
+	Noir #1A1A1A
+	Paragraphe
+	Inter
+	1 rem (16 px)
+	400
+	Gris texte #4A4A4A
+	Label / Caption
+	Inter
+	0.85 rem
+	500
+	Gris texte #4A4A4A — uppercase autorisé
+	Code inline
+	JetBrains Mono
+	0.9 rem
+	400
+	Fond #F5F5F5 — bordure #E0E0E0
+	Navigation
+	Inter
+	0.95 rem
+	500
+	Blanc sur fond noir en navbar
+	________________
+
+
+4. Composants Bootstrap 5
+Le site utilise Bootstrap 5.3 via CDN. Les classes et composants ci-dessous sont la référence d'implémentation pour toute l'équipe.
+4.1 Inclusion Bootstrap (CDN)
+<!-- CSS Bootstrap 5.3 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- JS Bootstrap (bundle avec Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+4.2 La barre de navigation (Navbar)
+La barre de navigation est de type navbar-dark bg-dark (fond noir GEII). Le logo GEII est positionné à gauche. Les liens actifs sont soulignés en jaune via une classe CSS personnalisée .nav-link-active.
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="/">
+    <img src="logo-geii.svg" height="40" alt="GEII">
+  </a>
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav ms-auto">
+      <li class="nav-item">
+        <a class="nav-link nav-link-active" href="#">Accueil</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Présentation</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Espace étudiant</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+/* CSS personnalisé */
+.nav-link-active { border-bottom: 2px solid #FFD700; }
+.nav-link:hover  { color: #FFD700 !important; }
+4.3 Boutons
+Rôle
+	Classe Bootstrap
+	Surcharge CSS
+	Action principale (CTA)
+	btn btn-warning
+	couleur texte : #1A1A1A ; font-weight: 600
+	Action secondaire
+	btn btn-dark
+	aucune surcharge nécessaire
+	Action tertiaire / outline
+	btn btn-outline-dark
+	hover : fond #FFD700, texte #1A1A1A
+	Lien dangereux / suppression
+	btn btn-outline-danger
+	aucune surcharge
+	Bouton désactivé
+	btn btn-secondary disabled
+	opacité 0.5
+	4.4 Cartes (Cards)
+Les cartes sont le composant principal pour afficher les offres d'alternance, projets tuteurés, supports de cours et formations. Elles utilisent une bordure supérieure jaune comme marqueur visuel distinctif.
+
+
+<div class="card h-100 shadow-sm border-0">
+  <div class="card-header bg-dark text-white fw-semibold">
+    Titre de la carte
+  </div>
+  <div class="card-body">
+    <p class="card-text text-muted">Contenu descriptif...</p>
+  </div>
+  <div class="card-footer bg-transparent border-top-0">
+    <a href="#" class="btn btn-warning btn-sm fw-semibold">Voir le détail</a>
+  </div>
+</div>
+
+
+/* Marqueur coloré en haut de chaque carte */
+.card { border-top: 4px solid #FFD700 !important; }
+4.5 Formulaires
+Tous les formulaires (connexion, dépôt de fichier, ajout d'offre) suivent ces règles :
+* Labels au-dessus des champs (form-label), jamais inline.
+* Champs avec focus coloré en jaune via --bs-focus-ring-color : rgba(255,215,0,0.3).
+* Messages de validation via les classes is-valid / is-invalid Bootstrap.
+* Bouton de soumission : btn btn-warning fw-semibold w-100.
+:root { --bs-focus-ring-color: rgba(255, 215, 0, 0.35); }
+.form-control:focus { border-color: #FFD700; box-shadow: 0 0 0 0.25rem var(--bs-focus-ring-color); }
+4.6 Badges et alertes
+Usage
+	Classe
+	Exemple d'emploi
+	Nouveau / En cours
+	badge bg-warning text-dark
+	Offre récente, projet ouvert
+	Archivé / Clôturé
+	badge bg-secondary
+	Offre expirée
+	Succès (upload, enregistrement)
+	alert alert-success
+	Fichier déposé avec succès
+	Erreur / Validation
+	alert alert-danger
+	Champ obligatoire manquant
+	Information
+	alert alert-info
+	Emploi du temps mis à jour
+	________________
+
+
+5. Mise en page et grille
+5.1 Structure générale des pages
+Toutes les pages du site respectent la structure HTML suivante :
+<body>
+  <header>  <!-- Navbar Bootstrap fixe en haut → </header>
+  <main>
+    <section class="hero">      <!-- optionnel, page d'accueil -->
+    <section class="content">   <!-- container Bootstrap -->
+      <div class="container">
+        <div class="row">
+          <div class="col-..."> ... </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>  <!-- Fond noir, texte gris clair --> </footer>
+</body>
+5.2 Grille responsive
+Breakpoint
+	Largeur
+	Colonnes type
+	Exemple
+	xs (mobile)
+	< 576 px
+	col-12
+	Contenu pleine largeur
+	sm (tablette portrait)
+	≥ 576 px
+	col-sm-12
+	Cartes empilées
+	md (tablette paysage)
+	≥ 768 px
+	col-md-6
+	2 cartes côte à côte
+	lg (desktop)
+	≥ 992 px
+	col-lg-4
+	3 cartes par ligne
+	xl (grand écran)
+	≥ 1200 px
+	col-xl-3
+	4 cartes par ligne
+	5.3 Espacements
+Les espacements s'appuient sur les classes utilitaires Bootstrap (m-, p-) selon l'échelle suivante :
+Classe
+	Valeur (rem)
+	Usage recommandé
+	py-5 / my-5
+	3 rem
+	Sections de contenu (entre blocs majeurs)
+	py-4 / my-4
+	1.5 rem
+	Intérieur de cartes, blocs intermédiaires
+	py-3 / my-3
+	1 rem
+	Espacement entre éléments d'une même section
+	gap-3
+	1 rem
+	Grilles de cartes (utiliser avec d-grid ou flexbox)
+	________________
+
+
+6. Iconographie et visuels
+6.1 Icônes
+La bibliothèque d'icônes retenue est Bootstrap Icons (v1.11+). Elle est cohérente avec le framework, légère et disponible via CDN.
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
+Exemples d'icônes utilisées par section :
+
+
+Section / Contexte
+	Classe icône
+	Rendu attendu
+	Espace étudiant
+	bi-mortarboard
+	Chapeau de diplômé
+	Notes
+	bi-clipboard-data
+	Presse-papiers avec graphique
+	Emploi du temps
+	bi-calendar-week
+	Calendrier hebdo
+	Supports de cours
+	bi-file-earmark-pdf
+	Fichier PDF
+	Alternance
+	bi-briefcase
+	Mallette
+	Projets tuteurés
+	bi-diagram-3
+	Organigramme
+	Espace enseignant
+	bi-person-video3
+	Enseignant en visio
+	Administration
+	bi-gear-wide-connected
+	Engrenages
+	Connexion / Compte
+	bi-person-circle
+	Avatar utilisateur
+	
+
+6.2 Visuels et illustrations
+* Les photos utilisées sur le site (hero, lieu de formation) doivent être au format WebP pour les performances.
+* Résolution minimale recommandée : 1920 × 600 px pour les bandeaux hero.
+* Toute image doit posséder un attribut alt (texte alternative, accessibilité WCAG 2.1).
+* Les images de personnes réelles (étudiants, enseignants) nécessitent un droit à l'image signé.
+* Éviter les visuels génériques de stock ; privilégier des photos authentiques du département.
+________________
+
+
+7. Accessibilité et contraste
+7.1 Ratios de contraste (WCAG 2.1 AA)
+Le jaune (#FFD700) sur fond blanc (#FFFFFF) présente un ratio de contraste de 1.07:1 — insuffisant pour du texte. Il ne doit donc jamais être utilisé comme couleur de texte sur fond blanc.
+
+
+Combinaison
+	Ratio
+	AA (4.5:1) ?
+	Usage
+	Texte noir #1A1A1A sur blanc
+	18.1 : 1
+	✔ Conforme
+	Corps de texte principal
+	Texte blanc sur noir #1A1A1A
+	18.1 : 1
+	✔ Conforme
+	Navbar, footer, badges
+	Texte noir sur jaune #FFD700
+	7.0 : 1
+	✔ Conforme
+	Boutons CTA, badges warning
+	Texte blanc sur bleu #1A3C6E
+	8.6 : 1
+	✔ Conforme
+	En-têtes de section
+	Texte blanc sur jaune #FFD700
+	1.07 : 1
+	✘ Interdit
+	À ne jamais utiliser
+	Texte jaune sur blanc
+	1.07 : 1
+	✘ Interdit
+	À ne jamais utiliser
+	
+
+7.2 Bonnes pratiques Bootstrap
+* Utiliser les attributs aria-label et aria-expanded sur les éléments interactifs (menus, modales).
+* Les dropdowns Bootstrap incluent automatiquement les rôles ARIA.
+* Tester le focus clavier sur toute la navigation (:focus-visible stylisé avec outline jaune).
+:focus-visible { outline: 3px solid #FFD700; outline-offset: 2px; }
+* Utiliser des balises HTML sémantiques : <nav>, <main>, <section>, <aside>, <footer>.
+* Vérifier la charte avec l'outil Lighthouse (Google Chrome DevTools) — score Accessibilité ≥ 90.
+
+
+IUT — Département GEII    |     /

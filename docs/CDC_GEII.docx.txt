@@ -1,0 +1,410 @@
+﻿Cahier des charges — Site Web GEII
+  
+
+CAHIER DES CHARGES
+Site Web du Département
+————————————————————
+Génie Electrique et Informatique Industrielle (GEII)
+
+
+Maître d'ouvrage
+	IUT / Département GEII
+	Version
+	1.0
+	Date
+	25 mars 2026
+	Statut
+	Document de référence
+	________________
+
+
+SOMMAIRE
+
+
+
+
+
+
+1. Présentation du projet        3
+1.1 Contexte et origine du projet        3
+1.2 Objectifs du site        3
+1.3 Le périmètre        3
+2. Description fonctionnelle        4
+2.1 L’arborescence générale        4
+2.2 La matrice des droits par profil        5
+3. Les exigences techniques        6
+3.1 Les technologies front-end        6
+3.2 Les technologies back-end        6
+3.3 L’hébergement        6
+3.4 La compatibilité et l’accessibilité        6
+4. La sécurité        7
+4.1 L’authentification et la gestion des sessions        7
+4.2 La protection des données        7
+4.3 La protection des formulaires        7
+5. Contraintes et exigences non fonctionnelles        8
+5.1 Contraintes de délai        8
+5.2 Les contraintes de maintenance        8
+5.3 Les contraintes budgétaires        8
+6. Critères de recette et validation        9
+6.1 Les tests fonctionnels        9
+6.2 Tests de sécurité        9
+6.3 Tests de performance        9
+6.4 Procédure de livraison        9
+7. Glossaire        10
+
+
+________________
+1. Présentation du projet
+1.1 Contexte et origine du projet
+Le département Génie Électrique et Informatique Industrielle (GEII) de l'IUT souhaite se doter d'un site web institutionnel moderne afin de centraliser l'ensemble de ses informations à destination de ses différents publics : futurs étudiants, entreprises partenaires, étudiants inscrits et enseignants.
+Ce site viendra remplacer ou compléter l'offre de communication actuelle et constitue le point d'entrée numérique officiel du département.
+1.2 Objectifs du site
+Les objectifs du site web sont les suivants :
+* Valoriser l'offre de formation du département GEII (DUT GEII, Licences Professionnelles).
+* Informer les entreprises sur les modalités de partenariat (alternance, projets tuteurés).
+* Offrir aux étudiants inscrits un espace personnel sécurisé (notes, emploi du temps, supports).
+* Permettre aux enseignants de gérer leurs ressources pédagogiques (cours, notes, emploi du temps).
+* Garantir une administration centralisée du contenu par le personnel du département.
+1.3 Le périmètre
+Le site couvre l'ensemble des pages et fonctionnalités décrites dans la spécification fonctionnelle, conformément à l'arborescence définie. Il ne couvre pas les systèmes d'information tiers (ENT, logiciels de scolarité).
+________________
+
+
+2. Description fonctionnelle
+2.1 L’arborescence générale
+Le site est structuré autour des rubriques suivantes :
+* La page d’accueil
+* Présentation du département GEII
+   * Généralités DUT GEII
+   * Lieu de formation
+   * Programme
+   * Spécificité du DUT GEII
+   * Formation en alternance
+   * Après le DUT GEII
+* Licences Professionnelles
+   * LP MIAW
+   * LP ABDD
+   * LP GTHBT
+
+
+Pour chaque formation en licence professionnelle, on présentera également :
+* L’introduction.
+* Le lieu de formation.
+* Le programme
+* Que faire après la formation.
+
+
+En plus des rubriques, des espaces seront mises en place pour la plateforme :
+* Espace étudiant (authentifié)
+   * Notes
+   * Emploi du temps
+   * Projets tuteurés
+   * Offres d'alternance
+   * Supports de cours
+* Espace enseignant (authentifié)
+   * Notes (ajout / consultation)
+   * Emploi du temps personnel
+   * Supports de cours (dépôt / consultation)
+
+
+________________
+2.2 La matrice des droits par profil
+Le tableau ci-dessous synthétise les droits d'accès aux fonctionnalités selon le profil de l'utilisateur.
+
+
+Fonctionnalités
+	Non auth.
+	Entreprise
+	Étudiant
+	Enseignant
+	Personnel
+	Consulter l'accueil
+	✔
+	✔
+	✔
+	✔
+	✔
+	Consulter la présentation du dépt.
+	✔
+	✔
+	✔
+	✔
+	✔
+	Ajouter l’offre projet tuteuré
+	
+
+	✔
+	
+
+	
+
+	✔
+	Ajouter l’offre alternance
+	
+
+	✔
+	
+
+	
+
+	✔
+	Gérer ses projets tuteurés
+	
+
+	✔
+	
+
+	
+
+	✔
+	Gérer ses offres d'alternance
+	
+
+	✔
+	
+
+	
+
+	✔
+	Espace étudiant
+	
+
+	
+
+	✔
+	
+
+	✔
+	Consulter ses notes
+	
+
+	
+
+	✔
+	
+
+	✔
+	Consulter l’emploi du temps
+	
+
+	
+
+	✔
+	✔
+	✔
+	Consulter les projets tuteurés dispo.
+	
+
+	
+
+	✔
+	
+
+	✔
+	Consulter les offres alternance
+	
+
+	
+
+	✔
+	
+
+	✔
+	Consulter les supports de cours
+	
+
+	
+
+	✔
+	✔
+	✔
+	Espace enseignant
+	
+
+	
+
+	
+
+	✔
+	✔
+	Ajouter / modifier les notes
+	
+
+	
+
+	
+
+	✔
+	✔
+	Déposer le support de cours (PDF)
+	
+
+	
+
+	
+
+	✔
+	✔
+	Administration du contenu
+	
+
+	
+
+	
+
+	
+
+	✔
+	________________
+
+
+3. Les exigences techniques
+3.1 Les technologies front-end
+Le site est développé en technologies web standards. Le stack retenu est le suivant :
+* HTML 5 sémantique pour la structure des pages web.
+* CSS3 (utilisation de la bibliothèque Bootstrap). 
+* JavaScript (ES6+ de préférence) pour les interactions dynamiques côté client (tels que les menus, les formulaires et certains composants interactifs).
+* Des bibliothèques JS légères pourront être utilisées (ex. : jQuery, ou framework léger) sous réserve de validation par le maître d'ouvrage.[a]
+
+
+Pour ce projet, le système de gestion de contenus (CMS, tels que Wordpress ou Joomla) ne sera pas utilisé.
+3.2 Les technologies back-end
+La partie serveur devra gérer l'authentification, la gestion des utilisateurs, le dépôt de fichiers et l'accès à la base de données. Les choix suivants sont recommandés :
+* Langage serveur : PHP 8.x avec le framework Symfony.
+* Base de données : MySQL ou MariaDB, hébergée sur OVH.
+* Gestion des sessions et authentification : système de session sécurisé, mots de passe hachés (md5 ou bcrypt).
+* Upload de fichiers PDF : validation des types de fichiers, taille maximale de 10 Mo, stockage sur le serveur.[b][c]
+3.3 L’hébergement
+* Hébergeur : OVH (offre mutualisée ou VPS selon les besoins en ressources).
+* Nom de domaine : à définir par le maître d'ouvrage (par exemple.: geii-iut.fr ou le sous-domaine de l'établissement).
+* Certificat SSL/TLS requise pour sécuriser les requêtes et les réponses en HTTPS.
+* Accès FTP/SFTP pour le déploiement des fichiers source.
+
+
+3.4 La compatibilité et l’accessibilité
+* Les navigateurs tels que Chrome, Firefox, Edge et Safari seront compatibles pour le site du GEII
+* Design responsive : le site doit être pleinement utilisable sur trois versions différentes : ordinateur, tablette et mobile.
+* Privilégier l’accessibilité web grâce au système ARIA.
+* Avoir un temps de chargement < 3 secondes en connexion standard. Avoir aussi le système de cache.
+________________
+
+
+4. La sécurité
+4.1 L’authentification et la gestion des sessions
+* Authentification par identifiant et mot de passe pour les profils : étudiant, enseignant, entreprise, personne. Mot de passe robuste (lettres, chiffres et caractères spéciaux).
+* Les mots de passe doivent être hachées avant d’être stockés (bcrypt ou équivalent).
+* Les sessions doivent expirer après une période d'inactivité configurable ((30 minutes).
+* Protection contre les attaques de type brute-force (limitation du nombre de tentatives de connexion : 5).
+4.2 La protection des données
+* Les données personnelles des étudiants et enseignants (notes, emploi du temps) ne doivent être accessibles que par les profils autorisés.
+* Conformité au RGPD : politique de confidentialité affichée, absence de collecte de données non nécessaires.
+* Les fichiers PDF déposés (supports de cours par exemple) ne doivent pas être accessibles via une URL directe sans authentification.
+4.3 La protection des formulaires
+* Tous les formulaires doivent être protégés contre les injections SQL (requêtes préparées paramétrées obligatoires).
+* Protection CSRF sur l'ensemble des formulaires POST.
+* Validation des entrées à la fois côté serveu[d][e]r et côté client.
+________________
+
+
+5. Contraintes et exigences non fonctionnelles
+5.1 Contraintes de délai
+Phase
+	Description
+	Livrable attendu
+	1
+	Spécification fonctionnelle détaillée des pages
+	Document de spécification validé
+	2
+	Charte graphique et logos
+	Maquettes visuelles (Figma ou équivalent)
+	3
+	Cahier des charges et estimation des coûts
+	Présent document + devis
+	4
+	Conception totale du site (architecture, modèle de données)
+	Dossier de conception technique
+	5
+	Planning de réalisation et jalons
+	Diagramme de Gantt
+	6
+	Réalisation et mise en production
+	Site web en ligne et documentation
+	
+
+5.2 Les contraintes de maintenance
+* Le code source sera versionné via l’outil Git et hébergé sur un dépôt accessible au maître d'ouvrage (https://github.com/EmmyAKEHURST/geii/tree/master).
+* Une documentation technique (installation, déploiement, administration) doit être fournie à la livraison.
+* Le site doit pouvoir être maintenu par une équipe interne à l'IUT sans nécessiter de dépendre de l'agence de développement.
+
+
+5.3 Les contraintes budgétaires
+Une estimation des coûts sera produite séparément. Les postes à chiffrer incluent :
+* Développement (nombre de jours/homme par phase).
+* Hébergement annuel OVH (nom de domaine + certificat SSL + stockage).
+* Recette et tests (qualité, accessibilité, sécurité).
+* Formation à l'outil d'administration pour le personnel GEII.
+* Maintenance corrective et évolutive (contrat à définir).
+________________
+
+
+6. Critères de recette et validation
+6.1 Les tests fonctionnels
+La recette fonctionnelle devra couvrir l'ensemble des cas d'usage décrits dans la matrice des droits (cf. section 2.2). Pour chaque profil utilisateur, les scénarios suivants devront être testés et validés :
+* Création, modification et suppression de contenus (offres, notes, supports).
+* Accès autorisé et refus d'accès selon le profil connecté.
+* Fonctionnement des formulaires (validation, messages d'erreur, succès).
+* Navigation sur mobile, tablette et desktop.
+6.2 Tests de sécurité
+* Vérification de l'accessibilité des ressources protégées sans authentification.
+* Tests d'injection SQL et XSS sur les formulaires.[f]
+* Vérification du chiffrement HTTPS sur toutes les pages.
+6.3 Tests de performance
+* Mesure du temps de chargement de la page d'accueil et des pages les plus chargées (< 3 s).
+* Test de charge minimal : simulation de 50 utilisateurs simultanés sans dégradation visible.
+6.4 Procédure de livraison
+À l'issue du développement, le prestataire devra fournir :
+* Le code source complet, versionné et commenté.
+* La base de données contenant les données de démonstration.
+* La documentation technique ainsi que le guide d'administration.
+* Un rapport de tests signé par les deux parties.
+________________
+
+
+7. Glossaire
+Terme
+	Définition
+	GEII
+	Génie Électrique et Informatique Industrielle
+	DUT GEII
+	Diplôme Universitaire de Technologie en GEII
+	LP
+	Licence Professionnelle
+	MIAW
+	LP Métiers de l'Informatique - Applications Web
+	ABDD
+	LP Automatisme, Bases de Données et Développement
+	GTHBT
+	LP Génie Thermique, Hydraulique, Bâtiment et Travaux
+	Projet tuteuré
+	Projet encadré réalisé par des étudiants pour une entreprise
+	Alternance
+	Formation en alternance entre l'IUT et une entreprise
+	OVH
+	Hébergeur web utilisé pour le déploiement du site
+	RGPD
+	Règlement Général sur la Protection des Données (UE 2016/679)
+	WCAG
+	Web Content Accessibility Guidelines — normes d'accessibilité web
+	CSRF
+	Cross-Site Request Forgery — attaque par falsification de requête
+	SSL/TLS
+	Protocole de chiffrement des communications web (HTTPS)
+	
+
+IUT — Département GEII    |     / 
+[a]Librarie JS à choisir ;)
+[b]Taille maximale à déterminer.
+[c]Taille max. : 10Mo par fichier.
+[d]Le framework facilitera cette étape.
+[e]On peut faire des validations côté client et côté serveur (les deux).
+[f]À ma connaissance, le framework gère automatiquement les injections SQL, nous n'avons pas à se soucier des failles de sécurité.
