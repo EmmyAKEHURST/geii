@@ -1,0 +1,15 @@
+/** Article cards */
+
+.card-article {
+    border-top: 4px solid var(--geii-yellow) !important;
+    border-right: 2px solid var(--bs-border-color);
+    border-left: 2px solid var(--bs-border-color);
+    border-bottom: 2px solid var(--bs-border-color);
+    transition: border-color .2s ease;
+}
+
+.card-article:hover {
+    border-right: 2px solid var(--geii-yellow);
+    border-left: 2px solid var(--geii-yellow);
+    border-bottom: 2px solid var(--geii-yellow);
+}

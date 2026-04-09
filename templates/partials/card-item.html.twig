@@ -1,0 +1,22 @@
+{# Paramètres: icon, title, badge, description, link, linkLabel #}
+<div class="col-lg-3 col-md-6">
+    <div class="card card-formation h-100">
+        <div class="card-header card-header-dark d-flex align-items-center gap-2 py-3">
+            <i class="bi {{ icon }} fs-5 icon-geii" aria-hidden="true"></i>
+            <span class="fw-semibold">{{ title }}</span>
+            <span class="badge badge-geii ms-auto rounded-pill">{{ badge }}</span>
+        </div>
+        <div class="card-body">
+            <p class="card-text-geii">
+                {{ description }}
+            </p>
+        </div>
+        <div class="card-footer bg-transparent border-top-0 pb-3">
+            <a href="{{ link }}"
+               class="btn btn-warning btn-sm fw-semibold"
+               aria-label="{{ linkLabel }}">
+                En savoir plus →
+            </a>
+        </div>
+    </div>
+</div>

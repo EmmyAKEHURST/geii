@@ -1,0 +1,20 @@
+/** Buttons */
+
+.btn-warning { color: var(--geii-black) !important; }
+
+.btn-outline-dark:hover {
+    background-color: var(--geii-yellow);
+    color: var(--geii-black);
+    border-color: var(--geii-yellow);
+}
+
+.btn-connexion {
+    color: var(--geii-yellow);
+    border-color: var(--geii-yellow);
+}
+
+.btn-connexion:hover {
+    background-color: var(--geii-yellow);
+    color: var(--geii-black);
+    border-color: var(--geii-yellow);
+}

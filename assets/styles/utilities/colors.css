@@ -1,0 +1,9 @@
+/** Colors & GEII utilities */
+
+.text-geii-yellow { color: var(--geii-yellow); }
+.text-geii-black  { color: var(--geii-black);  }
+.text-body-geii   { color: var(--body-text);   }
+.text-geii-light  { color: #D0D0D0;            }
+
+.bg-section-light { background-color: var(--bg-light); }
+.bg-geii-black    { background-color: var(--geii-black); }

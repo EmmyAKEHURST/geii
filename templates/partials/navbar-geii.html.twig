@@ -1,0 +1,97 @@
+{# Enhanced navbar with dropdown and login button — specific to home page #}
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top navbar-geii"
+     id="mainNavbar"
+     aria-label="Navigation principale du département GEII">
+    <div class="container">
+
+        {# Marque / Logo #}
+        <a class="navbar-brand" href="{{ path('app_home') }}" aria-label="Page d'accueil GEII">
+            <img src="{{ asset('images/LOGO_GEII.png') }}"
+                 height="48"
+                 alt="Logo du département GEII — IUT">
+        </a>
+
+        {# Bouton hamburger (mobile) #}
+        <button class="navbar-toggler border-0"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarPrincipal"
+                aria-controls="navbarPrincipal"
+                aria-expanded="false"
+                aria-label="Ouvrir/fermer le menu de navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        {# Liens de navigation #}
+        <div class="collapse navbar-collapse" id="navbarPrincipal">
+            {# gap-2 : espacement vertical en menu replié (mobile) ; gap-lg-1 : desktop #}
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-2 gap-lg-1">
+
+                {# Accueil — lien actif sur cette page #}
+                <li class="nav-item">
+                    <a class="nav-link nav-link-active fw-medium"
+                       href="{{ path('app_home') }}"
+                       aria-current="page">Accueil</a>
+                </li>
+
+                {# Présentation #}
+                <li class="nav-item">
+                    <a class="nav-link fw-medium"
+                       href="{{ path('app_presentation') }}">Présentation</a>
+                </li>
+
+                {# Licences Pro — dropdown #}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle fw-medium"
+                       href="#"
+                       id="navDropdownLP"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Licences Pro
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-geii"
+                        aria-labelledby="navDropdownLP">
+                        <li>
+                            <a class="dropdown-item text-white" href="{{ path('app_lp_miaw') }}">
+                                <i class="bi bi-code-slash me-2 icon-geii" aria-hidden="true"></i>LP MIAW
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item text-white" href="{{ path('app_lp_abdd') }}">
+                                <i class="bi bi-database me-2 icon-geii" aria-hidden="true"></i>LP ABDD
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item text-white" href="{{ path('app_lp_gthbt') }}">
+                                <i class="bi bi-thermometer-half me-2 icon-geii" aria-hidden="true"></i>LP GTHBT
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                {# Espace Étudiant #}
+                <li class="nav-item">
+                    <a class="nav-link fw-medium"
+                       href="{{ path('app_espace_etudiant') }}">Espace Étudiant</a>
+                </li>
+
+                {# Espace Enseignant #}
+                <li class="nav-item">
+                    <a class="nav-link fw-medium"
+                       href="{{ path('app_espace_enseignant') }}">Espace Enseignant</a>
+                </li>
+
+                {# Connexion — bouton outline jaune #}
+                <li class="nav-item ms-lg-3 d-grid d-lg-block">
+                    <a class="btn btn-sm btn-connexion fw-semibold px-3 py-1 w-100 w-lg-auto"
+                       href="{{ path('app_login') }}"
+                       aria-label="Connexion à l'espace personnel">
+                        <i class="bi bi-person-circle me-1" aria-hidden="true"></i>Connexion
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>

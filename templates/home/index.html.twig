@@ -2,692 +2,330 @@
 
 {% block title %}Accueil — Département GEII{% endblock %}
 
-{# Pas de surcharge de {% block stylesheets %} : tous les styles sont dans assets/styles/app.css #}
-
-
-{# ================================================
-   BARRE DE NAVIGATION
-   sticky-top · fond #1A1A1A (navbar-geii) · responsive
-================================================= #}
+{# Barre de navigation (#1a1a1a, (navbar-geii), responsive #}
 {% block navbar %}
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top navbar-geii"
-     id="mainNavbar"
-     aria-label="Navigation principale du département GEII">
-    <div class="container">
-
-        {# Marque / Logo #}
-        <a class="navbar-brand" href="{{ path('app_home') }}" aria-label="Page d'accueil GEII">
-            <img src="{{ asset('images/LOGO_GEII.png') }}"
-                 height="48"
-                 alt="Logo du département GEII — IUT">
-        </a>
-
-        {# Bouton hamburger (mobile) #}
-        <button class="navbar-toggler border-0"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarPrincipal"
-                aria-controls="navbarPrincipal"
-                aria-expanded="false"
-                aria-label="Ouvrir/fermer le menu de navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        {# Liens de navigation #}
-        <div class="collapse navbar-collapse" id="navbarPrincipal">
-            {# gap-2 : espacement vertical en menu replié (mobile) ; gap-lg-1 : desktop #}
-            <ul class="navbar-nav ms-auto align-items-lg-center gap-2 gap-lg-1">
-
-                {# Accueil — lien actif sur cette page #}
-                <li class="nav-item">
-                    <a class="nav-link nav-link-active fw-medium"
-                       href="{{ path('app_home') }}"
-                       aria-current="page">Accueil</a>
-                </li>
-
-                {# Présentation #}
-                <li class="nav-item">
-                    <a class="nav-link fw-medium"
-                       href="{{ path('app_presentation') }}">Présentation</a>
-                </li>
-
-                {# Licences Pro — dropdown #}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle fw-medium"
-                       href="#"
-                       id="navDropdownLP"
-                       role="button"
-                       data-bs-toggle="dropdown"
-                       aria-expanded="false">
-                        Licences Pro
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-geii"
-                        aria-labelledby="navDropdownLP">
-                        <li>
-                            <a class="dropdown-item text-white" href="{{ path('app_lp_miaw') }}">
-                                <i class="bi bi-code-slash me-2 icon-geii" aria-hidden="true"></i>LP MIAW
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item text-white" href="{{ path('app_lp_abdd') }}">
-                                <i class="bi bi-database me-2 icon-geii" aria-hidden="true"></i>LP ABDD
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item text-white" href="{{ path('app_lp_gthbt') }}">
-                                <i class="bi bi-thermometer-half me-2 icon-geii" aria-hidden="true"></i>LP GTHBT
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                {# Espace Étudiant #}
-                <li class="nav-item">
-                    <a class="nav-link fw-medium"
-                       href="{{ path('app_espace_etudiant') }}">Espace Étudiant</a>
-                </li>
-
-                {# Espace Enseignant #}
-                <li class="nav-item">
-                    <a class="nav-link fw-medium"
-                       href="{{ path('app_espace_enseignant') }}">Espace Enseignant</a>
-                </li>
-
-                {# Connexion — bouton outline jaune #}
-                <li class="nav-item ms-lg-3 d-grid d-lg-block">
-                    <a class="btn btn-sm btn-connexion fw-semibold px-3 py-1 w-100 w-lg-auto"
-                       href="{{ path('app_login') }}"
-                       aria-label="Connexion à l'espace personnel">
-                        <i class="bi bi-person-circle me-1" aria-hidden="true"></i>Connexion
-                    </a>
-                </li>
-
-            </ul>
-        </div>
-    </div>
-</nav>
+    {% include 'partials/navbar-geii.html.twig' %}
 {% endblock %}
-
 
 {% block content %}
+    <section class="hero-section" style="--hero-bg: url('{{ asset('images/hero-bg.jpg') }}')" aria-label="Bannière principale">
+        {# Overlay semi-transparent #}
+        <div class="hero-overlay" aria-hidden="true"></div>
 
-{# ================================================
-   SECTION 1 — HERO
-   L'URL de fond est dynamique (asset Twig) → passée
-   via la propriété CSS --hero-bg uniquement.
-   Tout le reste du style est dans app.css.
-================================================= #}
-<section class="hero-section"
-         style="--hero-bg: url('{{ asset('images/hero-bg.jpg') }}')"
-         aria-label="Bannière principale">
+        {# Contenu centré #}
+        <div class="container hero-content text-center py-5">
+            <span class="badge-geii badge rounded-pill mb-4 px-3 py-2">
+                IUT &middot; Département officiel
+            </span>
 
-    {# Overlay semi-transparent #}
-    <div class="hero-overlay" aria-hidden="true"></div>
+            <h1 class="hero-title text-white mb-3 fw-bold">
+                Génie Électrique et Informatique Industrielle
+            </h1>
 
-    {# Contenu centré #}
-    <div class="container hero-content text-center py-5">
+            <p class="hero-subtitle mb-5 mx-auto">
+                Former les ingénieurs de demain &middot; Alternance &middot; Licences Pro &middot; Innovation
+            </p>
 
-        {# Badge institutionnel #}
-        <span class="badge-geii badge rounded-pill mb-4 px-3 py-2">
-            IUT &middot; Département officiel
-        </span>
-
-        {# Titre H1 — une seule occurrence par page #}
-        <h1 class="hero-title text-white mb-3 fw-bold">
-            Génie Électrique<br>et Informatique Industrielle
-        </h1>
-
-        {# Sous-titre descriptif #}
-        <p class="hero-subtitle mb-5 mx-auto">
-            Former les ingénieurs de demain &middot; Alternance &middot; Licences Pro &middot; Innovation
-        </p>
-
-        {# CTA principaux #}
-        <div class="d-flex flex-wrap justify-content-center gap-3">
-            <a href="{{ path('app_presentation') }}"
-               class="btn btn-warning btn-lg fw-semibold"
-               aria-label="Découvrir le DUT GEII — en savoir plus sur la formation">
-                <i class="bi bi-lightning-charge-fill me-2" aria-hidden="true"></i>Découvrir le DUT GEII
-            </a>
-            <a href="{{ path('app_espace_etudiant') }}"
-               class="btn btn-outline-light btn-lg fw-semibold"
-               aria-label="Accéder à l'espace étudiant">
-                <i class="bi bi-mortarboard me-2" aria-hidden="true"></i>Espace Étudiant
-            </a>
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+                <a href="{{ path('app_presentation') }}"
+                   class="btn btn-warning btn-lg fw-semibold"
+                   aria-label="Découvrir le DUT GEII — en savoir plus sur la formation">
+                    <i class="bi bi-lightning-charge-fill me-2" aria-hidden="true"></i>
+                    Découvrir le DUT GEII
+                </a>
+                <a href="{{ path('app_espace_etudiant') }}"
+                   class="btn btn-outline-light btn-lg fw-semibold"
+                   aria-label="Accéder à l'espace étudiant">
+                    <i class="bi bi-mortarboard me-2" aria-hidden="true"></i>
+                    Espace Étudiant
+                </a>
+            </div>
         </div>
 
-    </div>
+        {# Indicateur de défilement (chevron pulsant) #}
+        <a href="#section-chiffres"
+           class="scroll-indicator text-white text-decoration-none"
+           aria-label="Défiler vers le contenu principal">
+            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" fill="currentColor"
+                 viewBox="0 0 16 16" aria-hidden="true">
+                <path fill-rule="evenodd"
+                      d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+            </svg>
+        </a>
+    </section>
 
-    {# Indicateur de défilement (chevron pulsant) #}
-    <a href="#section-chiffres"
-       class="scroll-indicator text-white text-decoration-none"
-       aria-label="Défiler vers le contenu principal">
-        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" fill="currentColor"
-             viewBox="0 0 16 16" aria-hidden="true">
-            <path fill-rule="evenodd"
-                  d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
-        </svg>
-    </a>
+    {# Les chiffres clés #}
+    <section id="section-chiffres" class="py-5 bg-white" aria-labelledby="titre-chiffres">
+        <div class="container">
+            <h2 class="section-title text-center mb-5" id="titre-chiffres">
+                Le département en chiffres
+            </h2>
 
-</section>
-
-
-{# ================================================
-   SECTION 2 — CHIFFRES CLÉS
-   4 statistiques · fond blanc
-================================================= #}
-<section id="section-chiffres"
-         class="py-5 bg-white"
-         aria-labelledby="titre-chiffres">
-    <div class="container">
-
-        <h2 class="section-title text-center mb-5" id="titre-chiffres">
-            Le département en chiffres
-        </h2>
-
-        <div class="row g-4 justify-content-center">
-
-            {# Étudiants formés #}
-            <div class="col-lg-3 col-md-6">
-                <div class="card h-100 border-0 shadow-sm text-center p-4">
-                    <div class="card-body">
-                        <i class="bi bi-mortarboard icon-stat d-block mb-3"
-                           aria-hidden="true"></i>
-                        <div class="stat-number">250+</div>
-                        <div class="stat-label mt-2">Étudiants formés chaque année</div>
-                    </div>
-                </div>
-            </div>
-
-            {# Entreprises partenaires #}
-            <div class="col-lg-3 col-md-6">
-                <div class="card h-100 border-0 shadow-sm text-center p-4">
-                    <div class="card-body">
-                        <i class="bi bi-buildings icon-stat d-block mb-3"
-                           aria-hidden="true"></i>
-                        <div class="stat-number">120+</div>
-                        <div class="stat-label mt-2">Entreprises partenaires</div>
-                    </div>
-                </div>
-            </div>
-
-            {# Licences professionnelles #}
-            <div class="col-lg-3 col-md-6">
-                <div class="card h-100 border-0 shadow-sm text-center p-4">
-                    <div class="card-body">
-                        <i class="bi bi-award icon-stat d-block mb-3"
-                           aria-hidden="true"></i>
-                        <div class="stat-number">3</div>
-                        <div class="stat-label mt-2">Licences Professionnelles</div>
-                    </div>
-                </div>
-            </div>
-
-            {# Taux d'alternance #}
-            <div class="col-lg-3 col-md-6">
-                <div class="card h-100 border-0 shadow-sm text-center p-4">
-                    <div class="card-body">
-                        <i class="bi bi-arrow-repeat icon-stat d-block mb-3"
-                           aria-hidden="true"></i>
-                        <div class="stat-number">40%</div>
-                        <div class="stat-label mt-2">Étudiants en alternance</div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-
-{# ================================================
-   SECTION 3 — NOS FORMATIONS
-   DUT GEII + 3 Licences Pro · fond bg-section-light
-================================================= #}
-<section class="py-5 bg-section-light" aria-labelledby="titre-formations">
-    <div class="container">
-
-        <h2 class="section-title text-center mb-3" id="titre-formations">
-            Nos formations
-        </h2>
-        <p class="section-lead text-center mb-5">
-            Du DUT aux Licences Professionnelles, des parcours adaptés à chaque projet
-        </p>
-
-        <div class="row g-4">
-
-            {# DUT GEII — Bac+2 #}
-            <div class="col-lg-3 col-md-6">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-header card-header-dark d-flex align-items-center gap-2 py-3">
-                        <i class="bi bi-lightning-charge fs-5 icon-geii" aria-hidden="true"></i>
-                        <span class="fw-semibold">DUT GEII</span>
-                        <span class="badge badge-geii ms-auto rounded-pill">Bac+2</span>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text-geii">
-                            Le socle technique en électronique, automatisme et informatique industrielle.
-                        </p>
-                    </div>
-                    <div class="card-footer bg-transparent border-top-0 pb-3">
-                        <a href="{{ path('app_presentation') }}"
-                           class="btn btn-warning btn-sm fw-semibold"
-                           aria-label="En savoir plus sur le DUT GEII">
-                            En savoir plus →
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            {# LP MIAW — Bac+3 #}
-            <div class="col-lg-3 col-md-6">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-header card-header-dark d-flex align-items-center gap-2 py-3">
-                        <i class="bi bi-code-slash fs-5 icon-geii" aria-hidden="true"></i>
-                        <span class="fw-semibold">LP MIAW</span>
-                        <span class="badge badge-geii ms-auto rounded-pill">Bac+3</span>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text-geii">
-                            Métiers de l'Informatique — Applications Web et Mobiles.
-                        </p>
-                    </div>
-                    <div class="card-footer bg-transparent border-top-0 pb-3">
-                        <a href="{{ path('app_lp_miaw') }}"
-                           class="btn btn-warning btn-sm fw-semibold"
-                           aria-label="En savoir plus sur la LP MIAW">
-                            En savoir plus →
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            {# LP ABDD — Bac+3 #}
-            <div class="col-lg-3 col-md-6">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-header card-header-dark d-flex align-items-center gap-2 py-3">
-                        <i class="bi bi-database fs-5 icon-geii" aria-hidden="true"></i>
-                        <span class="fw-semibold">LP ABDD</span>
-                        <span class="badge badge-geii ms-auto rounded-pill">Bac+3</span>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text-geii">
-                            Automatisme, Bases de Données et Développement.
-                        </p>
-                    </div>
-                    <div class="card-footer bg-transparent border-top-0 pb-3">
-                        <a href="{{ path('app_lp_abdd') }}"
-                           class="btn btn-warning btn-sm fw-semibold"
-                           aria-label="En savoir plus sur la LP ABDD">
-                            En savoir plus →
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            {# LP GTHBT — Bac+3 #}
-            <div class="col-lg-3 col-md-6">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-header card-header-dark d-flex align-items-center gap-2 py-3">
-                        <i class="bi bi-thermometer-half fs-5 icon-geii" aria-hidden="true"></i>
-                        <span class="fw-semibold">LP GTHBT</span>
-                        <span class="badge badge-geii ms-auto rounded-pill">Bac+3</span>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text-geii">
-                            Génie Thermique, Hydraulique, Bâtiment et Travaux.
-                        </p>
-                    </div>
-                    <div class="card-footer bg-transparent border-top-0 pb-3">
-                        <a href="{{ path('app_lp_gthbt') }}"
-                           class="btn btn-warning btn-sm fw-semibold"
-                           aria-label="En savoir plus sur la LP GTHBT">
-                            En savoir plus →
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-
-{# ================================================
-   SECTION 4 — ESPACES PERSONNELS
-   Étudiant (dégradé sombre) + Enseignant (bleu IUT)
-================================================= #}
-<section class="py-5 bg-white" aria-labelledby="titre-espaces">
-    <div class="container">
-
-        <h2 class="section-title text-center mb-5" id="titre-espaces">
-            Vos espaces personnels
-        </h2>
-
-        <div class="row g-4">
-
-            {# Espace Étudiant #}
-            <div class="col-md-6">
-                <div class="espace-card espace-etudiant h-100">
-                    <i class="bi bi-mortarboard icon-espace d-block mb-3"
-                       aria-hidden="true"></i>
-                    <h3 class="fw-bold text-white mb-3">Espace Étudiant</h3>
-                    <ul class="mb-4">
-                        <li>
-                            <i class="bi bi-check-circle me-2 icon-geii" aria-hidden="true"></i>
-                            Consulter mes notes
-                        </li>
-                        <li>
-                            <i class="bi bi-check-circle me-2 icon-geii" aria-hidden="true"></i>
-                            Mon emploi du temps
-                        </li>
-                        <li>
-                            <i class="bi bi-check-circle me-2 icon-geii" aria-hidden="true"></i>
-                            Supports de cours
-                        </li>
-                        <li>
-                            <i class="bi bi-check-circle me-2 icon-geii" aria-hidden="true"></i>
-                            Offres d'alternance
-                        </li>
-                    </ul>
-                    <a href="{{ path('app_espace_etudiant') }}"
-                       class="btn btn-warning fw-semibold"
-                       aria-label="Accéder à l'espace étudiant">
-                        Accéder à mon espace →
-                    </a>
-                </div>
-            </div>
-
-            {# Espace Enseignant #}
-            <div class="col-md-6">
-                <div class="espace-card espace-enseignant h-100">
-                    <i class="bi bi-person-video3 icon-espace d-block mb-3"
-                       aria-hidden="true"></i>
-                    <h3 class="fw-bold text-white mb-3">Espace Enseignant</h3>
-                    <ul class="mb-4">
-                        <li>
-                            <i class="bi bi-check-circle me-2 icon-geii" aria-hidden="true"></i>
-                            Déposer mes supports
-                        </li>
-                        <li>
-                            <i class="bi bi-check-circle me-2 icon-geii" aria-hidden="true"></i>
-                            Gérer les notes
-                        </li>
-                        <li>
-                            <i class="bi bi-check-circle me-2 icon-geii" aria-hidden="true"></i>
-                            Mon emploi du temps
-                        </li>
-                    </ul>
-                    <a href="{{ path('app_espace_enseignant') }}"
-                       class="btn btn-warning fw-semibold"
-                       aria-label="Accéder à l'espace enseignant">
-                        Accéder à mon espace →
-                    </a>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-
-{# ================================================
-   SECTION 5 — ALTERNANCE / PARTENAIRES ENTREPRISES
-   Layout 2 colonnes · fond bg-section-light
-================================================= #}
-<section class="py-5 bg-section-light" aria-labelledby="titre-alternance">
-    <div class="container">
-        <div class="row align-items-center g-5">
-
-            {# Colonne gauche — texte + appel à l'action #}
-            <div class="col-lg-6">
-
-                <h2 class="section-title text-start mb-4" id="titre-alternance">
-                    Vous êtes une entreprise&nbsp;?
-                </h2>
-
-                <p class="text-body-geii lh-relaxed mb-4">
-                    Le département GEII vous propose des étudiants qualifiés en alternance et des
-                    projets tuteurés pour répondre à vos besoins techniques. Rejoignez un réseau de
-                    plus de <strong class="text-geii-black">120 partenaires industriels</strong> et
-                    contribuez à la formation des ingénieurs de demain.
-                </p>
-
-                <div class="d-flex flex-wrap gap-3">
-                    <a href="{{ path('app_alternance_offre') }}"
-                       class="btn btn-warning fw-semibold"
-                       aria-label="Proposer une offre d'alternance au département GEII">
-                        <i class="bi bi-briefcase me-2" aria-hidden="true"></i>Proposer une offre d'alternance
-                    </a>
-                    <a href="{{ path('app_projet_tuteure') }}"
-                       class="btn btn-outline-dark fw-semibold"
-                       aria-label="Déposer un projet tuteuré au département GEII">
-                        <i class="bi bi-diagram-3 me-2" aria-hidden="true"></i>Déposer un projet tuteuré
-                    </a>
-                </div>
-
-            </div>
-
-            {# Colonne droite — 3 avantages sous forme de mini-cartes #}
-            <div class="col-lg-6">
-                <div class="d-flex flex-column gap-3">
-
-                    <div class="mini-card d-flex align-items-start gap-3">
-                        <i class="bi bi-people-fill icon-mini-card flex-shrink-0"
-                           aria-hidden="true"></i>
-                        <div>
-                            <h5 class="mini-card-title fw-semibold mb-1">
-                                Partenariat sur mesure
-                            </h5>
-                            <p class="mini-card-text mb-0 small">
-                                Un interlocuteur pédagogique dédié pour adapter chaque mission à vos besoins métier.
-                            </p>
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-3 col-md-6">
+                    <div class="card card-stat h-100 text-center p-4">
+                        <div class="card-body">
+                            <i class="bi bi-mortarboard icon-stat d-block mb-3"
+                               aria-hidden="true"></i>
+                            <div class="stat-number">250+</div>
+                            <div class="stat-label mt-2">Étudiants formés chaque année</div>
                         </div>
                     </div>
-
-                    <div class="mini-card d-flex align-items-start gap-3">
-                        <i class="bi bi-calendar-check icon-mini-card flex-shrink-0"
-                           aria-hidden="true"></i>
-                        <div>
-                            <h5 class="mini-card-title fw-semibold mb-1">
-                                Planning flexible
-                            </h5>
-                            <p class="mini-card-text mb-0 small">
-                                Des rythmes d'alternance adaptés à votre organisation et à votre secteur d'activité.
-                            </p>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="card card-stat h-100 text-center p-4">
+                        <div class="card-body">
+                            <i class="bi bi-buildings icon-stat d-block mb-3"
+                               aria-hidden="true"></i>
+                            <div class="stat-number">120+</div>
+                            <div class="stat-label mt-2">Entreprises partenaires</div>
                         </div>
                     </div>
-
-                    <div class="mini-card d-flex align-items-start gap-3">
-                        <i class="bi bi-graph-up icon-mini-card flex-shrink-0"
-                           aria-hidden="true"></i>
-                        <div>
-                            <h5 class="mini-card-title fw-semibold mb-1">
-                                Compétences opérationnelles
-                            </h5>
-                            <p class="mini-card-text mb-0 small">
-                                Des étudiants formés aux outils et aux méthodes de l'industrie dès la première année.
-                            </p>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="card card-stat h-100 text-center p-4">
+                        <div class="card-body">
+                            <i class="bi bi-award icon-stat d-block mb-3"
+                               aria-hidden="true"></i>
+                            <div class="stat-number">3</div>
+                            <div class="stat-label mt-2">Licences Professionnelles</div>
                         </div>
                     </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="card card-stat h-100 text-center p-4">
+                        <div class="card-body">
+                            <i class="bi bi-arrow-repeat icon-stat d-block mb-3"
+                               aria-hidden="true"></i>
+                            <div class="stat-number">40%</div>
+                            <div class="stat-label mt-2">Étudiants en alternance</div>
+                        </div>
+                    </div>
+                </div>
 
+            </div>
+        </div>
+    </section>
+
+    {# Nos formations #}
+    <section class="py-5 bg-section-light" aria-labelledby="titre-formations">
+        <div class="container">
+            <h2 class="section-title text-center mb-3" id="titre-formations">
+                Nos formations
+            </h2>
+            <p class="section-lead text-center mb-5">
+                Du DUT aux Licences Professionnelles, des parcours adaptés à chaque projet
+            </p>
+            <div class="row g-4">
+                {% include 'partials/card-item.html.twig' with {
+                    icon: 'bi-lightning-charge',
+                    title: 'DUT GEII',
+                    badge: 'Bac+2',
+                    description: 'Le socle technique en électronique, automatisme et informatique industrielle.',
+                    link: path('app_presentation'),
+                    linkLabel: 'En savoir plus sur le DUT GEII'
+                } %}
+                {% include 'partials/card-item.html.twig' with {
+                    icon: 'bi-code-slash',
+                    title: 'LP MIAW',
+                    badge: 'Bac+3',
+                    description: 'Métiers de l\'Informatique — Applications Web et Mobiles.',
+                    link: path('app_lp_miaw'),
+                    linkLabel: 'En savoir plus sur la LP MIAW'
+                } %}
+                {% include 'partials/card-item.html.twig' with {
+                    icon: 'bi-database',
+                    title: 'LP ABDD',
+                    badge: 'Bac+3',
+                    description: 'Automatisme, Bases de Données et Développement.',
+                    link: path('app_lp_abdd'),
+                    linkLabel: 'En savoir plus sur la LP ABDD'
+                } %}
+                {% include 'partials/card-item.html.twig' with {
+                    icon: 'bi-thermometer-half',
+                    title: 'LP GTHBT',
+                    badge: 'Bac+3',
+                    description: 'Génie Thermique, Hydraulique, Bâtiment et Travaux.',
+                    link: path('app_lp_gthbt'),
+                    linkLabel: 'En savoir plus sur la LP GTHBT'
+                } %}
+            </div>
+        </div>
+    </section>
+
+    {# Espaces personnels #}
+    <section class="py-5 bg-white" aria-labelledby="titre-espaces">
+        <div class="container">
+            <h2 class="section-title text-center mb-5" id="titre-espaces">
+                Vos espaces personnels
+            </h2>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="espace-card espace-etudiant h-100">
+                        <i class="bi bi-mortarboard icon-espace d-block mb-3"
+                           aria-hidden="true"></i>
+                        <h3 class="fw-bold text-white mb-3">Espace Étudiant</h3>
+                        <ul class="mb-4">
+                            <li>
+                                <i class="bi bi-check-circle me-2 icon-geii" aria-hidden="true"></i>
+                                Consulter mes notes
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle me-2 icon-geii" aria-hidden="true"></i>
+                                Mon emploi du temps
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle me-2 icon-geii" aria-hidden="true"></i>
+                                Supports de cours
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle me-2 icon-geii" aria-hidden="true"></i>
+                                Offres d'alternance
+                            </li>
+                        </ul>
+                        <a href="{{ path('app_espace_etudiant') }}"
+                           class="btn btn-warning fw-semibold"
+                           aria-label="Accéder à l'espace étudiant">
+                            Accéder à mon espace →
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="espace-card espace-enseignant h-100">
+                        <i class="bi bi-person-video3 icon-espace d-block mb-3"
+                           aria-hidden="true"></i>
+                        <h3 class="fw-bold text-white mb-3">Espace Enseignant</h3>
+                        <ul class="mb-4">
+                            <li>
+                                <i class="bi bi-check-circle me-2 icon-geii" aria-hidden="true"></i>
+                                Déposer mes supports
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle me-2 icon-geii" aria-hidden="true"></i>
+                                Gérer les notes
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle me-2 icon-geii" aria-hidden="true"></i>
+                                Mon emploi du temps
+                            </li>
+                        </ul>
+                        <a href="{{ path('app_espace_enseignant') }}"
+                           class="btn btn-warning fw-semibold"
+                           aria-label="Accéder à l'espace enseignant">
+                            Accéder à mon espace →
+                        </a>
+                    </div>
                 </div>
             </div>
-
         </div>
-    </div>
-</section>
+    </section>
 
-
-{# ================================================
-   SECTION 6 — ACTUALITÉS
-   3 cartes · fond blanc
-   TODO: remplacer par des articles issus de la base de données
-================================================= #}
-<section class="py-5 bg-white" aria-labelledby="titre-actualites">
-    <div class="container">
-
-        <h2 class="section-title text-center mb-5" id="titre-actualites">
-            Actualités du département
-        </h2>
-
-        <div class="row g-4">
-
-            {# Actualité 1 — TODO: remplacer par données dynamiques #}
-            <div class="col-lg-4 col-md-6">
-                <article class="card h-100 border-0 shadow-sm">
-                    <div class="card-body d-flex flex-column">
-                        <span class="badge-geii badge mb-3 align-self-start px-3 py-2">
-                            {# TODO: remplacer par la date réelle de l'article #}
-                            15 mars 2026
-                        </span>
-                        <h5 class="card-title-geii fw-semibold mb-2">
-                            {# TODO: remplacer par le titre réel de l'article #}
-                            Journée portes ouvertes 2026
-                        </h5>
-                        <p class="card-text-geii flex-grow-1">
-                            {# TODO: remplacer par l'extrait réel de l'article #}
-                            Venez découvrir nos laboratoires, rencontrer l'équipe pédagogique et
-                            échanger avec des étudiants lors de notre journée portes ouvertes annuelle.
-                        </p>
-                        <a href="#"
-                           class="link-yellow mt-3 fw-semibold"
-                           aria-label="Lire la suite de l'article : Journée portes ouvertes 2026">
-                            Lire la suite →
+    {# Alternance / Partenaires entreprises #}
+    <section class="py-5 bg-section-light" aria-labelledby="titre-alternance">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <h2 class="section-title text-start mb-4" id="titre-alternance">
+                        Vous êtes une entreprise&nbsp;?
+                    </h2>
+                    <p class="text-body-geii lh-relaxed mb-4">
+                        Le département GEII vous propose des étudiants qualifiés en alternance et des
+                        projets tuteurés pour répondre à vos besoins techniques. Rejoignez un réseau de
+                        plus de <strong class="text-geii-black">120 partenaires industriels</strong> et
+                        contribuez à la formation des ingénieurs de demain.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="{{ path('app_alternance_offre') }}"
+                           class="btn btn-warning fw-semibold"
+                           aria-label="Proposer une offre d'alternance au département GEII">
+                            <i class="bi bi-briefcase me-2" aria-hidden="true"></i>Proposer une offre d'alternance
+                        </a>
+                        <a href="{{ path('app_projet_tuteure') }}"
+                           class="btn btn-outline-dark fw-semibold"
+                           aria-label="Déposer un projet tuteuré au département GEII">
+                            <i class="bi bi-diagram-3 me-2" aria-hidden="true"></i>Déposer un projet tuteuré
                         </a>
                     </div>
-                </article>
-            </div>
-
-            {# Actualité 2 — TODO: remplacer par données dynamiques #}
-            <div class="col-lg-4 col-md-6">
-                <article class="card h-100 border-0 shadow-sm">
-                    <div class="card-body d-flex flex-column">
-                        <span class="badge-geii badge mb-3 align-self-start px-3 py-2">
-                            {# TODO: remplacer par la date réelle de l'article #}
-                            02 février 2026
-                        </span>
-                        <h5 class="card-title-geii fw-semibold mb-2">
-                            {# TODO: remplacer par le titre réel de l'article #}
-                            Nouveaux partenariats industriels
-                        </h5>
-                        <p class="card-text-geii flex-grow-1">
-                            {# TODO: remplacer par l'extrait réel de l'article #}
-                            Cinq nouvelles entreprises rejoignent le réseau partenaires GEII pour
-                            proposer des offres d'alternance et des projets tuteurés dès la rentrée 2026.
-                        </p>
-                        <a href="#"
-                           class="link-yellow mt-3 fw-semibold"
-                           aria-label="Lire la suite de l'article : Nouveaux partenariats industriels">
-                            Lire la suite →
-                        </a>
+                </div>
+                <div class="col-lg-6">
+                    <div class="d-flex flex-column gap-3">
+                        <div class="mini-card d-flex align-items-start gap-3">
+                            <i class="bi bi-people-fill icon-mini-card flex-shrink-0"
+                               aria-hidden="true"></i>
+                            <div>
+                                <h5 class="mini-card-title fw-semibold mb-1">
+                                    Partenariat sur mesure
+                                </h5>
+                                <p class="mini-card-text mb-0 small">
+                                    Un interlocuteur pédagogique dédié pour adapter chaque mission à vos besoins métier.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mini-card d-flex align-items-start gap-3">
+                            <i class="bi bi-calendar-check icon-mini-card flex-shrink-0"
+                               aria-hidden="true"></i>
+                            <div>
+                                <h5 class="mini-card-title fw-semibold mb-1">
+                                    Planning flexible
+                                </h5>
+                                <p class="mini-card-text mb-0 small">
+                                    Des rythmes d'alternance adaptés à votre organisation et à votre secteur d'activité.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mini-card d-flex align-items-start gap-3">
+                            <i class="bi bi-graph-up icon-mini-card flex-shrink-0"
+                               aria-hidden="true"></i>
+                            <div>
+                                <h5 class="mini-card-title fw-semibold mb-1">
+                                    Compétences opérationnelles
+                                </h5>
+                                <p class="mini-card-text mb-0 small">
+                                    Des étudiants formés aux outils et aux méthodes de l'industrie dès la première
+                                    année.
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                </article>
+                </div>
             </div>
-
-            {# Actualité 3 — TODO: remplacer par données dynamiques #}
-            <div class="col-lg-4 col-md-6">
-                <article class="card h-100 border-0 shadow-sm">
-                    <div class="card-body d-flex flex-column">
-                        <span class="badge-geii badge mb-3 align-self-start px-3 py-2">
-                            {# TODO: remplacer par la date réelle de l'article #}
-                            20 janvier 2026
-                        </span>
-                        <h5 class="card-title-geii fw-semibold mb-2">
-                            {# TODO: remplacer par le titre réel de l'article #}
-                            Résultats du hackathon GEII
-                        </h5>
-                        <p class="card-text-geii flex-grow-1">
-                            {# TODO: remplacer par l'extrait réel de l'article #}
-                            Retour sur le hackathon annuel : les étudiants ont relevé des défis
-                            d'automatisme et d'IoT en 24 heures. Découvrez les projets primés.
-                        </p>
-                        <a href="#"
-                           class="link-yellow mt-3 fw-semibold"
-                           aria-label="Lire la suite de l'article : Résultats du hackathon GEII">
-                            Lire la suite →
-                        </a>
-                    </div>
-                </article>
-            </div>
-
         </div>
-    </div>
-</section>
+    </section>
 
-{% endblock %}
+    {#
+        ACTUALITÉS
+        TODO: remplacer par des articles issus de la base de données
+    #}
+    <section class="py-5 bg-white" aria-labelledby="titre-actualites">
+        <div class="container">
+            <h2 class="section-title text-center mb-5" id="titre-actualites">
+                Actualités du département
+            </h2>
+            <div class="row g-4">
+                {% include 'partials/article-card.html.twig' with {
+                    date: '15 mars 2026',
+                    title: 'Journée portes ouvertes 2026',
+                    excerpt: 'Venez découvrir nos laboratoires, rencontrer l\'équipe pédagogique et échanger avec des étudiants lors de notre journée portes ouvertes annuelle.',
+                    link: '#',
+                    linkLabel: 'Lire la suite de l\'article : Journée portes ouvertes 2026'
+                } %}
 
-{# Scripts après le bundle Bootstrap (base.html.twig) — requis pour collapse / dropdown navbar #}
-{% block scripts_footer %}
-<script>
-(function () {
-    'use strict';
+                {% include 'partials/article-card.html.twig' with {
+                    date: '02 février 2026',
+                    title: 'Nouveaux partenariats industriels',
+                    excerpt: 'Cinq nouvelles entreprises rejoignent le réseau partenaires GEII pour proposer des offres d\'alternance et des projets tuteurés dès la rentrée 2026.',
+                    link: '#',
+                    linkLabel: 'Lire la suite de l\'article : Nouveaux partenariats industriels'
+                } %}
 
-    /* --------------------------------------------------
-       Navbar — classe .navbar-scrolled après 50 px
-    -------------------------------------------------- */
-    const navbar = document.getElementById('mainNavbar');
-
-    if (navbar) {
-        const toggleScrolled = function () {
-            navbar.classList.toggle('navbar-scrolled', window.scrollY > 50);
-        };
-        window.addEventListener('scroll', toggleScrolled, { passive: true });
-        toggleScrolled();
-    }
-
-    /* --------------------------------------------------
-       Défilement fluide pour les ancres internes (#section)
-       — ignore href="#" seuls (dropdown Bootstrap « Licences Pro »)
-    -------------------------------------------------- */
-    document.querySelectorAll('a[href^="#"]').forEach(function (lien) {
-        lien.addEventListener('click', function (e) {
-            const href = lien.getAttribute('href');
-            if (!href || href === '#' || href === '#!') {
-                return;
-            }
-            let cible = null;
-            try {
-                cible = document.querySelector(href);
-            } catch (err) {
-                return;
-            }
-            if (cible) {
-                e.preventDefault();
-                cible.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
-    });
-
-    /* --------------------------------------------------
-       Intersection Observer — apparition des cartes au scroll
-    -------------------------------------------------- */
-    const elementsAnimés = document.querySelectorAll('.card, .espace-card');
-
-    if ('IntersectionObserver' in window && elementsAnimés.length) {
-
-        const observateur = new IntersectionObserver(function (entrées) {
-            entrées.forEach(function (entrée) {
-                if (entrée.isIntersecting) {
-                    entrée.target.classList.add('visible');
-                    observateur.unobserve(entrée.target);
-                }
-            });
-        }, {
-            threshold: 0.12,
-            rootMargin: '0px'
-        });
-
-        elementsAnimés.forEach(function (el) {
-            observateur.observe(el);
-        });
-
-    } else {
-        elementsAnimés.forEach(function (el) {
-            el.classList.add('visible');
-        });
-    }
-
-}());
-</script>
+                {% include 'partials/article-card.html.twig' with {
+                    date: '20 janvier 2026',
+                    title: 'Résultats du hackathon GEII',
+                    excerpt: 'Retour sur le hackathon annuel : les étudiants ont relevé des défis d\'automatisme et d\'IoT en 24 heures. Découvrez les projets primés.',
+                    link: '#',
+                    linkLabel: 'Lire la suite de l\'article : Résultats du hackathon GEII'
+                } %}
+            </div>
+        </div>
+    </section>
 {% endblock %}

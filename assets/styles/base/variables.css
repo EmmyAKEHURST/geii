@@ -1,0 +1,18 @@
+/** VARIABLES CSS — Charte graphique GEII */
+
+:root {
+    --geii-yellow:   #FFD700;
+    --geii-black:    #1A1A1A;
+    --iut-blue:      #1E40AF;
+    --body-text:     #4A4A4A;
+    --bg-light:      #F5F5F5;
+
+    /* Surcharge des variables Bootstrap */
+    --bs-primary:          #FFD700;
+    --bs-secondary:        #1E40AF;
+    --bs-dark:             #1A1A1A;
+    --bs-body-color:       #4A4A4A;
+    --bs-body-bg:          #FFFFFF;
+    --bs-border-color:     #E0E0E0;
+    --bs-focus-ring-color: rgba(255, 215, 0, 0.35);
+}

@@ -1,0 +1,16 @@
+/** Stats — Chiffres clés */
+
+.stat-number {
+    font-family: 'Barlow Semi Condensed', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--geii-yellow);
+    line-height: 1.1;
+}
+
+.stat-label {
+    font-size: .9rem;
+    color: var(--body-text);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}

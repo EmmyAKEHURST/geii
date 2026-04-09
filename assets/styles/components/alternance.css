@@ -1,0 +1,28 @@
+/** Alternance — mini-cartes avantages */
+
+.mini-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    border-left: 4px solid var(--geii-yellow);
+    border-right: 2px solid var(--bs-border-color);
+    border-top: 2px solid var(--bs-border-color);
+    border-bottom: 2px solid var(--bs-border-color);
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.mini-card:hover {
+    border-right: 2px solid var(--geii-yellow);
+    border-top: 2px solid var(--geii-yellow);
+    border-bottom: 2px solid var(--geii-yellow);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
+}
+
+.mini-card-title {
+    font-family: 'Barlow Semi Condensed', sans-serif;
+    color: var(--geii-black);
+}
+
+.mini-card-text {
+    color: var(--body-text);
+}

@@ -1,0 +1,48 @@
+<footer class="footer-geii py-5" aria-label="Pied de page">
+    <div class="container">
+        <div class="row gy-4">
+            {# Colonne logo + baseline #}
+            <div class="col-lg-4">
+                <img src="{{ asset('images/LOGO_GEII.png') }}"
+                     class="footer-logo mb-3"
+                     alt="Logo du département GEII">
+                <p class="footer-text mb-0">
+                    Département Génie Électrique et Informatique Industrielle<br>
+                    IUT — Formation d'ingénieurs
+                </p>
+            </div>
+
+            {# Colonne liens rapides #}
+            <div class="col-lg-4 col-md-6">
+                <h6 class="footer-heading mb-3">Liens rapides</h6>
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-1"><a href="#" class="footer-link small">Accueil</a></li>
+                    <li class="mb-1"><a href="#" class="footer-link small">Présentation du GEII</a></li>
+                    <li class="mb-1"><a href="#" class="footer-link small">Licences Professionnelles</a></li>
+                    <li class="mb-1"><a href="#" class="footer-link small">Espace Étudiant</a></li>
+                    <li class="mb-1"><a href="#" class="footer-link small">Espace Enseignant</a></li>
+                </ul>
+            </div>
+
+            {# Colonne contact #}
+            <div class="col-lg-4 col-md-6">
+                <h6 class="footer-heading mb-3">Contact</h6>
+                <address class="footer-address footer-text mb-0">
+                    <i class="bi bi-geo-alt me-2" aria-hidden="true"></i>IUT, Département GEII<br>
+                    <i class="bi bi-envelope me-2" aria-hidden="true"></i>
+                    <a href="mailto:contact@geii-iut.fr" class="footer-link">contact@geii-iut.fr</a>
+                </address>
+            </div>
+        </div>
+
+        <hr class="footer-divider">
+
+        <p class="footer-copyright text-center mb-0">
+            &copy; {{ "now"|date("Y") }} IUT — Département GEII. Tous droits réservés.
+            &nbsp;·&nbsp;
+            <a href="#" class="footer-copyright-link">Mentions légales</a>
+            &nbsp;·&nbsp;
+            <a href="#" class="footer-copyright-link">Politique de confidentialité</a>
+        </p>
+    </div>
+</footer>
