@@ -1,103 +1,31 @@
 <!DOCTYPE html>
-{# Turbo + barre de debug : en dev, désactiver Turbo pour que le chargement du WDT ne reste pas bloqué. #}
-<html lang="fr"{% if app.environment == 'dev' %} data-turbo="false"{% endif %}>
+<html lang="fr" {% if app.environment == 'dev' %} data-turbo="false"{% endif %}>
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}GEII — IUT{% endblock %}</title>
 
-        {# Favicon logo GEII #}
-        <link rel="icon" href="{{ asset('images/LOGO_GEII.png') }}">
+        {% include 'partials/head-meta.html.twig' %}
 
-        {# Google Fonts : Barlow Semi Condensed (titres) + Inter (corps) + JetBrains Mono (code) #}
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
-
-        {# Bootstrap 5.3 CSS — pas d’integrity SRI (évite blocages si le CDN / le fichier diffère légèrement) #}
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-              crossorigin="anonymous">
-
-        {# Bootstrap Icons v1.11 #}
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-        {# Styles globaux GEII — chargés via AssetMapper (assets/styles/app.css) #}
         {% block stylesheets %}{% endblock %}
 
-        {# AssetMapper Symfony — inclut app.js + app.css #}
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
-
     <body>
+        {% block navbar %}
+            {% include 'partials/navbar.html.twig' %}
+        {% endblock %}
 
-        {# Barre de navigation — surchargée par chaque page #}
-        {% block navbar %}{% endblock %}
-
-        {# Contenu principal de la page #}
         <main>
             {% block content %}{% endblock %}
         </main>
 
-        {# Pied de page commun #}
         {% block footer %}
-        <footer class="footer-geii py-5" aria-label="Pied de page">
-            <div class="container">
-                <div class="row gy-4">
-
-                    {# Colonne logo + baseline #}
-                    <div class="col-lg-4">
-                        <img src="{{ asset('images/LOGO_GEII.png') }}"
-                             class="footer-logo mb-3"
-                             alt="Logo du département GEII">
-                        <p class="footer-text mb-0">
-                            Département Génie Électrique et Informatique Industrielle<br>
-                            IUT — Formation d'ingénieurs
-                        </p>
-                    </div>
-
-                    {# Colonne liens rapides #}
-                    <div class="col-lg-4 col-md-6">
-                        <h6 class="footer-heading mb-3">Liens rapides</h6>
-                        <ul class="list-unstyled mb-0">
-                            <li class="mb-1"><a href="#" class="footer-link small">Accueil</a></li>
-                            <li class="mb-1"><a href="#" class="footer-link small">Présentation du GEII</a></li>
-                            <li class="mb-1"><a href="#" class="footer-link small">Licences Professionnelles</a></li>
-                            <li class="mb-1"><a href="#" class="footer-link small">Espace Étudiant</a></li>
-                            <li class="mb-1"><a href="#" class="footer-link small">Espace Enseignant</a></li>
-                        </ul>
-                    </div>
-
-                    {# Colonne contact #}
-                    <div class="col-lg-4 col-md-6">
-                        <h6 class="footer-heading mb-3">Contact</h6>
-                        <address class="footer-address footer-text mb-0">
-                            <i class="bi bi-geo-alt me-2" aria-hidden="true"></i>IUT, Département GEII<br>
-                            <i class="bi bi-envelope me-2" aria-hidden="true"></i>
-                            <a href="mailto:contact@geii-iut.fr" class="footer-link">contact@geii-iut.fr</a>
-                        </address>
-                    </div>
-
-                </div>
-
-                <hr class="footer-divider">
-
-                <p class="footer-copyright text-center mb-0">
-                    &copy; {{ "now"|date("Y") }} IUT — Département GEII. Tous droits réservés.
-                    &nbsp;·&nbsp;
-                    <a href="#" class="footer-copyright-link">Mentions légales</a>
-                    &nbsp;·&nbsp;
-                    <a href="#" class="footer-copyright-link">Politique de confidentialité</a>
-                </p>
-            </div>
-        </footer>
+            {% include 'partials/footer.html.twig' %}
         {% endblock %}
-
-        {# Bootstrap 5.3 JS (Popper inclus) — sans integrity pour éviter le blocage SRI (fichier CDN / miroir) #}
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
         {% block scripts_footer %}{% endblock %}
 
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     </body>
 </html>
