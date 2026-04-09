@@ -1,0 +1,9 @@
+/** Badges GEII */
+
+.badge-geii {
+    background-color: var(--geii-yellow);
+    color: var(--geii-black);
+    font-size: .85rem;
+    font-weight: 600;
+    letter-spacing: .03em;
+}

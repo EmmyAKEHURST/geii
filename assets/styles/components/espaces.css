@@ -1,0 +1,36 @@
+/** Espaces personnels - Animation fade-in identique aux cartes */
+
+.espace-card {
+    border-radius: 12px;
+    padding: 2.5rem;
+    border-top: 4px solid var(--geii-yellow) !important;
+    min-height: 300px;
+    opacity: 0;
+}
+
+.espace-card.visible {
+    opacity: 1;
+    transform: none;
+}
+
+.espace-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.espace-card ul li {
+    padding: .4rem 0;
+    font-size: .95rem;
+}
+
+/** Dégradé sombre — Espace Étudiant */
+.espace-etudiant {
+    background: linear-gradient(135deg, #1A1A1A 0%, #2a2a2a 100%);
+    color: #fff;
+}
+
+/** Fond bleu IUT — Espace Enseignant */
+.espace-enseignant {
+    background-color: var(--iut-blue);
+    color: #fff;
+}

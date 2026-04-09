@@ -1,0 +1,26 @@
+/** Section titles with yellow underline decoration */
+
+.section-title {
+    color: var(--iut-blue);
+    font-weight: 600;
+}
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: var(--geii-yellow);
+    margin: .5rem auto 0;
+}
+
+/** Variante alignée à gauche (section Alternance) */
+.section-title.text-start::after {
+    margin-left: 0;
+}
+
+/** Chapeau de section sous le H2 */
+.section-lead {
+    color: var(--body-text);
+    max-width: 600px;
+    margin-inline: auto;
+}

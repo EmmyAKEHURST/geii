@@ -1,0 +1,44 @@
+/**
+ * Cards with animations
+ * Bordure jaune + animation fade-in au scroll
+ * La classe .visible est ajoutée par l'Intersection Observer (JS)
+ */
+
+.card {
+    border-top: 4px solid var(--geii-yellow) !important;
+    border-right: 2px solid var(--bs-border-color);
+    border-left: 2px solid var(--bs-border-color);
+    border-bottom: 2px solid var(--bs-border-color);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .5s ease, transform .5s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+.card.visible {
+    opacity: 1;
+    transform: none;
+}
+
+.card.visible:hover {
+    border-right: 2px solid var(--geii-yellow);
+    border-left: 2px solid var(--geii-yellow);
+    border-bottom: 2px solid var(--geii-yellow);
+}
+
+/** En-tête de carte foncée (formations) */
+.card-header-dark {
+    background-color: var(--geii-black);
+    color: #fff;
+}
+
+/** Titre de carte — police Barlow */
+.card-title-geii {
+    font-family: 'Barlow Semi Condensed', sans-serif;
+    color: var(--geii-black);
+}
+
+/** Texte de carte */
+.card-text-geii {
+    color: var(--body-text);
+    font-size: .95rem;
+}

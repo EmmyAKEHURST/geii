@@ -1,0 +1,6 @@
+/** Icônes GEII - Différentes tailles selon le contexte */
+
+.icon-geii      { color: var(--geii-yellow); }
+.icon-stat      { font-size: 2.5rem;  color: var(--geii-yellow); }
+.icon-espace    { font-size: 3rem;    color: var(--geii-yellow); }
+.icon-mini-card { font-size: 1.75rem; color: var(--geii-yellow); }

@@ -1,0 +1,20 @@
+/** Navbar & dropdowns */
+
+.navbar-geii { background-color: var(--geii-black); }
+
+/** Dropdown sombre GEII */
+.dropdown-menu-geii {
+    background-color: var(--geii-black);
+    border: 1px solid #333;
+}
+.dropdown-menu-geii .dropdown-item:hover,
+.dropdown-menu-geii .dropdown-item:focus {
+    background-color: rgba(255, 215, 0, 0.10);
+    color: var(--geii-yellow);
+}
+
+.nav-link-active { border-bottom: 2px solid var(--geii-yellow); }
+.nav-link:hover  { color: var(--geii-yellow) !important; }
+
+/** Ombre légère après 50 px de défilement — classe ajoutée par JS */
+.navbar-scrolled { box-shadow: 0 2px 16px rgba(0, 0, 0, .4); }

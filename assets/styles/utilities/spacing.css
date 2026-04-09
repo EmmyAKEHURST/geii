@@ -1,0 +1,14 @@
+/** Links & spacing utilities */
+
+/** Lien accentué jaune */
+.link-yellow {
+    color: var(--geii-yellow);
+    text-decoration: none;
+}
+.link-yellow:hover {
+    color: var(--geii-yellow);
+    text-decoration: underline;
+}
+
+/** Interligne relaxé (1.8) */
+.lh-relaxed { line-height: 1.8; }

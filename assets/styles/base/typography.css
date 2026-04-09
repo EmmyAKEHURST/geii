@@ -1,0 +1,26 @@
+/**
+ * Typography
+ * Polices : Barlow Semi Condensed (titres) · Inter (corps) · JetBrains Mono (code)
+ */
+
+body {
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    color: var(--body-text);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Barlow Semi Condensed', Arial, Helvetica, sans-serif;
+}
+
+code, pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .9rem;
+    background: var(--bg-light);
+    border: 1px solid var(--bs-border-color);
+}
+
+/** Focus accessible — contour jaune sur tous les éléments interactifs */
+:focus-visible {
+    outline: 3px solid var(--geii-yellow);
+    outline-offset: 2px;
+}
