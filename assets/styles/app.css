@@ -11,6 +11,7 @@
 /** COMPONENTS — Éléments réutilisables */
 @import 'components/navbar.css';
 @import 'components/buttons.css';
+@import 'components/auth-layout.css';
 @import 'components/badges.css';
 @import 'components/cards.css';
 @import 'components/stat-cards.css';
