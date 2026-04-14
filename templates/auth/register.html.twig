@@ -1,23 +1,71 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/auth.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription{% endblock %}
+
+{% block auth_title %}Inscription{% endblock %}
 
 {% block content %}
     {% for flash_error in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
 
-    <h1>Register</h1>
-
     {{ form_errors(registrationForm) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+    {{ form_start(registrationForm, { attr: { class: 'auth-form' } }) }}
+        <div class="mb-3">
+            {{ form_label(registrationForm.email, 'Email', { label_attr: { class: 'form-label' } }) }}
+            {{ form_widget(registrationForm.email, { attr: { class: 'form-control', placeholder: 'Email', autocomplete: 'email' } }) }}
+            {{ form_errors(registrationForm.email) }}
+        </div>
+        <div class="mb-3" data-controller="password-strength">
+            {{ form_label(registrationForm.plainPassword.first, null, { label_attr: { class: 'form-label' } }) }}
+            {{ form_widget(registrationForm.plainPassword.first, {
+                attr: {
+                    class: 'form-control',
+                    placeholder: 'Mot de passe',
+                    autocomplete: 'new-password',
+                    'data-password-strength-target': 'input',
+                    'data-action': 'input->password-strength#update blur->password-strength#update'
+                }
+            }) }}
+            {{ form_errors(registrationForm.plainPassword.first) }}
 
-        <button type="submit" class="btn">Register</button>
+            <div class="password-strength mt-3">
+                <div class="progress password-strength-progress" role="progressbar" aria-label="Niveau du mot de passe" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar bg-danger" data-password-strength-target="bar" style="width: 0%"></div>
+                </div>
+                <p class="small text-body-geii mt-2 mb-2" data-password-strength-target="text">Sécurité du mot de passe : faible</p>
+                <ul class="password-rules small mb-0">
+                    <li data-password-strength-target="ruleLength">Au moins 13 caractères</li>
+                    <li data-password-strength-target="ruleDigit">Au moins un chiffre</li>
+                    <li data-password-strength-target="ruleUpper">Au moins une lettre majuscule</li>
+                    <li data-password-strength-target="ruleLower">Au moins une lettre minuscule</li>
+                    <li data-password-strength-target="ruleSpecial">Au moins un caractère spécial</li>
+                </ul>
+            </div>
+        </div>
+        <div class="mb-3">
+            {{ form_label(registrationForm.plainPassword.second, null, { label_attr: { class: 'form-label' } }) }}
+            {{ form_widget(registrationForm.plainPassword.second, {
+                attr: {
+                    class: 'form-control',
+                    placeholder: 'Veuillez confirmer le mot de passe',
+                    autocomplete: 'new-password'
+                }
+            }) }}
+            {{ form_errors(registrationForm.plainPassword.second) }}
+        </div>
+        <div class="form-check mb-4">
+            {{ form_widget(registrationForm.agreeTerms, { attr: { class: 'form-check-input' } }) }}
+            {{ form_label(registrationForm.agreeTerms, "J'accepte les conditions d'utilisation", { label_attr: { class: 'form-check-label' } }) }}
+            {{ form_errors(registrationForm.agreeTerms) }}
+        </div>
+
+        {{ form_errors(registrationForm.plainPassword) }}
+        <button type="submit" class="btn btn-warning btn-lg fw-semibold w-100 auth-submit">Créer mon compte</button>
     {{ form_end(registrationForm) }}
+{% endblock %}
+
+{% block auth_footer_links %}
+    <a class="auth-secondary-link" href="{{ path('app_login') }}">Déjà un compte ? Se connecter</a>
 {% endblock %}
