@@ -2,7 +2,7 @@
 
 namespace App\Enum;
 
-enum StatutEnum: string
+enum StatutProjetTuteure: string
 {
     case OUVERT = 'ouvert';
     case EN_COURS = 'en_cours';
