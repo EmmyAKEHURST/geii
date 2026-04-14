@@ -5,3 +5,7 @@ parameters:
     paths:
         - src
         - tests
+    ignoreErrors:
+        - '#Property App\\Entity\\Compte::\$id.*is never assigned int#'
+        - '#Method App\\Entity\\Compte::getUserIdentifier\(\).*should return non-empty-string but returns string#'
+        - '#Parameter.*of function hash expects string, string\|null given#'

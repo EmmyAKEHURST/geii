@@ -1,0 +1,47 @@
+{% extends 'layouts/auth.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block auth_title %}Connexion{% endblock %}
+
+{% block content %}
+    <form method="post" class="auth-form">
+        {% for flash_success in app.flashes('success') %}
+            <div class="alert alert-success" role="alert">{{ flash_success }}</div>
+        {% endfor %}
+
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        {% if app.user %}
+            <div class="alert alert-info">
+                Connecté en tant que {{ app.user.userIdentifier }}, <a class="auth-secondary-link" href="{{ logout_path() }}">se déconnecter</a>.
+            </div>
+        {% endif %}
+
+        <div class="mb-3">
+            <label class="form-label" for="username">Email</label>
+            <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
+        </div>
+        <div class="mb-4">
+            <label class="form-label" for="password">Mot de passe</label>
+            <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+        </div>
+        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+
+        <div class="form-check mb-4">
+            <input class="form-check-input" type="checkbox" name="_remember_me" id="_remember_me">
+            <label class="form-check-label" for="_remember_me">Se souvenir de moi</label>
+        </div>
+
+        <button class="btn btn-warning btn-lg fw-semibold w-100 auth-submit" type="submit">
+            Se connecter
+        </button>
+    </form>
+{% endblock %}
+
+{% block auth_footer_links %}
+    <a class="auth-secondary-link" href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a>
+    <a class="auth-secondary-link" href="{{ path('app_register') }}">Créer un compte</a>
+{% endblock %}
