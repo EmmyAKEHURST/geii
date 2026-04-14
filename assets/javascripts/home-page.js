@@ -1,6 +1,6 @@
 /**
  * Home Page Interactions
- * 
+ *
  * - Navbar scroll effect
  * - Smooth scrolling for anchor links
  * - Card animation on scroll
@@ -9,69 +9,132 @@
 (function () {
     'use strict';
 
-    /* --------------------------------------------------
-       Navbar — classe .navbar-scrolled après 50 px
-    -------------------------------------------------- */
     const navbar = document.getElementById('mainNavbar');
+    const animatedElements = document.querySelectorAll('.card, .espace-card');
 
-    if (navbar) {
-        const toggleScrolled = function () {
-            navbar.classList.toggle('navbar-scrolled', window.scrollY > 50);
-        };
-        window.addEventListener('scroll', toggleScrolled, { passive: true });
-        toggleScrolled();
+    /**
+     * Toggles the visual navbar state when the page is scrolled.
+     *
+     * @returns {void}
+     */
+    function toggleScrolledNavbar() {
+        if (!navbar) {
+            return;
+        }
+
+        navbar.classList.toggle('navbar-scrolled', window.scrollY > 50);
     }
 
-    /* --------------------------------------------------
-       Défilement fluide pour les ancres internes (#section)
-       — ignore href="#" seuls (dropdown Bootstrap « Licences Pro »)
-    -------------------------------------------------- */
-    document.querySelectorAll('a[href^="#"]').forEach(function (lien) {
-        lien.addEventListener('click', function (e) {
-            const href = lien.getAttribute('href');
-            if (!href || href === '#' || href === '#!') {
-                return;
-            }
-            let cible = null;
-            try {
-                cible = document.querySelector(href);
-            } catch (err) {
-                return;
-            }
-            if (cible) {
-                e.preventDefault();
-                cible.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+    /**
+     * Registers navbar scroll listeners and applies initial state immediately.
+     *
+     * @returns {void}
+     */
+    function initNavbarScrollEffect() {
+        if (!navbar) {
+            return;
+        }
+
+        window.addEventListener('scroll', toggleScrolledNavbar, { passive: true });
+        toggleScrolledNavbar();
+    }
+
+    /**
+     * Resolves a safe DOM target from an anchor href.
+     *
+     * @param {string | null} href - Link href value.
+     * @returns {Element | null}
+     */
+    function resolveAnchorTarget(href) {
+        if (!href || href === '#' || href === '#!') {
+            return null;
+        }
+
+        try {
+            return document.querySelector(href);
+        } catch {
+            return null;
+        }
+    }
+
+    /**
+     * Smooth-scrolls to a target section when a valid internal anchor is clicked.
+     *
+     * @param {MouseEvent} event - Click event dispatched by an internal anchor link.
+     * @returns {void}
+     */
+    function handleInternalAnchorClick(event) {
+        const link = event.currentTarget;
+        if (!(link instanceof HTMLAnchorElement)) {
+            return;
+        }
+
+        const target = resolveAnchorTarget(link.getAttribute('href'));
+        if (target) {
+            event.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    /**
+     * Attaches smooth scrolling behavior to internal anchor links.
+     *
+     * @returns {void}
+     */
+    function initSmoothScrollForAnchors() {
+        document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+            link.addEventListener('click', handleInternalAnchorClick);
         });
-    });
+    }
 
-    /* --------------------------------------------------
-       Intersection Observer — apparition des cartes au scroll
-    -------------------------------------------------- */
-    const elementsAnimes = document.querySelectorAll('.card, .espace-card');
+    /**
+     * Reveals one observed element and stops observing it once visible.
+     *
+     * @param {IntersectionObserverEntry} entry - Current observer entry.
+     * @param {IntersectionObserver} observer - Observer managing the target.
+     * @returns {void}
+     */
+    function revealObservedElement(entry, observer) {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+        }
+    }
 
-    if ('IntersectionObserver' in window && elementsAnimes.length) {
+    /**
+     * Initializes card and panel reveal animations using IntersectionObserver
+     * with a no-JS-fallback that reveals all elements immediately.
+     *
+     * @returns {void}
+     */
+    function initCardAnimations() {
+        if (!animatedElements.length) {
+            return;
+        }
 
-        const observateur = new IntersectionObserver(function (entrées) {
-            entrées.forEach(function (entrée) {
-                if (entrée.isIntersecting) {
-                    entrée.target.classList.add('visible');
-                    observateur.unobserve(entrée.target);
-                }
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    revealObservedElement(entry, observer);
+                });
+            }, {
+                threshold: 0.12,
+                rootMargin: '0px'
             });
-        }, {
-            threshold: 0.12,
-            rootMargin: '0px'
-        });
 
-        elementsAnimes.forEach(function (el) {
-            observateur.observe(el);
-        });
+            animatedElements.forEach(function (element) {
+                observer.observe(element);
+            });
 
-    } else {
-        elementsAnimes.forEach(function (el) {
-            el.classList.add('visible');
+            return;
+        }
+
+        animatedElements.forEach(function (element) {
+            element.classList.add('visible');
         });
     }
 
+    initNavbarScrollEffect();
+    initSmoothScrollForAnchors();
+    initCardAnimations();
 }());
