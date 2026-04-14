@@ -22,6 +22,12 @@ document.addEventListener('turbo:submit-end', function (event) {
     removeCsrfToken(event.detail.formSubmission.formElement);
 });
 
+/**
+ * Ensures a form carries a per-request CSRF token and mirrors it into a cookie for double-submit protection.
+ *
+ * @param {HTMLFormElement} formElement - Form being submitted.
+ * @returns {void}
+ */
 export function generateCsrfToken (formElement) {
     const csrfField = formElement.querySelector('input[data-controller="csrf-protection"], input[name="_csrf_token"]');
 
@@ -44,6 +50,12 @@ export function generateCsrfToken (formElement) {
     }
 }
 
+/**
+ * Builds request headers containing the CSRF token pair used by Turbo submissions.
+ *
+ * @param {HTMLFormElement} formElement - Form being submitted by Turbo.
+ * @returns {Object<string, string>} Header map to merge into the outgoing request.
+ */
 export function generateCsrfHeaders (formElement) {
     const headers = {};
     const csrfField = formElement.querySelector('input[data-controller="csrf-protection"], input[name="_csrf_token"]');
@@ -61,6 +73,12 @@ export function generateCsrfHeaders (formElement) {
     return headers;
 }
 
+/**
+ * Removes the CSRF cookie associated with a submitted form once submission is complete.
+ *
+ * @param {HTMLFormElement} formElement - Form that has just been submitted.
+ * @returns {void}
+ */
 export function removeCsrfToken (formElement) {
     const csrfField = formElement.querySelector('input[data-controller="csrf-protection"], input[name="_csrf_token"]');
 
