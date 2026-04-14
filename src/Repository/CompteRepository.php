@@ -14,6 +14,9 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class CompteRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
+    /**
+     * Initializes the repository with the Compte entity mapping.
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Compte::class);

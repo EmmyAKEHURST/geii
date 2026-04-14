@@ -14,6 +14,9 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegistrationFormType extends AbstractType
 {
+    /**
+     * Builds the registration form fields and applies account creation validation rules.
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -44,6 +47,9 @@ class RegistrationFormType extends AbstractType
         ;
     }
 
+    /**
+     * Defines the form options and binds this form to the Compte entity.
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

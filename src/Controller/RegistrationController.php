@@ -19,6 +19,9 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
+    /**
+     * Injects the service responsible for generating and validating email verification links.
+     */
     public function __construct(
         private readonly EmailVerifier $emailVerifier
     )
@@ -26,6 +29,9 @@ class RegistrationController extends AbstractController
         // ...
     }
 
+    /**
+     * Displays and processes the registration form, persists the account, and sends email verification.
+     */
     #[Route('/register', name: 'app_register')]
     public function register(
         Request $request, UserPasswordHasherInterface $userPasswordHasher,
@@ -52,7 +58,7 @@ class RegistrationController extends AbstractController
                     ->from(new Address('no-reply@iut-evry.fr', 'Université d\'Evry, Val d\'Essonne'))
                     ->to((string) $user->getEmail())
                     ->subject('Veuillez confirmer votre email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
+                    ->htmlTemplate('auth/confirmation_email.html.twig')
             );
 
             // do anything else you need here, like send an email.
@@ -65,6 +71,9 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+    /**
+     * Validates the signed email verification link and marks the authenticated account as verified.
+     */
     #[Route('/verify/email', name: 'app_verify_email')]
     public function verifyUserEmail(
         Request $request, TranslatorInterface $translator

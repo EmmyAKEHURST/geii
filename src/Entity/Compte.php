@@ -10,14 +10,20 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: CompteRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'Cette adresse email existe déjà')]
 class Compte implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    /**
+     * @var int|null The account ID.
+     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    /**
+     * @var string|null The email address.
+     */
     #[ORM\Column(length: 180)]
     private ?string $email = null;
 
@@ -33,19 +39,31 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    /**
+     * @var bool Used to check if the user's account is verified or not.
+     */
     #[ORM\Column]
     private bool $isVerified = false;
 
+    /**
+     * Returns the database identifier of the account.
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * Returns the email address used for authentication and communication.
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * Updates the account email address.
+     */
     public function setEmail(string $email): static
     {
         $this->email = $email;
@@ -64,6 +82,8 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * Returns the account roles while guaranteeing ROLE_USER is always present.
+     *
      * @see UserInterface
      */
     public function getRoles(): array
@@ -86,6 +106,8 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * Returns the hashed password stored for this account.
+     *
      * @see PasswordAuthenticatedUserInterface
      */
     public function getPassword(): ?string
@@ -93,9 +115,30 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
+    /**
+     * Updates the hashed password value.
+     */
     public function setPassword(string $password): static
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Indicates whether the account has a verified email address.
+     */
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    /**
+     * Marks the email verification status for this account.
+     */
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }
@@ -110,22 +153,13 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $data;
     }
-
+    
+    /**
+     * Clears temporary sensitive data kept in memory, if any.
+     */
     #[\Deprecated]
     public function eraseCredentials(): void
     {
         // @deprecated, to be removed when upgrading to Symfony 8
-    }
-
-    public function isVerified(): bool
-    {
-        return $this->isVerified;
-    }
-
-    public function setIsVerified(bool $isVerified): static
-    {
-        $this->isVerified = $isVerified;
-
-        return $this;
     }
 }
