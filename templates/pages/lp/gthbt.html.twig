@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LP GTHBT — Département GEII{% endblock %}
+
+{% block navbar %}
+    {% include 'partials/navbar-geii.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <section class="public-hero py-5" aria-labelledby="lp-gthbt-title">
+        <div class="container py-lg-4">
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-7">
+                    <span class="badge rounded-pill badge-topic mb-3">Licence professionnelle</span>
+                    <h1 class="public-hero-title fw-bold mb-3" id="lp-gthbt-title">
+                        LP GTHBT — Génie Thermique, Hydraulique, Bâtiment et Travaux
+                    </h1>
+                    <p class="public-hero-subtitle mb-4">
+                        La LP GTHBT prépare des profils capables de dimensionner, suivre et optimiser des installations
+                        thermiques et hydrauliques avec une approche concrète des contraintes de chantier, d'exploitation
+                        et de performance énergétique.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="https://www.iut-evry.fr/nos-formations/"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="btn btn-warning fw-semibold">
+                            <i class="bi bi-box-arrow-up-right me-2" aria-hidden="true"></i>Offre de formations IUT
+                        </a>
+                        <a href="{{ path('app_presentation') }}" class="btn btn-outline-dark fw-semibold">Présentation GEII</a>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <figure class="public-hero-media mb-0">
+                        <img src="https://placehold.co/960x620/0F172A/FFD700?text=LP+GTHBT"
+                             alt="Visuel de la licence professionnelle GTHBT"
+                             loading="lazy">
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-white" aria-labelledby="gthbt-competences-title">
+        <div class="container">
+            <h2 class="section-title text-center mb-5" id="gthbt-competences-title">Compétences clés</h2>
+            <div class="public-track">
+                <article class="public-track-item">
+                    <span class="public-track-step">Compétence 1</span>
+                    <h3 class="public-track-title h5 fw-semibold">Études thermiques</h3>
+                    <p class="mb-0">
+                        Analyser les besoins énergétiques d'un bâtiment et proposer des solutions adaptées aux usages,
+                        aux normes et aux objectifs de sobriété.
+                    </p>
+                </article>
+                <article class="public-track-item">
+                    <span class="public-track-step">Compétence 2</span>
+                    <h3 class="public-track-title h5 fw-semibold">Réseaux hydrauliques</h3>
+                    <p class="mb-0">
+                        Dimensionner et piloter des réseaux de fluides dans des contextes techniques variés, du tertiaire
+                        aux environnements industriels.
+                    </p>
+                </article>
+                <article class="public-track-item">
+                    <span class="public-track-step">Compétence 3</span>
+                    <h3 class="public-track-title h5 fw-semibold">Suivi de chantier</h3>
+                    <p class="mb-0">
+                        Accompagner la mise en œuvre des installations, coordonner les intervenants et vérifier la
+                        conformité technique des travaux.
+                    </p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-section-light" aria-labelledby="gthbt-parcours-title">
+        <div class="container">
+            <h2 class="section-title text-center mb-5" id="gthbt-parcours-title">Parcours de spécialisation</h2>
+            <p class="section-lead text-center mb-4">
+                Les thématiques ci-dessous défilent en continu pour refléter le caractère dynamique et transversal du parcours.
+            </p>
+            <div class="public-marquee" role="presentation">
+                <div class="public-marquee-track">
+                    <div class="public-marquee-group">
+                        <span class="public-pill">Thermique du bâtiment</span>
+                        <span class="public-pill">Hydraulique appliquée</span>
+                        <span class="public-pill">Régulation et instrumentation</span>
+                        <span class="public-pill">Exploitation énergétique</span>
+                        <span class="public-pill">Dimensionnement technico-économique</span>
+                        <span class="public-pill">Conduite de projet et coordination</span>
+                    </div>
+                    <div class="public-marquee-group" aria-hidden="true">
+                        <span class="public-pill">Thermique du bâtiment</span>
+                        <span class="public-pill">Hydraulique appliquée</span>
+                        <span class="public-pill">Régulation et instrumentation</span>
+                        <span class="public-pill">Exploitation énergétique</span>
+                        <span class="public-pill">Dimensionnement technico-économique</span>
+                        <span class="public-pill">Conduite de projet et coordination</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-white" aria-labelledby="gthbt-metiers-title">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-7">
+                    <h2 class="section-title text-start mb-4" id="gthbt-metiers-title">Débouchés professionnels</h2>
+                    <ul class="public-list-checks">
+                        <li><i class="bi bi-check-circle-fill mt-1" aria-hidden="true"></i><span>Technicien supérieur en génie climatique</span></li>
+                        <li><i class="bi bi-check-circle-fill mt-1" aria-hidden="true"></i><span>Chargé d'études thermiques</span></li>
+                        <li><i class="bi bi-check-circle-fill mt-1" aria-hidden="true"></i><span>Assistant conducteur de travaux CVC</span></li>
+                        <li><i class="bi bi-check-circle-fill mt-1" aria-hidden="true"></i><span>Technicien exploitation et maintenance énergétique</span></li>
+                    </ul>
+                </div>
+                <div class="col-lg-5">
+                    <article class="public-panel h-100">
+                        <h3 class="public-panel-title h5 fw-semibold">Admission</h3>
+                        <p class="public-panel-text mb-3">
+                            Le recrutement se fait sur dossier, avec une attention portée à la motivation, au parcours
+                            antérieur et à l'adéquation du projet avec les métiers de l'énergie et du bâtiment.
+                        </p>
+                        <a href="https://www.iut-evry.fr/nos-formations/"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="btn btn-outline-dark fw-semibold">
+                            Voir les informations IUT
+                        </a>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

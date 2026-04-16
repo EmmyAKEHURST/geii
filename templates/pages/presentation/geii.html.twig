@@ -1,0 +1,190 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Présentation GEII — Département GEII{% endblock %}
+
+{% block navbar %}
+    {% include 'partials/navbar-geii.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <section class="public-hero py-5" aria-labelledby="presentation-geii-title">
+        <div class="container py-lg-4">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-7">
+                    <span class="badge rounded-pill badge-topic mb-3">Département GEII · IUT d'Évry</span>
+                    <h1 class="public-hero-title fw-bold mb-3" id="presentation-geii-title">
+                        Une formation technologique complète en génie électrique et informatique industrielle
+                    </h1>
+                    <p class="public-hero-subtitle mb-4">
+                        Au département GEII, chaque étudiant construit une expertise solide pour intervenir sur des
+                        systèmes électroniques, automatisés et informatiques de plus en plus connectés. Le parcours
+                        associe travaux pratiques, projets concrets, accompagnement pédagogique de proximité et
+                        immersion progressive dans les réalités de l'entreprise.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="https://www.iut-evry.fr/iut/les-departements/departements-secondaires/departement-geii-genie-electrique-et-informatique-industrielle"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="btn btn-warning fw-semibold">
+                            <i class="bi bi-box-arrow-up-right me-2" aria-hidden="true"></i>Page officielle GEII
+                        </a>
+                        <a href="{{ path('app_home') }}" class="btn btn-outline-dark fw-semibold">
+                            Revenir à l'accueil
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <figure class="public-hero-media mb-0">
+                        <img src="https://placehold.co/960x620/1a1a1a/FFD700?text=Departement+GEII"
+                             alt="Visuel de présentation du département GEII"
+                             loading="lazy">
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-white" aria-labelledby="adn-geii-title">
+        <div class="container">
+            <h2 class="section-title text-center mb-5" id="adn-geii-title">L'ADN du département GEII</h2>
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <article class="public-panel h-100">
+                        <h3 class="public-panel-title h5 fw-semibold">Pluridisciplinarité</h3>
+                        <p class="public-panel-text">
+                            Les enseignements articulent électronique, électrotechnique, automatisme et informatique
+                            industrielle pour donner une vision d'ensemble et faciliter la collaboration avec des équipes
+                            techniques pluridisciplinaires.
+                        </p>
+                    </article>
+                </div>
+                <div class="col-lg-4">
+                    <article class="public-panel h-100">
+                        <h3 class="public-panel-title h5 fw-semibold">Pédagogie par projets</h3>
+                        <p class="public-panel-text">
+                            Les étudiants travaillent sur des cas proches du terrain avec des projets encadrés,
+                            des plateformes techniques et des objectifs clairs, pour transformer rapidement la théorie
+                            en compétences opérationnelles.
+                        </p>
+                    </article>
+                </div>
+                <div class="col-lg-4">
+                    <article class="public-panel h-100">
+                        <h3 class="public-panel-title h5 fw-semibold">Professionnalisation continue</h3>
+                        <p class="public-panel-text">
+                            Stages, alternance et réseau d'entreprises partenaires permettent de sécuriser l'insertion
+                            professionnelle, tout en ouvrant des passerelles cohérentes vers des poursuites d'études
+                            en bac+3 et bac+5.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-section-light" aria-labelledby="parcours-geii-title">
+        <div class="container">
+            <h2 class="section-title text-center mb-3" id="parcours-geii-title">Un parcours structuré en 3 temps</h2>
+            <p class="section-lead text-center mb-5">
+                Une progression pensée pour renforcer la maîtrise technique, l'autonomie en projet et la préparation
+                aux spécialisations professionnelles.
+            </p>
+            <div class="public-track">
+                <article class="public-track-item">
+                    <span class="public-track-step">Étape 1</span>
+                    <h3 class="public-track-title h5 fw-semibold">Fondamentaux scientifiques</h3>
+                    <p class="mb-0">
+                        Acquisition des bases en mathématiques appliquées, électricité et algorithmique pour comprendre
+                        les phénomènes physiques et la logique des systèmes techniques.
+                    </p>
+                </article>
+                <article class="public-track-item">
+                    <span class="public-track-step">Étape 2</span>
+                    <h3 class="public-track-title h5 fw-semibold">Systèmes et automatisation</h3>
+                    <p class="mb-0">
+                        Mise en œuvre de systèmes embarqués, automatismes, réseaux et instrumentation via des
+                        plateformes proches des environnements industriels actuels.
+                    </p>
+                </article>
+                <article class="public-track-item">
+                    <span class="public-track-step">Étape 3</span>
+                    <h3 class="public-track-title h5 fw-semibold">Projet professionnel</h3>
+                    <p class="mb-0">
+                        Consolidation par stage, alternance et projet tuteuré, avec une orientation claire vers les
+                        licences professionnelles du département.
+                    </p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-white" aria-labelledby="vie-geii-title">
+        <div class="container">
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-6">
+                    <h2 class="section-title text-start mb-4" id="vie-geii-title">Vie de département et accompagnement</h2>
+                    <ul class="public-list-checks">
+                        <li>
+                            <i class="bi bi-check-circle-fill mt-1" aria-hidden="true"></i>
+                            <span>Un suivi pédagogique régulier et une équipe enseignante accessible à chaque étape.</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill mt-1" aria-hidden="true"></i>
+                            <span>Des plateaux techniques dédiés aux travaux pratiques en électronique et automatismes.</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill mt-1" aria-hidden="true"></i>
+                            <span>Des événements projets, rencontres entreprises et ateliers de préparation à l'alternance.</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-check-circle-fill mt-1" aria-hidden="true"></i>
+                            <span>Des passerelles naturelles vers les parcours LP MIAW, LP ABDD et LP GTHBT.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                    <figure class="public-hero-media mb-0">
+                        <img src="https://placehold.co/960x620/1E40AF/FFFFFF?text=Projets+GEII"
+                             alt="Illustration de la vie du département GEII"
+                             loading="lazy">
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="public-cta-strip py-5 py-lg-5" aria-labelledby="suite-parcours-title">
+        <div class="container py-2 py-lg-4">
+            <div class="text-center mb-5">
+                <h2 class="h2 fw-bold mb-3" id="suite-parcours-title">Poursuivre en licence professionnelle</h2>
+                <p class="public-cta-lead mb-0">
+                    À l'issue du parcours GEII, vous pouvez vous spécialiser selon votre projet professionnel :
+                    développement web, systèmes automatisés orientés données ou performance énergétique des bâtiments.
+                </p>
+            </div>
+
+            <div class="public-cta-grid">
+                <article class="public-cta-card featured">
+                    <span class="public-cta-card-code">LP MIAW</span>
+                    <h3 class="h4 fw-semibold">Applications web et métiers du digital</h3>
+                    <p>Un parcours orienté conception, développement full-stack et mise en production d'applications.</p>
+                    <a href="{{ path('app_lp_miaw') }}" class="btn btn-warning fw-semibold">Découvrir LP MIAW</a>
+                </article>
+
+                <article class="public-cta-card">
+                    <span class="public-cta-card-code">LP ABDD</span>
+                    <h3 class="h4 fw-semibold">Automatisme, données et outils industriels</h3>
+                    <p>Une spécialisation pour relier supervision de process, exploitation de données et développement.</p>
+                    <a href="{{ path('app_lp_abdd') }}" class="btn btn-outline-light fw-semibold">Découvrir LP ABDD</a>
+                </article>
+
+                <article class="public-cta-card">
+                    <span class="public-cta-card-code">LP GTHBT</span>
+                    <h3 class="h4 fw-semibold">Énergie, hydraulique et génie climatique</h3>
+                    <p>Un parcours centré sur les installations thermiques et l'optimisation énergétique des bâtiments.</p>
+                    <a href="{{ path('app_lp_gthbt') }}" class="btn btn-outline-light fw-semibold">Découvrir LP GTHBT</a>
+                </article>
+            </div>
+        </div>
+    </section>
+{% endblock %}

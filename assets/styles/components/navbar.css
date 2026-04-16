@@ -1,20 +1,59 @@
 /** Navbar & dropdowns */
 
-.navbar-geii { background-color: var(--geii-black); }
+.navbar-geii {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--geii-black);
+    z-index: 1030;
+    transition: background-color .25s ease;
+}
+
+.navbar-geii.navbar-home {
+    background-color: transparent;
+}
+
+.navbar-geii.navbar-home.navbar-scrolled {
+    background-color: var(--geii-black);
+}
 
 /** Dropdown sombre GEII */
 .dropdown-menu-geii {
     background-color: var(--geii-black);
     border: 1px solid #333;
 }
+
 .dropdown-menu-geii .dropdown-item:hover,
 .dropdown-menu-geii .dropdown-item:focus {
     background-color: rgba(255, 215, 0, 0.10);
     color: var(--geii-yellow);
 }
 
-.nav-link-active { border-bottom: 2px solid var(--geii-yellow); }
-.nav-link:hover  { color: var(--geii-yellow) !important; }
+.dropdown-menu-geii .dropdown-item.active,
+.dropdown-menu-geii .dropdown-item:active {
+    background-color: rgba(255, 215, 0, 0.18);
+    color: var(--geii-yellow);
+}
 
-/** Ombre légère après 50 px de défilement — classe ajoutée par JS */
-.navbar-scrolled { box-shadow: 0 2px 16px rgba(0, 0, 0, .4); }
+.nav-link {
+    display: inline-flex;
+    align-items: center;
+}
+
+.nav-link-active {
+    box-shadow: inset 0 -2px 0 var(--geii-yellow);
+}
+
+.nav-link:hover {
+    color: var(--geii-yellow) !important;
+}
+
+/** Navbar state class toggled by JS on home page */
+.navbar-scrolled {
+    box-shadow: none;
+}
+
+.public-page {
+    padding-top: 73px;
+}
