@@ -11,7 +11,7 @@
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
-    <body>
+    <body class="{{ app.request.attributes.get('_route') == 'app_home' ? 'home-page' : 'public-page' }}">
         {% block navbar %}
             {% include 'partials/navbar.html.twig' %}
         {% endblock %}
