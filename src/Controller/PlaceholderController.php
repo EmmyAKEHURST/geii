@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
@@ -12,39 +13,39 @@ use Symfony\Component\Routing\Attribute\Route;
 final class PlaceholderController extends AbstractController
 {
     /**
-     * Redirects the presentation placeholder route to the homepage.
+     * Renders the public GEII presentation page.
      */
     #[Route('/presentation', name: 'app_presentation')]
-    public function presentation(): RedirectResponse
+    public function presentation(): Response
     {
-        return $this->redirectToRoute('app_home');
+        return $this->render('pages/presentation/geii.html.twig');
     }
 
     /**
-     * Redirects the LP MIAW placeholder route to the homepage.
+     * Renders the LP MIAW public page.
      */
     #[Route('/licences/miaw', name: 'app_lp_miaw')]
-    public function lpMiaw(): RedirectResponse
+    public function lpMiaw(): Response
     {
-        return $this->redirectToRoute('app_home');
+        return $this->render('pages/lp/miaw.html.twig');
     }
 
     /**
-     * Redirects the LP ABDD placeholder route to the homepage.
+     * Renders the LP ABDD public page.
      */
     #[Route('/licences/abdd', name: 'app_lp_abdd')]
-    public function lpAbdd(): RedirectResponse
+    public function lpAbdd(): Response
     {
-        return $this->redirectToRoute('app_home');
+        return $this->render('pages/lp/abdd.html.twig');
     }
 
     /**
-     * Redirects the LP GTHBT placeholder route to the homepage.
+     * Renders the LP GTHBT public page.
      */
     #[Route('/licences/gthbt', name: 'app_lp_gthbt')]
-    public function lpGthbt(): RedirectResponse
+    public function lpGthbt(): Response
     {
-        return $this->redirectToRoute('app_home');
+        return $this->render('pages/lp/gthbt.html.twig');
     }
 
     /**
@@ -61,15 +62,6 @@ final class PlaceholderController extends AbstractController
      */
     #[Route('/espace-enseignant', name: 'app_espace_enseignant')]
     public function espaceEnseignant(): RedirectResponse
-    {
-        return $this->redirectToRoute('app_home');
-    }
-
-    /**
-     * Redirects the legacy login placeholder route to the homepage.
-     */
-    #[Route('/login', name: 'app_login')]
-    public function login(): RedirectResponse
     {
         return $this->redirectToRoute('app_home');
     }
