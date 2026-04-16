@@ -1,0 +1,144 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LP ABDD — Département GEII{% endblock %}
+
+{% block navbar %}
+    {% include 'partials/navbar-geii.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <section class="public-hero public-hero-dark py-5" aria-labelledby="lp-abdd-title">
+        <div class="container py-lg-4">
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-7">
+                    <span class="badge rounded-pill badge-topic mb-3">Licence professionnelle</span>
+                    <h1 class="public-hero-title fw-bold mb-3" id="lp-abdd-title">
+                        LP ABDD — Automatisme, Bases de Données et Développement
+                    </h1>
+                    <p class="public-hero-subtitle mb-4">
+                        La LP ABDD répond aux besoins des entreprises qui doivent piloter des systèmes automatisés
+                        tout en exploitant des données fiables. La formation combine vision terrain, rigueur technique
+                        et développement d'outils concrets pour les équipes de production.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="https://www.iut-evry.fr/wp-content/uploads/2023/06/LP-MISIGD-ABDD_Plaquette-FC_2023.pdf"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="btn btn-warning fw-semibold">
+                            <i class="bi bi-file-earmark-pdf me-2" aria-hidden="true"></i>Plaquette LP ABDD
+                        </a>
+                        <a href="{{ path('app_presentation') }}" class="btn btn-outline-dark fw-semibold">Présentation GEII</a>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <figure class="public-hero-media mb-0">
+                        <img src="https://placehold.co/960x620/1E293B/FFFFFF?text=LP+ABDD"
+                             alt="Visuel de la licence professionnelle ABDD"
+                             loading="lazy">
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-white" aria-labelledby="abdd-axes-title">
+        <div class="container">
+            <h2 class="section-title text-center mb-5" id="abdd-axes-title">Axes pédagogiques</h2>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <article class="public-panel h-100">
+                        <h3 class="public-panel-title h6 fw-semibold">Automatisme</h3>
+                        <p class="public-panel-text">
+                            Programmation d'automates, supervision et conduite de process pour fiabiliser les lignes de production.
+                        </p>
+                    </article>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <article class="public-panel h-100">
+                        <h3 class="public-panel-title h6 fw-semibold">Données</h3>
+                        <p class="public-panel-text">
+                            Structuration, fiabilisation et exploitation de données techniques pour faciliter l'analyse.
+                        </p>
+                    </article>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <article class="public-panel h-100">
+                        <h3 class="public-panel-title h6 fw-semibold">Développement</h3>
+                        <p class="public-panel-text">
+                            Création d'outils métiers pour le suivi de production, la traçabilité et la qualité.
+                        </p>
+                    </article>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <article class="public-panel h-100">
+                        <h3 class="public-panel-title h6 fw-semibold">Projet professionnel</h3>
+                        <p class="public-panel-text">
+                            Alternance ou mission appliquée avec restitution finale pour valoriser les acquis techniques.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-section-light" aria-labelledby="abdd-competences-title">
+        <div class="container">
+            <h2 class="section-title text-center mb-5" id="abdd-competences-title">Compétences opérationnelles</h2>
+            <p class="section-lead text-center mb-5">
+                Les blocs de compétences couvrent toute la chaîne, de la captation de données jusqu'à la restitution
+                décisionnelle pour les équipes métiers.
+            </p>
+            <div class="public-marquee" role="presentation">
+                <div class="public-marquee-track">
+                    <div class="public-marquee-group">
+                        <span class="public-pill">Pilotage de systèmes automatisés</span>
+                        <span class="public-pill">Modélisation de données industrielles</span>
+                        <span class="public-pill">Conception d'interfaces de supervision</span>
+                        <span class="public-pill">Maintenance et amélioration de process</span>
+                        <span class="public-pill">Intégration d'outils numériques terrain</span>
+                        <span class="public-pill">Communication avec équipes de production</span>
+                    </div>
+                    <div class="public-marquee-group" aria-hidden="true">
+                        <span class="public-pill">Pilotage de systèmes automatisés</span>
+                        <span class="public-pill">Modélisation de données industrielles</span>
+                        <span class="public-pill">Conception d'interfaces de supervision</span>
+                        <span class="public-pill">Maintenance et amélioration de process</span>
+                        <span class="public-pill">Intégration d'outils numériques terrain</span>
+                        <span class="public-pill">Communication avec équipes de production</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-white" aria-labelledby="abdd-debouches-title">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-7">
+                    <h2 class="section-title text-start mb-4" id="abdd-debouches-title">Métiers visés</h2>
+                    <ul class="public-list-checks">
+                        <li><i class="bi bi-check-circle-fill mt-1" aria-hidden="true"></i><span>Technicien supérieur en automatisme</span></li>
+                        <li><i class="bi bi-check-circle-fill mt-1" aria-hidden="true"></i><span>Développeur d'applications industrielles</span></li>
+                        <li><i class="bi bi-check-circle-fill mt-1" aria-hidden="true"></i><span>Technicien bases de données techniques</span></li>
+                        <li><i class="bi bi-check-circle-fill mt-1" aria-hidden="true"></i><span>Coordinateur d'amélioration continue</span></li>
+                    </ul>
+                </div>
+                <div class="col-lg-5">
+                    <article class="public-panel h-100">
+                        <h3 class="public-panel-title h5 fw-semibold">Admission et informations</h3>
+                        <p class="public-panel-text mb-3">
+                            L'admission repose sur l'étude du dossier et la cohérence du projet professionnel. La
+                            plaquette précise les contenus, les modalités de rythme et les attendus de la formation.
+                        </p>
+                        <a href="https://www.iut-evry.fr/wp-content/uploads/2023/06/LP-MISIGD-ABDD_Plaquette-FC_2023.pdf"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="btn btn-outline-dark fw-semibold">
+                            Télécharger la plaquette
+                        </a>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

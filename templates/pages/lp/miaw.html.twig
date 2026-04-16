@@ -1,0 +1,140 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LP MIAW — Département GEII{% endblock %}
+
+{% block navbar %}
+    {% include 'partials/navbar-geii.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <section class="public-hero py-5" aria-labelledby="lp-miaw-title">
+        <div class="container py-lg-4">
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-7">
+                    <span class="badge rounded-pill badge-topic mb-3">Licence professionnelle</span>
+                    <h1 class="public-hero-title fw-bold mb-3" id="lp-miaw-title">
+                        LP MIAW — Métiers de l'Informatique : Applications Web
+                    </h1>
+                    <p class="public-hero-subtitle mb-4">
+                        La LP MIAW accompagne les étudiants vers des fonctions de développement web où la technique
+                        doit rester au service d'un besoin métier concret. Le programme combine conception logicielle,
+                        implémentation, qualité de code et déploiement pour former des profils rapidement opérationnels.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="https://www.iut-evry.fr/nos-formations/lp/lp-metiers-de-linformatique-applications-web/"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="btn btn-warning fw-semibold">
+                            <i class="bi bi-box-arrow-up-right me-2" aria-hidden="true"></i>Source officielle LP MIAW
+                        </a>
+                        <a href="{{ path('app_presentation') }}" class="btn btn-outline-dark fw-semibold">Présentation GEII</a>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <figure class="public-hero-media mb-0">
+                        <img src="https://placehold.co/960x620/111827/FFD700?text=LP+MIAW"
+                             alt="Visuel de la licence professionnelle MIAW"
+                             loading="lazy">
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-white" aria-labelledby="miaw-competences-title">
+        <div class="container">
+            <h2 class="section-title text-center mb-5" id="miaw-competences-title">Compétences visées</h2>
+            <p class="section-lead text-center mb-5">
+                Les compétences sont travaillées en fil rouge sur des cas réels pour préparer l'intégration en équipe
+                produit, en agence ou en service numérique d'entreprise.
+            </p>
+            <div class="public-marquee" role="presentation">
+                <div class="public-marquee-track">
+                    <div class="public-marquee-group">
+                        <span class="public-pill">Conception d'architectures web</span>
+                        <span class="public-pill">Développement front-end et back-end</span>
+                        <span class="public-pill">Conception et interrogation de bases de données</span>
+                        <span class="public-pill">Qualité logicielle, tests et sécurité</span>
+                        <span class="public-pill">Déploiement et exploitation applicative</span>
+                        <span class="public-pill">Méthodes agiles et gestion de projet</span>
+                    </div>
+                    <div class="public-marquee-group" aria-hidden="true">
+                        <span class="public-pill">Conception d'architectures web</span>
+                        <span class="public-pill">Développement front-end et back-end</span>
+                        <span class="public-pill">Conception et interrogation de bases de données</span>
+                        <span class="public-pill">Qualité logicielle, tests et sécurité</span>
+                        <span class="public-pill">Déploiement et exploitation applicative</span>
+                        <span class="public-pill">Méthodes agiles et gestion de projet</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-section-light" aria-labelledby="miaw-organisation-title">
+        <div class="container">
+            <h2 class="section-title text-center mb-3" id="miaw-organisation-title">Organisation de la formation</h2>
+            <p class="section-lead text-center mb-5">
+                Un parcours orienté projet, rythmé par des livrables concrets et des échanges réguliers avec le monde
+                professionnel pour accélérer la montée en compétences.
+            </p>
+            <div class="public-track">
+                <article class="public-track-item">
+                    <span class="public-track-step">Bloc 1</span>
+                    <h3 class="public-track-title h5 fw-semibold">Analyse et conception</h3>
+                    <p class="mb-0">
+                        Recueil du besoin, maquettage, modélisation des données et architecture applicative pour
+                        structurer des solutions fiables dès les premières phases du projet.
+                    </p>
+                </article>
+                <article class="public-track-item">
+                    <span class="public-track-step">Bloc 2</span>
+                    <h3 class="public-track-title h5 fw-semibold">Développement et intégration</h3>
+                    <p class="mb-0">
+                        Réalisation des fonctionnalités métiers, API et interfaces, avec des pratiques d'intégration
+                        continue et de revue de code alignées sur les standards du secteur.
+                    </p>
+                </article>
+                <article class="public-track-item">
+                    <span class="public-track-step">Bloc 3</span>
+                    <h3 class="public-track-title h5 fw-semibold">Projet et professionnalisation</h3>
+                    <p class="mb-0">
+                        Mission en entreprise, pilotage d'un projet fil rouge et soutenance finale pour valoriser une
+                        réalisation complète devant des interlocuteurs académiques et professionnels.
+                    </p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-white" aria-labelledby="miaw-debouches-title">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-7">
+                    <h2 class="section-title text-start mb-4" id="miaw-debouches-title">Débouchés professionnels</h2>
+                    <ul class="public-list-checks">
+                        <li><i class="bi bi-check-circle-fill mt-1" aria-hidden="true"></i><span>Développeur web / full-stack junior</span></li>
+                        <li><i class="bi bi-check-circle-fill mt-1" aria-hidden="true"></i><span>Intégrateur d'applications web</span></li>
+                        <li><i class="bi bi-check-circle-fill mt-1" aria-hidden="true"></i><span>Assistant chef de projet digital</span></li>
+                        <li><i class="bi bi-check-circle-fill mt-1" aria-hidden="true"></i><span>Technicien d'exploitation applicative</span></li>
+                    </ul>
+                </div>
+                <div class="col-lg-5">
+                    <article class="public-panel h-100">
+                        <h3 class="public-panel-title h5 fw-semibold">Admission</h3>
+                        <p class="public-panel-text mb-3">
+                            Le recrutement s'effectue sur dossier et entretien, avec une attention particulière portée
+                            à la motivation, au projet professionnel et à la capacité à évoluer en mode projet.
+                        </p>
+                        <a href="https://www.iut-evry.fr/nos-formations/lp/lp-metiers-de-linformatique-applications-web/"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="btn btn-outline-dark fw-semibold">
+                            Consulter les modalités
+                        </a>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
