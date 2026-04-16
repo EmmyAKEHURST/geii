@@ -1,6 +1,11 @@
-{# Enhanced navbar with dropdown and login button — specific to home page #}
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top navbar-geii"
+{# Enhanced navbar with dropdown and login button for public GEII pages #}
+{% set currentRoute = app.request.attributes.get('_route')|default('') %}
+{% set isHomeRoute = currentRoute == 'app_home' %}
+{% set isPresentationRoute = currentRoute == 'app_presentation' %}
+{% set isLpRoute = currentRoute in ['app_lp_miaw', 'app_lp_abdd', 'app_lp_gthbt'] %}
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top navbar-geii {{ isHomeRoute ? 'navbar-home' : '' }}"
      id="mainNavbar"
+     data-scroll-threshold="{{ isHomeRoute ? 800 : 0 }}"
      aria-label="Navigation principale du département GEII">
     <div class="container">
 
@@ -29,20 +34,20 @@
 
                 {# Accueil — lien actif sur cette page #}
                 <li class="nav-item">
-                    <a class="nav-link nav-link-active fw-medium"
+                    <a class="nav-link fw-medium {{ isHomeRoute ? 'nav-link-active' : '' }}"
                        href="{{ path('app_home') }}"
-                       aria-current="page">Accueil</a>
+                       {% if isHomeRoute %}aria-current="page"{% endif %}>Accueil</a>
                 </li>
 
                 {# Présentation #}
                 <li class="nav-item">
-                    <a class="nav-link fw-medium"
+                    <a class="nav-link fw-medium {{ isPresentationRoute ? 'nav-link-active' : '' }}"
                        href="{{ path('app_presentation') }}">Présentation</a>
                 </li>
 
                 {# Licences Pro — dropdown #}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle fw-medium"
+                    <a class="nav-link dropdown-toggle fw-medium {{ isLpRoute ? 'nav-link-active' : '' }}"
                        href="#"
                        id="navDropdownLP"
                        role="button"
@@ -53,17 +58,17 @@
                     <ul class="dropdown-menu dropdown-menu-geii"
                         aria-labelledby="navDropdownLP">
                         <li>
-                            <a class="dropdown-item text-white" href="{{ path('app_lp_miaw') }}">
+                            <a class="dropdown-item text-white {{ currentRoute == 'app_lp_miaw' ? 'active' : '' }}" href="{{ path('app_lp_miaw') }}">
                                 <i class="bi bi-code-slash me-2 icon-geii" aria-hidden="true"></i>LP MIAW
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item text-white" href="{{ path('app_lp_abdd') }}">
+                            <a class="dropdown-item text-white {{ currentRoute == 'app_lp_abdd' ? 'active' : '' }}" href="{{ path('app_lp_abdd') }}">
                                 <i class="bi bi-database me-2 icon-geii" aria-hidden="true"></i>LP ABDD
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item text-white" href="{{ path('app_lp_gthbt') }}">
+                            <a class="dropdown-item text-white {{ currentRoute == 'app_lp_gthbt' ? 'active' : '' }}" href="{{ path('app_lp_gthbt') }}">
                                 <i class="bi bi-thermometer-half me-2 icon-geii" aria-hidden="true"></i>LP GTHBT
                             </a>
                         </li>
@@ -90,7 +95,6 @@
                         <i class="bi bi-person-circle me-1" aria-hidden="true"></i>Connexion
                     </a>
                 </li>
-
             </ul>
         </div>
     </div>

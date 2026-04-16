@@ -10,19 +10,23 @@
     'use strict';
 
     const navbar = document.getElementById('mainNavbar');
+    const isHomeNavbar = navbar instanceof HTMLElement && navbar.classList.contains('navbar-home');
+    const navbarScrollThreshold = navbar instanceof HTMLElement
+        ? Number.parseInt(navbar.dataset.scrollThreshold || '800', 10)
+        : 800;
     const animatedElements = document.querySelectorAll('.card, .espace-card');
 
     /**
-     * Toggles the visual navbar state when the page is scrolled.
+     * Toggles the home navbar state after the configured scroll threshold.
      *
      * @returns {void}
      */
     function toggleScrolledNavbar() {
-        if (!navbar) {
+        if (!navbar || !isHomeNavbar) {
             return;
         }
 
-        navbar.classList.toggle('navbar-scrolled', window.scrollY > 50);
+        navbar.classList.toggle('navbar-scrolled', window.scrollY >= navbarScrollThreshold);
     }
 
     /**
@@ -32,6 +36,10 @@
      */
     function initNavbarScrollEffect() {
         if (!navbar) {
+            return;
+        }
+
+        if (!isHomeNavbar) {
             return;
         }
 
