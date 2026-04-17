@@ -75,25 +75,24 @@
                     </ul>
                 </li>
 
-                {# Espace Étudiant #}
-                <li class="nav-item">
-                    <a class="nav-link fw-medium"
-                       href="{{ path('app_espace_etudiant') }}">Espace Étudiant</a>
-                </li>
-
-                {# Espace Enseignant #}
-                <li class="nav-item">
-                    <a class="nav-link fw-medium"
-                       href="{{ path('app_espace_enseignant') }}">Espace Enseignant</a>
-                </li>
-
                 {# Connexion — bouton outline jaune #}
                 <li class="nav-item ms-lg-3 d-grid d-lg-block">
-                    <a class="btn btn-sm btn-connexion fw-semibold px-3 py-1 w-100 w-lg-auto"
-                       href="{{ path('app_login') }}"
-                       aria-label="Connexion à l'espace personnel">
-                        <i class="bi bi-person-circle me-1" aria-hidden="true"></i>Connexion
-                    </a>
+                    {% if app.user %}
+                        <a class="btn btn-sm btn-connexion fw-semibold px-3 py-1 w-100 w-lg-auto"
+                           href="{{ path('app_espaces_test') }}"
+                           aria-label="Accéder à l'espace">
+                            <i class="bi bi-person-circle me-1" aria-hidden="true"></i>
+                            Mon compte
+                        </a>
+                    {% else %}
+                        <a
+                            class="btn btn-sm btn-connexion fw-semibold px-3 py-1 w-100 w-lg-auto"
+                            href="{{ path('app_login') }}"
+                            aria-label="Connexion à un compte">
+                            <i class="bi bi-person-circle me-1" aria-hidden="true"></i>
+                            Se connecter
+                        </a>
+                    {% endif %}
                 </li>
             </ul>
         </div>
