@@ -1,0 +1,171 @@
+{% extends 'layouts/espace.html.twig' %}
+
+{% block title %}Espace Étudiant — GEII{% endblock %}
+
+{% block content %}
+    {#
+        Variables fournies par EspaceEtudiantController::index() :
+
+        • hourHeightPx  (int)    – hauteur en pixels d'une heure dans la grille mini-EDT (défini ici)
+        • scheduleDay   (string) – nom français du jour courant ('lundi', 'mardi', …)
+        • scheduleHours (int[])  – plage horaire affichée : [9, 10, …, 18]
+        • schedule      (EmploiDuTemps[]) – cours du jour courant, triés par heure de début
+
+        • grades        (array{subject, grade, teacher, date}[]) – notes de l'étudiant
+        • gradeStats    (array{average, best, worst})            – statistiques calculées côté contrôleur
+
+        • offers        (array{id, title, company, location, type, description}[]) – offres d'alternance
+
+        Variables calculées dans ce template pour le positionnement des créneaux :
+            startH / startM – heure et minutes de début (issues du filtre date())
+            endH   / endM   – heure et minutes de fin
+            topOffset       – décalage vertical en heures depuis 9h (ex: 10h30 → 1.5)
+            duration        – durée en heures (ex: 1h30 → 1.5)
+            slotTopPx       – topOffset × hourHeightPx  → décalage en px
+            slotHeightPx    – duration  × hourHeightPx  → hauteur en px
+    #}
+    {% set hourHeightPx = 80 %}
+    {% set activePage = 'accueil' %}
+
+    <div class="d-flex espace-layout-scroll">
+        {{ include('espace/etudiant/_navbar.html.twig') }}
+
+        <main class="flex-grow-1 d-flex flex-column bg-white espace-main-scroll">
+            {# Header mobile — masqué sur desktop (d-lg-none) #}
+            <header class="d-lg-none bg-dark text-white px-3 py-2 d-flex align-items-center justify-content-between flex-shrink-0">
+                <span class="fw-bold">GEII — Espace Étudiant</span>
+                <button class="btn btn-sm btn-outline-secondary" type="button"
+                        data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
+                    <i class="bi bi-list"></i>
+                </button>
+            </header>
+
+            {# Fil d'Ariane — l'accueil n'est pas cliquable car c'est la page courante #}
+            <div class="px-4 py-2 border-bottom d-flex align-items-center gap-2 flex-shrink-0 bg-white espace-breadcrumb">
+                <i class="bi bi-layout-sidebar text-label" style="font-size:.9rem;"></i>
+                <nav aria-label="fil d'ariane">
+                    <ol class="breadcrumb mb-0" style="font-size:.875rem;">
+                        <li class="breadcrumb-item text-label">Espace étudiant</li>
+                        <li class="breadcrumb-item active fw-medium">Accueil</li>
+                    </ol>
+                </nav>
+            </div>
+
+            {# Contenu principal : 3 colonnes (EDT du jour · Notes · Offres) #}
+            <div class="flex-grow-1 overflow-auto">
+                <div class="row g-0" style="height: 100%">
+
+                    {# ── Emploi du temps du jour ─────────────────────────────────── #}
+                    <div class="col-lg-4 border-end d-flex flex-column">
+                        <div class="px-4 py-3 border-bottom">
+                            <span class="fw-semibold text-geii-black" style="font-size:1rem;">
+                                Emploi du temps : {{ scheduleDay }}
+                            </span>
+                        </div>
+                        <div class="flex-grow-1 overflow-auto">
+                            {# La hauteur totale de la grille = nb d'heures × hauteur par heure #}
+                            <div class="d-flex" style="height: {{ (18 - 9) * hourHeightPx }}px;">
+
+                                {# Axe horaire vertical #}
+                                <div class="mini-edt-time">
+                                    {% for hour in scheduleHours %}
+                                        <span class="mini-time-label" style="top:{{ (hour - 9) * hourHeightPx }}px;">
+                                            {{ hour }}h
+                                        </span>
+                                    {% endfor %}
+                                </div>
+
+                                {# Grille avec lignes horizontales + créneaux positionnés en absolu #}
+                                <div class="mini-edt-grid">
+                                    {% for hour in scheduleHours %}
+                                        <div class="position-absolute w-100" style="top:{{ (hour - 9) * hourHeightPx }}px;border-top:1px solid #e5e7eb;"></div>
+                                    {% endfor %}
+
+                                    {% for edt in schedule %}
+                                        {# Calcul du positionnement depuis les propriétés de l'entité #}
+                                        {% set startH       = edt.dateHeureDebut|date('G') %}
+                                        {% set startM       = edt.dateHeureDebut|date('i') %}
+                                        {% set endH         = edt.dateHeureFin|date('G') %}
+                                        {% set endM         = edt.dateHeureFin|date('i') %}
+                                        {% set topOffset    = (startH - 9) + startM / 60 %}
+                                        {% set duration     = (endH * 60 + endM - startH * 60 - startM) / 60 %}
+                                        {% set slotTopPx    = topOffset * hourHeightPx %}
+                                        {% set slotHeightPx = duration  * hourHeightPx %}
+
+                                        <div class="course-block position-absolute rounded-2"
+                                             style="top:{{ slotTopPx + 2 }}px;height:{{ slotHeightPx - 4 }}px;left:4px;right:4px;background:#eff6ff;border-left:3px solid #3b82f6;overflow:hidden;">
+                                            <div class="px-2 py-1">
+                                                <div class="fw-semibold lh-sm" style="font-size:.8rem;color:#3b82f6;">
+                                                    {{ edt.matiere ? edt.matiere.nom : '—' }}
+                                                </div>
+                                                <div class="text-meta lh-sm" style="margin-top:2px;font-size:.72rem;">
+                                                    {{ edt.dateHeureDebut|date("H\\hi") }}–{{ edt.dateHeureFin|date("H\\hi") }}
+                                                    {# La salle n'est affichée que si le créneau est assez haut #}
+                                                    {% if slotHeightPx >= 68 %} · {{ edt.salle ?? '' }}{% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {# ── Dernières notes ─────────────────────────────────────────── #}
+                    <div class="col-lg-4 border-end d-flex flex-column">
+                        <div class="px-4 py-3 border-bottom">
+                            <span class="fw-semibold text-geii-black" style="font-size:1rem;">
+                                Les dernières notes
+                            </span>
+                        </div>
+                        <div class="flex-grow-1 overflow-auto">
+                            {% for grade in grades %}
+                                <div class="px-4 py-3 border-bottom d-flex align-items-center gap-4">
+                                    <div class="fw-bold flex-shrink-0 text-geii-black"
+                                         style="font-size:1.1rem;min-width:92px;font-variant-numeric:tabular-nums;">
+                                        {{ grade.grade|number_format(2) }}&nbsp;/&nbsp;20
+                                    </div>
+                                    <div class="overflow-hidden">
+                                        <div class="fw-medium text-truncate text-geii-black" style="font-size:1rem;">
+                                            {{ grade.subject }}
+                                        </div>
+                                        <div class="text-truncate text-meta">{{ grade.teacher }}</div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    {# ── Offres d'alternance ─────────────────────────────────────── #}
+                    <div class="col-lg-4 d-flex flex-column">
+                        <div class="px-4 py-3 border-bottom">
+                            <span class="fw-semibold text-geii-black" style="font-size:1rem;">
+                                Les offres d'alternance
+                            </span>
+                        </div>
+                        <div class="flex-grow-1 overflow-auto">
+                            {% for offer in offers %}
+                                <a href="{{ path('app_espace_etudiant_offres_alternance') }}"
+                                   class="d-flex align-items-center gap-3 px-4 py-3 border-bottom text-decoration-none text-geii-black"
+                                   style="transition:background .12s;">
+                                    <div class="flex-grow-1 overflow-hidden">
+                                        <div class="fw-semibold text-truncate" style="font-size:1rem;">
+                                            {{ offer.title }}
+                                        </div>
+                                        <div class="text-meta"
+                                             style="overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">
+                                            {{ offer.description }}
+                                        </div>
+                                    </div>
+                                    <i class="bi bi-arrow-right flex-shrink-0 text-label" style="font-size:1.1rem;"></i>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,123 @@
+{% set navItems = [
+    {
+        route: 'app_espace_etudiant_index',
+        page: 'accueil',
+        label: 'Accueil',
+        icon: 'bi-house-fill'
+    }, {
+        route: 'app_espace_etudiant_edt',
+        page: 'emploi-du-temps',
+        label: 'Emploi du temps',
+        icon: 'bi-calendar-week'
+    }, {
+        route: 'app_espace_etudiant_notes',
+        page: 'notes',
+        label: 'Notes',
+        icon: 'bi-clipboard2-check'
+    }, {
+        route: 'app_espace_etudiant_offres_alternance',
+        page: 'alternance',
+        label: "Offres d'alternance",
+        icon: 'bi-briefcase'
+    }, {
+        route: 'app_espace_etudiant_projets-tuteures',
+        page: 'projets',
+        label: 'Projets tuteurés',
+        icon: 'bi-kanban'
+    },
+] %}
+
+{# ── Sidebar desktop (masquée sur mobile) ────────────────────────────── #}
+<aside class="espace-sidebar d-none d-lg-flex flex-column bg-dark text-white">
+    <div class="px-4 pt-4 pb-3">
+        <div class="d-flex align-items-center gap-3">
+            <span class="sidebar-brand-icon rounded-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-mortarboard-fill text-dark" style="font-size:1.1rem;"></i>
+            </span>
+            <div>
+                <div class="fw-bold text-white lh-sm font-barlow" style="font-size:1rem;">GEII — IUT</div>
+                <div class="text-secondary lh-sm" style="font-size:.8rem;">Espace Étudiant</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="px-3 pb-1"><hr class="border-secondary my-0"></div>
+
+    <nav class="px-3 py-3 flex-grow-1" aria-label="Navigation principale">
+        <p class="px-2 mb-2 text-secondary text-uppercase sidebar-nav-section-label">Navigation</p>
+        <ul class="list-unstyled mb-0 d-flex flex-column gap-1">
+            {% for item in navItems %}
+                <li>
+                    <a href="{{ path(item.route) }}"
+                       class="sidebar-link nav-link d-flex align-items-center gap-3 px-3 py-2 fw-medium {{ activePage is defined and activePage == item.page ? 'active' : '' }}">
+                        <i class="bi {{ item.icon }} sidebar-nav-icon"></i>
+                        <span style="font-size:1rem;">{{ item.label }}</span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+
+    <div class="px-3 pb-1"><hr class="border-secondary my-0"></div>
+
+    <div class="px-4 py-3">
+        <div class="d-flex align-items-center gap-3">
+            <div class="sidebar-avatar font-barlow rounded-circle d-flex align-items-center justify-content-center fw-bold text-dark">
+                {{ student.firstName|slice(0,1) }}{{ student.lastName|slice(0,1) }}
+            </div>
+            <div class="overflow-hidden flex-grow-1">
+                <div class="fw-semibold text-white text-truncate" style="font-size:1rem;">
+                    {{ student.lastName }} {{ student.firstName }}
+                </div>
+                <div class="text-secondary text-truncate" style="font-size:.8rem;">Étudiant</div>
+            </div>
+            <a href="{{ path('app_logout') }}" class="btn btn-sm btn-outline-secondary flex-shrink-0"
+               title="Déconnexion" style="padding:.2rem .45rem;">
+                <i class="bi bi-box-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</aside>
+
+{# ── Drawer mobile (Bootstrap Offcanvas, ouvert via le bouton burger) ── #}
+<div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="mobileSidebar"
+     aria-labelledby="mobileSidebarLabel">
+    <div class="offcanvas-header border-bottom border-secondary">
+        <div class="d-flex align-items-center gap-3">
+            <span class="sidebar-avatar--sm rounded-circle d-flex align-items-center justify-content-center"
+                  style="background:var(--geii-yellow);">
+                <i class="bi bi-mortarboard-fill text-dark"></i>
+            </span>
+            <span id="mobileSidebarLabel" class="fw-bold font-barlow">GEII — IUT</span>
+        </div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column p-0">
+        <nav class="px-3 py-3 flex-grow-1">
+            <ul class="list-unstyled mb-0 d-flex flex-column gap-1">
+                {% for item in navItems %}
+                    <li>
+                        <a href="{{ path(item.route) }}"
+                           class="sidebar-link nav-link d-flex align-items-center gap-3 px-3 py-2 fw-medium {{ activePage is defined and activePage == item.page ? 'active' : '' }}">
+                            <i class="bi {{ item.icon }} sidebar-nav-icon"></i>
+                            <span style="font-size:1rem;">{{ item.label }}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </nav>
+        <div class="border-top border-secondary px-4 py-3">
+            <div class="d-flex align-items-center gap-3">
+                <div class="sidebar-avatar font-barlow rounded-circle d-flex align-items-center justify-content-center fw-bold text-dark">
+                    {{ student.firstName|slice(0,1) }}{{ student.lastName|slice(0,1) }}
+                </div>
+                <div class="overflow-hidden">
+                    <div class="fw-semibold text-white text-truncate" style="font-size:1rem;">
+                        {{ student.lastName }} {{ student.firstName }}
+                    </div>
+                    <div class="text-secondary" style="font-size:.8rem;">Étudiant</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

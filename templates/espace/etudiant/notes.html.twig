@@ -1,0 +1,99 @@
+{% extends 'layouts/espace.html.twig' %}
+
+{% block title %}Notes — Espace Étudiant — GEII{% endblock %}
+
+{% block content %}
+    {% set activePage = 'notes' %}
+
+    <div class="d-flex espace-layout-scroll">
+        {{ include('espace/etudiant/_navbar.html.twig') }}
+
+        <main class="flex-grow-1 d-flex flex-column bg-white espace-main-scroll">
+            {# Mobile header #}
+            <header class="d-lg-none bg-dark text-white px-3 py-2 d-flex align-items-center justify-content-between flex-shrink-0">
+                <span class="fw-bold">GEII — Espace Étudiant</span>
+                <button class="btn btn-sm btn-outline-secondary" type="button"
+                        data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
+                    <i class="bi bi-list"></i>
+                </button>
+            </header>
+
+            {# Breadcrumb (Fil d'Ariane) #}
+            <div class="px-4 py-2 border-bottom d-flex align-items-center gap-2 flex-shrink-0 bg-white espace-breadcrumb">
+                <i class="bi bi-layout-sidebar text-label" style="font-size:.9rem;"></i>
+                <nav aria-label="fil d'ariane">
+                    <ol class="breadcrumb mb-0" style="font-size:.875rem;">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('app_espace_etudiant_index') }}" class="text-label text-decoration-none">Espace étudiant</a>
+                        </li>
+                        <li class="breadcrumb-item active fw-medium">Notes</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="espace-content-scroll">
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <div class="page-icon page-icon--notes rounded-3 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-clipboard2-check fs-4" style="color:#b45309;"></i>
+                    </div>
+                    <div>
+                        <h1 class="h3 mb-0 fw-bold">Mes notes</h1>
+                        <p class="mb-0 text-muted-sm">{{ grades|length }} évaluations enregistrées</p>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <div class="rounded-3 border text-center py-4">
+                            <div class="text-label mb-2">Meilleure note</div>
+                            <div class="fw-bold" style="font-size:2rem;color:#15803d;">{{ gradeStats.best|number_format(2) }}</div>
+                            <div class="text-label">/ 20</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="rounded-3 border text-center py-4" style="border-color:var(--iut-blue)!important;">
+                            <div class="text-label mb-2">Moyenne générale</div>
+                            <div class="fw-bold text-iut-blue" style="font-size:2rem;">{{ gradeStats.average|number_format(2) }}</div>
+                            <div class="text-label">/ 20</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="rounded-3 border text-center py-4">
+                            <div class="text-label mb-2">Note la plus basse</div>
+                            <div class="fw-bold" style="font-size:2rem;color:#b45309;">{{ gradeStats.worst|number_format(2) }}</div>
+                            <div class="text-label">/ 20</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border rounded-3 overflow-hidden">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th class="px-4 py-3 fw-semibold border-bottom" style="font-size:1rem;">Matière</th>
+                                <th class="px-4 py-3 fw-semibold border-bottom" style="font-size:1rem;">Note</th>
+                                <th class="px-4 py-3 fw-semibold border-bottom d-none d-md-table-cell" style="font-size:1rem;">Enseignant</th>
+                                <th class="px-4 py-3 fw-semibold border-bottom d-none d-sm-table-cell" style="font-size:1rem;">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for grade in grades %}
+                                <tr>
+                                    <td class="px-4 py-3 fw-medium" style="font-size:1rem;">{{ grade.subject }}</td>
+                                    <td class="px-4 py-3">
+                                        <span class="grade-pill rounded-pill px-3 py-1 fw-semibold {{ grade.grade >= 14 ? 'grade-pill--good' : (grade.grade >= 10 ? 'grade-pill--medium' : 'grade-pill--bad') }}">
+                                            {{ grade.grade|number_format(2) }}&nbsp;/&nbsp;20
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-3 d-none d-md-table-cell text-meta" style="font-size:1rem;">{{ grade.teacher }}</td>
+                                    <td class="px-4 py-3 d-none d-sm-table-cell text-meta" style="font-size:1rem;">{{ grade.date|date('d/m/Y') }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+{% endblock %}
