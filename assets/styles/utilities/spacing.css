@@ -5,6 +5,7 @@
     color: var(--geii-yellow);
     text-decoration: none;
 }
+
 .link-yellow:hover {
     color: var(--geii-yellow);
     text-decoration: underline;
@@ -12,3 +13,6 @@
 
 /** Interligne relaxé (1.8) */
 .lh-relaxed { line-height: 1.8; }
+
+/** Police condensée pour les éléments non-titres (marque, avatars…) */
+.font-barlow { font-family: 'Barlow Semi Condensed', Arial, Helvetica, sans-serif; }
