@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use App\Repository\EmploiDuTempsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\EmploiDuTempsRepository;
 
 #[ORM\Entity(repositoryClass: EmploiDuTempsRepository::class)]
 class EmploiDuTemps
@@ -22,8 +22,8 @@ class EmploiDuTemps
     #[ORM\Column(length: 255)]
     private ?string $salle = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $matiere = null;
+    #[ORM\ManyToOne(inversedBy: 'emploiDuTemps')]
+    private ?Matiere $matiere = null;
 
     public function getId(): ?int
     {
@@ -66,12 +66,12 @@ class EmploiDuTemps
         return $this;
     }
 
-    public function getMatiere(): ?string
+    public function getMatiere(): ?Matiere
     {
         return $this->matiere;
     }
 
-    public function setMatiere(string $matiere): static
+    public function setMatiere(?Matiere $matiere): static
     {
         $this->matiere = $matiere;
 
