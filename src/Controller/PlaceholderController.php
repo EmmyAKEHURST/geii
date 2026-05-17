@@ -49,15 +49,6 @@ final class PlaceholderController extends AbstractController
     }
 
     /**
-     * Redirects the student space placeholder route to the homepage.
-     */
-    #[Route('/espace-etudiant', name: 'app_espace_etudiant')]
-    public function espaceEtudiant(): RedirectResponse
-    {
-        return $this->redirectToRoute('app_home');
-    }
-
-    /**
      * Redirects the teacher space placeholder route to the homepage.
      */
     #[Route('/espace-enseignant', name: 'app_espace_enseignant')]
