@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * Routes référencées par le template d'accueil
@@ -46,15 +46,6 @@ final class PlaceholderController extends AbstractController
     public function lpGthbt(): Response
     {
         return $this->render('pages/lp/gthbt.html.twig');
-    }
-
-    /**
-     * Redirects the student space placeholder route to the homepage.
-     */
-    #[Route('/espace-etudiant', name: 'app_espace_etudiant')]
-    public function espaceEtudiant(): RedirectResponse
-    {
-        return $this->redirectToRoute('app_home');
     }
 
     /**

@@ -21,6 +21,9 @@
 @import 'components/alternance.css';
 @import 'components/footer.css';
 
+/** PAGES — Styles spécifiques aux pages */
+@import 'pages/espace-etudiant.css';
+
 /** SECTIONS — Styles de sections */
 @import 'sections/hero.css';
 @import 'sections/section-titles.css';

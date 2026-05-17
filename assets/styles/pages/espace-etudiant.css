@@ -1,0 +1,290 @@
+/**
+ * Espace Étudiant — styles de page
+ * Couvre : layout, sidebar, emploi du temps, notes, alternance, projets
+ */
+
+/* ── Layout global ──────────────────────────────────────────────────── */
+
+/** Wrapper d-flex qui remplit exactement la fenêtre (page EDT sans scroll) */
+.espace-layout-fixed {
+    height: 100dvh;
+    overflow: hidden;
+}
+
+/** Wrapper d-flex standard (pages avec scroll autorisé) */
+.espace-layout-scroll {
+    min-height: 100vh;
+}
+
+/** Zone <main> côté droit de la sidebar */
+.espace-main {
+    overflow: hidden;
+}
+
+/** Zone <main> pour pages sans scroll global */
+.espace-main-fixed {
+    height: 100dvh;
+    overflow: hidden;
+}
+
+/** Zone <main> pour pages avec scroll */
+.espace-main-scroll {
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/** Conteneur de contenu sans scroll — remplit la hauteur restante */
+.espace-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 1.5rem;
+}
+
+/** Conteneur de contenu avec scroll (notes, alternance, projets) */
+.espace-content-scroll {
+    flex-grow: 1;
+    overflow: auto;
+    padding: 1.5rem;
+}
+
+/* ── Sidebar ─────────────────────────────────────────────────────────── */
+
+.espace-sidebar {
+    width: 264px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+/** Logo / icône en haut de la sidebar */
+.sidebar-brand-icon {
+    width: 38px;
+    height: 38px;
+    background: var(--geii-yellow);
+    flex-shrink: 0;
+}
+
+/** Avatar initiales utilisateur */
+.sidebar-avatar {
+    width: 36px;
+    height: 36px;
+    background: var(--geii-yellow);
+    font-family: 'Barlow Semi Condensed', sans-serif;
+    font-size: .9rem;
+    flex-shrink: 0;
+}
+
+/** Avatar dans l'offcanvas mobile (légèrement plus petit) */
+.sidebar-avatar--sm {
+    width: 34px;
+    height: 34px;
+}
+
+/** Label de rubrique (ex : « Navigation ») */
+.sidebar-nav-section-label {
+    font-size: .7rem;
+    letter-spacing: .1em;
+}
+
+/** Icône dans chaque lien de navigation */
+.sidebar-nav-icon {
+    width: 18px;
+    text-align: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+/** Lien de navigation latérale */
+.sidebar-link {
+    color: rgba(255, 255, 255, .5);
+    border-left: 3px solid transparent;
+    border-radius: 0 .5rem .5rem 0 !important;
+    transition: background-color .15s ease, color .15s ease;
+}
+.sidebar-link:hover:not(.active) {
+    background-color: rgba(255, 255, 255, .07) !important;
+    color: rgba(255, 255, 255, .8);
+}
+.sidebar-link.active {
+    color: #fff !important;
+    background-color: rgba(255, 255, 255, .1) !important;
+    border-left-color: var(--geii-yellow);
+}
+
+/* ── Emploi du temps hebdomadaire ───────────────────────────────────── */
+
+/** Wrapper du tableau — scroll horizontal uniquement */
+.week-grid-wrap {
+    height: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+/**
+ * Grille CSS : 52px (axe horaire) + 5 colonnes égales.
+ * grid-template-rows: auto (en-tête) + 1fr (corps = hauteur restante)
+ */
+.week-grid {
+    display: grid;
+    grid-template-columns: 52px repeat(5, 1fr);
+    grid-template-rows: auto 1fr;
+    height: 100%;
+    min-width: 640px;
+}
+
+/** Cellules d'en-tête — restent visibles au scroll vertical */
+.week-grid-header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+/**
+ * Colonnes corps (axe horaire + colonnes jours).
+ * --hour-h se résout à (hauteur de la colonne) / 9
+ * et est utilisée dans les styles inline des éléments enfants.
+ */
+.week-grid-col {
+    position: relative;
+    --hour-h: calc(100% / 9);
+}
+
+/** Ligne horizontale de séparation pour chaque heure */
+.week-grid-line {
+    position: absolute;
+    width: 100%;
+    border-top: 1px solid #e5e7eb;
+}
+
+/** Étiquette horaire dans l'axe du temps */
+.week-grid-time-label {
+    position: absolute;
+    width: 100%;
+    text-align: right;
+    padding-right: .5rem;
+    font-size: .72rem;
+    color: #9ca3af;
+    line-height: 1;
+    user-select: none;
+}
+
+/** Fond légèrement teinté sur la colonne du jour actuel */
+.week-grid-today-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(30, 64, 175, .025);
+    pointer-events: none;
+}
+
+/** Point bleu sous le nom du jour actuel dans l'en-tête */
+.week-grid-today-dot {
+    display: block;
+    width: 6px;
+    height: 6px;
+    background: var(--iut-blue);
+    border-radius: 50%;
+    margin: .25rem auto 0;
+}
+
+/* ── Cours (bloc dans la grille) ────────────────────────────────────── */
+
+.course-block {
+    transition: filter .1s ease;
+}
+.course-block:hover {
+    filter: brightness(.95);
+    z-index: 10;
+}
+
+/* ── Mini emploi du temps quotidien (Accueil) ───────────────────────── */
+
+.mini-edt-time {
+    width: 32px;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.mini-edt-grid {
+    flex-grow: 1;
+    position: relative;
+    border-left: 1px solid #e5e7eb;
+}
+
+.mini-time-label {
+    position: absolute;
+    right: 0;
+    font-size: .75rem;
+    color: #9ca3af;
+    line-height: 1;
+}
+
+/* ── En-tête de page (icône + titre) ───────────────────────────────── */
+
+.page-icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+}
+
+.page-icon--edt        { background: rgba(30, 64, 175, .08);  }
+.page-icon--notes      { background: rgba(180, 83, 9, .08);   }
+.page-icon--alternance { background: rgba(21, 128, 61, .08);  }
+.page-icon--projets    { background: rgba(109, 40, 217, .08); }
+
+/* ── Notes ──────────────────────────────────────────────────────────── */
+
+/** Badge de note coloré selon le résultat */
+.grade-pill {
+    font-size: .875rem;
+}
+.grade-pill--good   { background: #dcfce7; color: #15803d; }
+.grade-pill--medium { background: #fef9c3; color: #92400e; }
+.grade-pill--bad    { background: #fee2e2; color: #b91c1c; }
+
+/* ── Offres d'alternance ────────────────────────────────────────────── */
+
+/** Carte offre avec bordure supérieure jaune */
+.offer-card {
+    border-top: 3px solid var(--geii-yellow) !important;
+}
+
+/** Badge type d'offre */
+.offer-type-badge {
+    font-size: .8rem;
+    background: rgba(255, 215, 0, .2);
+}
+
+/* ── Projets tuteurés ───────────────────────────────────────────────── */
+
+/** Badge statut du projet */
+.project-status-pill {
+    font-size: .8rem;
+    background: rgba(109, 40, 217, .1);
+    color: #6d28d9;
+}
+
+/** Piste de la barre de progression */
+.progress-track {
+    height: 6px;
+    border-radius: 3px;
+    background: #e5e7eb;
+    overflow: hidden;
+}
+
+/** Remplissage de la barre de progression */
+.progress-fill {
+    height: 100%;
+    background: var(--geii-yellow);
+    border-radius: 3px;
+}
+
+/* ── Couleurs texte espace ──────────────────────────────────────────── */
+
+.text-iut-blue  { color: var(--iut-blue); }
+.text-muted-sm  { font-size: .9rem; color: #6b7280; }
+.text-meta      { font-size: .875rem; color: #6b7280; }
+.text-label     { font-size: .875rem; color: #9ca3af; }
