@@ -27,6 +27,14 @@ class OffreAlternance
     #[ORM\Column(enumType: StatutAlternance::class)]
     private ?StatutAlternance $statut = null;
 
+    /**
+     * Entreprise qui publie l'offre.
+     * CASCADE : supprimer une Entreprise supprime ses offres.
+     */
+    #[ORM\ManyToOne(inversedBy: 'offresAlternance', targetEntity: Entreprise::class)]
+    #[ORM\JoinColumn(name: 'entreprise_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
+    private ?Entreprise $entreprise = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -76,6 +84,18 @@ class OffreAlternance
     public function setStatut(StatutAlternance $statut): static
     {
         $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getEntreprise(): ?Entreprise
+    {
+        return $this->entreprise;
+    }
+
+    public function setEntreprise(?Entreprise $entreprise): static
+    {
+        $this->entreprise = $entreprise;
 
         return $this;
     }

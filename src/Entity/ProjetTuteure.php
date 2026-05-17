@@ -27,6 +27,22 @@ class ProjetTuteure
     #[ORM\Column(enumType: StatutProjetTuteure::class)]
     private ?StatutProjetTuteure $statut = null;
 
+    /**
+     * Entreprise commanditaire du projet.
+     * CASCADE : supprimer une Entreprise supprime ses projets.
+     */
+    #[ORM\ManyToOne(inversedBy: 'projetsTutores', targetEntity: Entreprise::class)]
+    #[ORM\JoinColumn(name: 'entreprise_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
+    private ?Entreprise $entreprise = null;
+
+    /**
+     * Enseignant tuteur en charge du projet.
+     * CASCADE : supprimer un Enseignant supprime les projets dont il est tuteur.
+     */
+    #[ORM\ManyToOne(inversedBy: 'projetsTutores', targetEntity: Enseignant::class)]
+    #[ORM\JoinColumn(name: 'enseignant_tuteur_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
+    private ?Enseignant $enseignantTuteur = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -76,6 +92,30 @@ class ProjetTuteure
     public function setStatut(StatutProjetTuteure $statut): static
     {
         $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getEntreprise(): ?Entreprise
+    {
+        return $this->entreprise;
+    }
+
+    public function setEntreprise(?Entreprise $entreprise): static
+    {
+        $this->entreprise = $entreprise;
+
+        return $this;
+    }
+
+    public function getEnseignantTuteur(): ?Enseignant
+    {
+        return $this->enseignantTuteur;
+    }
+
+    public function setEnseignantTuteur(?Enseignant $enseignantTuteur): static
+    {
+        $this->enseignantTuteur = $enseignantTuteur;
 
         return $this;
     }

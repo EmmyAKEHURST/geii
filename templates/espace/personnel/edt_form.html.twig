@@ -1,0 +1,21 @@
+{% extends 'layouts/espace-personnel.html.twig' %}
+
+{% block title %}{{ isNew ? 'Nouveau créneau' : 'Modifier le créneau' }} — Espace Personnel — GEII{% endblock %}
+
+{% set activePage = 'edt' %}
+{% set breadcrumb = [
+    { label: 'Espace personnel', route: 'app_espace_personnel_index' },
+    { label: 'Emplois du temps', route: 'app_espace_personnel_edt' },
+    { label: isNew ? 'Nouveau' : 'Créneau #' ~ slot.id },
+] %}
+
+{% block page_content %}
+    {{ include('espace/personnel/_form-layout.html.twig', {
+        form: form,
+        icon: 'bi-calendar-week',
+        variant: 'edt',
+        resourceLabel: 'créneau',
+        isNew: isNew,
+        cancelRoute: 'app_espace_personnel_edt',
+    }) }}
+{% endblock %}

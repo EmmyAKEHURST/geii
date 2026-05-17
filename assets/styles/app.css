@@ -23,6 +23,7 @@
 
 /** PAGES — Styles spécifiques aux pages */
 @import 'pages/espace-etudiant.css';
+@import 'pages/espace-personnel.css';
 
 /** SECTIONS — Styles de sections */
 @import 'sections/hero.css';

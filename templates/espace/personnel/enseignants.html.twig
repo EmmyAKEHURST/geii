@@ -1,0 +1,67 @@
+{% extends 'layouts/espace-personnel.html.twig' %}
+{% import 'espace/personnel/_macros.html.twig' as ui %}
+
+{% block title %}Enseignants — Espace Personnel — GEII{% endblock %}
+
+{% set activePage = 'enseignants' %}
+{% set breadcrumb = [
+    { label: 'Espace personnel', route: 'app_espace_personnel_index' },
+    { label: 'Administration' },
+    { label: 'Enseignants' },
+] %}
+
+{% block page_content %}
+    {{ include('espace/personnel/_page-header.html.twig', {
+        icon: 'bi-person-video3',
+        variant: 'enseignants',
+        title: 'Enseignants',
+        subtitle: teachers|length ~ ' enseignant' ~ (teachers|length > 1 ? 's' : '') ~ ' référencé' ~ (teachers|length > 1 ? 's' : ''),
+    }) }}
+
+    {{ ui.toolbar('Rechercher un enseignant…', 'Nouvel enseignant', 'app_espace_personnel_enseignants_new') }}
+
+    <div class="border rounded-3 overflow-hidden">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="bg-light">
+                <tr>
+                    <th class="px-4 py-3 fw-semibold border-bottom" style="font-size:1rem;">Nom</th>
+                    <th class="px-4 py-3 fw-semibold border-bottom d-none d-md-table-cell" style="font-size:1rem;">Prénom</th>
+                    <th class="px-4 py-3 fw-semibold border-bottom" style="font-size:1rem;">Spécialité</th>
+                    <th class="px-4 py-3 fw-semibold border-bottom d-none d-sm-table-cell" style="font-size:1rem;">Bureau</th>
+                    <th class="px-4 py-3 fw-semibold border-bottom d-none d-lg-table-cell" style="font-size:1rem;">Compte</th>
+                    <th class="px-4 py-3 fw-semibold border-bottom text-end" style="font-size:1rem;width:120px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for teacher in teachers %}
+                    <tr>
+                        <td class="px-4 py-3 fw-medium text-geii-black">{{ teacher.nom }}</td>
+                        <td class="px-4 py-3 d-none d-md-table-cell text-geii-black">{{ teacher.prenom }}</td>
+                        <td class="px-4 py-3 text-meta">{{ teacher.specialite }}</td>
+                        <td class="px-4 py-3 d-none d-sm-table-cell text-meta">
+                            <i class="bi bi-geo-alt me-1"></i>{{ teacher.bureau }}
+                        </td>
+                        <td class="px-4 py-3 d-none d-lg-table-cell text-meta">
+                            {% if teacher.compte %}
+                                <i class="bi bi-envelope me-1"></i>{{ teacher.compte.email }}
+                            {% else %}
+                                <span class="text-label">—</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-4 py-3 text-end">
+                            {{ ui.rowActions(
+                                'app_espace_personnel_enseignants_edit',
+                                'app_espace_personnel_enseignants_delete',
+                                { id: teacher.id },
+                                'delete-enseignant-' ~ teacher.id,
+                                'Supprimer ' ~ teacher.nom ~ ' ' ~ teacher.prenom ~ ' ? Cela supprimera AUSSI les projets tuteurés dont il est tuteur.'
+                            ) }}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="6" class="px-4 py-5 text-center text-meta">Aucun enseignant. <a href="{{ path('app_espace_personnel_enseignants_new') }}">Créer le premier</a>.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

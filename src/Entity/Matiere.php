@@ -24,9 +24,18 @@ class Matiere
     #[ORM\OneToMany(targetEntity: EmploiDuTemps::class, mappedBy: 'matiere')]
     private Collection $emploiDuTemps;
 
+    /**
+     * Notes rattachées à cette matière (côté inverse).
+     *
+     * @var Collection<int, Note>
+     */
+    #[ORM\OneToMany(mappedBy: 'matiere', targetEntity: Note::class)]
+    private Collection $notes;
+
     public function __construct()
     {
         $this->emploiDuTemps = new ArrayCollection();
+        $this->notes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -83,5 +92,39 @@ class Matiere
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Note>
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): static
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes->add($note);
+            $note->setMatiere($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): static
+    {
+        if ($this->notes->removeElement($note)) {
+            if ($note->getMatiere() === $this) {
+                $note->setMatiere(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->nom ?? '';
     }
 }

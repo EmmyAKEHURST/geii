@@ -1,0 +1,85 @@
+{#
+    Macros réutilisables dans toutes les pages de gestion de l'Espace Personnel.
+
+    Centralise les éléments d'UI répétitifs : barre d'outils (recherche +
+    bouton « Nouveau » qui pointe vers la route de création), boutons d'action
+    ligne (lien d'édition + form POST de suppression avec token CSRF),
+    badges de statut.
+#}
+
+{#
+    Barre d'outils placée au-dessus d'un tableau.
+    Paramètres :
+        • searchPlaceholder : placeholder du champ recherche
+        • newLabel          : libellé du bouton « Nouveau »
+        • newRoute          : nom de la route de création (target du bouton)
+        • newRouteParams    : paramètres éventuels (rares)
+#}
+{% macro toolbar(searchPlaceholder, newLabel, newRoute, newRouteParams = {}) %}
+    <div class="d-flex flex-wrap gap-2 mb-3 align-items-center">
+        <div class="flex-grow-1 position-relative" style="min-width:220px;">
+            <i class="bi bi-search position-absolute text-label" style="left:.75rem;top:50%;transform:translateY(-50%);"></i>
+            <input type="search" class="form-control ps-5" placeholder="{{ searchPlaceholder }}"
+                   aria-label="{{ searchPlaceholder }}" data-table-filter>
+        </div>
+        <a href="{{ path(newRoute, newRouteParams) }}" class="btn btn-warning fw-semibold">
+            <i class="bi bi-plus-lg me-1"></i> {{ newLabel }}
+        </a>
+    </div>
+{% endmacro %}
+
+{#
+    Actions ligne : lien vers édition + form POST de suppression protégé par
+    token CSRF. Le confirm() est volontairement basique (peut être remplacé
+    par une modal Bootstrap plus tard).
+
+    Paramètres :
+        • editRoute     : nom de la route d'édition
+        • deleteRoute   : nom de la route de suppression
+        • routeParams   : paramètres communs aux deux routes (ex : { id: 12 })
+        • csrfTokenId   : id du token CSRF (ex : 'delete-compte-12')
+        • confirmText   : message de la confirmation JS
+#}
+{% macro rowActions(editRoute, deleteRoute, routeParams, csrfTokenId, confirmText = 'Supprimer définitivement ?') %}
+    <div class="d-flex gap-1 justify-content-end">
+        <a href="{{ path(editRoute, routeParams) }}" class="btn btn-sm btn-outline-secondary"
+           aria-label="Modifier" title="Modifier">
+            <i class="bi bi-pencil"></i>
+        </a>
+        <form method="post" action="{{ path(deleteRoute, routeParams) }}"
+              class="d-inline" onsubmit="return confirm('{{ confirmText|e('js') }}');">
+            <input type="hidden" name="_token" value="{{ csrf_token(csrfTokenId) }}">
+            <button type="submit" class="btn btn-sm btn-outline-danger"
+                    aria-label="Supprimer" title="Supprimer">
+                <i class="bi bi-trash"></i>
+            </button>
+        </form>
+    </div>
+{% endmacro %}
+
+{#
+    Badge de statut générique. Reconnaît les enums StatutAlternance et
+    StatutProjetTuteure ainsi que les libellés textuels usuels.
+#}
+{% macro statusBadge(status) %}
+    {% set raw = status is null ? '' : (status.value|default(status)) %}
+    {% set s = raw|lower %}
+    {% set label = raw|capitalize %}
+    {% set cls = 'status-badge--neutral' %}
+    {% if s in ['active', 'en_cours', 'en cours', 'ouvert', 'actif'] %}
+        {% set cls = 'status-badge--success' %}
+    {% elseif s in ['pourvue', 'termine', 'terminé', 'validé'] %}
+        {% set cls = 'status-badge--info' %}
+    {% elseif s in ['expiree', 'expirée', 'archivé', 'suspendu', 'rejeté'] %}
+        {% set cls = 'status-badge--muted' %}
+    {% elseif s in ['en attente', 'brouillon'] %}
+        {% set cls = 'status-badge--warning' %}
+    {% endif %}
+    {% if s == 'en_cours' %}{% set label = 'En cours' %}{% endif %}
+    {% if s == 'expiree' %}{% set label = 'Expirée' %}{% endif %}
+    {% if s == 'termine' %}{% set label = 'Terminé' %}{% endif %}
+    <span class="status-badge rounded-pill px-3 py-1 fw-medium {{ cls }}">
+        <i class="bi bi-circle-fill me-1" style="font-size:.45rem;vertical-align:middle;"></i>
+        {{ label }}
+    </span>
+{% endmacro %}

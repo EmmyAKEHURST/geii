@@ -1,0 +1,21 @@
+{% extends 'layouts/espace-personnel.html.twig' %}
+
+{% block title %}{{ isNew ? 'Nouveau projet' : 'Modifier le projet' }} — Espace Personnel — GEII{% endblock %}
+
+{% set activePage = 'projets' %}
+{% set breadcrumb = [
+    { label: 'Espace personnel', route: 'app_espace_personnel_index' },
+    { label: 'Projets tuteurés', route: 'app_espace_personnel_projets_tuteures' },
+    { label: isNew ? 'Nouveau' : project.titre },
+] %}
+
+{% block page_content %}
+    {{ include('espace/personnel/_form-layout.html.twig', {
+        form: form,
+        icon: 'bi-kanban',
+        variant: 'projets',
+        resourceLabel: 'projet tuteuré',
+        isNew: isNew,
+        cancelRoute: 'app_espace_personnel_projets_tuteures',
+    }) }}
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'layouts/espace-personnel.html.twig' %}
+
+{% block title %}{{ isNew ? 'Nouveau personnel' : 'Modifier le personnel' }} — Espace Personnel — GEII{% endblock %}
+
+{% set activePage = 'personnels' %}
+{% set breadcrumb = [
+    { label: 'Espace personnel', route: 'app_espace_personnel_index' },
+    { label: 'Personnel', route: 'app_espace_personnel_personnels' },
+    { label: isNew ? 'Nouveau' : personnel.nom ~ ' ' ~ personnel.prenom },
+] %}
+
+{% block page_content %}
+    {{ include('espace/personnel/_form-layout.html.twig', {
+        form: form,
+        icon: 'bi-person-badge',
+        variant: 'personnels',
+        resourceLabel: 'membre du personnel',
+        isNew: isNew,
+        cancelRoute: 'app_espace_personnel_personnels',
+    }) }}
+{% endblock %}

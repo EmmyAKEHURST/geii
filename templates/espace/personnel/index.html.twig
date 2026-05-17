@@ -1,0 +1,83 @@
+{% extends 'layouts/espace-personnel.html.twig' %}
+
+{% block title %}Tableau de bord — Espace Personnel — GEII{% endblock %}
+
+{% set activePage = 'accueil' %}
+{% set breadcrumb = [
+    { label: 'Espace personnel' },
+    { label: 'Tableau de bord' },
+] %}
+
+{% block page_content %}
+    {{ include('espace/personnel/_page-header.html.twig', {
+        icon: 'bi-speedometer2',
+        variant: 'dashboard',
+        title: 'Tableau de bord',
+        subtitle: 'Vue d\'ensemble de l\'administration du département',
+    }) }}
+
+    {# ── Statistiques en temps réel (count() Doctrine sur chaque entité) ── #}
+    <section aria-labelledby="stats-title">
+        <h2 id="stats-title" class="visually-hidden">Statistiques</h2>
+        <div class="row g-3 mb-4">
+            {% for stat in stats %}
+                <div class="col-sm-6 col-lg-4 col-xl-3">
+                    <div class="dashboard-stat border rounded-3 p-3 h-100 d-flex align-items-center gap-3">
+                        <div class="page-icon page-icon--{{ stat.variant }} rounded-3 d-flex align-items-center justify-content-center flex-shrink-0">
+                            <i class="bi {{ stat.icon }} fs-5"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <div class="fw-bold text-geii-black" style="font-size:1.5rem;line-height:1;">{{ stat.value }}</div>
+                            <div class="text-meta text-truncate">{{ stat.label }}</div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    {# ── Accès rapides aux principales rubriques d'administration ─────── #}
+    <section class="border rounded-3" aria-labelledby="quick-title">
+        <div class="px-4 py-3 border-bottom">
+            <span id="quick-title" class="fw-semibold text-geii-black" style="font-size:1rem;">
+                Accès rapides
+            </span>
+        </div>
+        <div class="p-3">
+            <div class="row g-2">
+                <div class="col-md-6 col-lg-3">
+                    <a href="{{ path('app_espace_personnel_comptes_new') }}"
+                       class="quick-link d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none text-geii-black">
+                        <i class="bi bi-shield-lock text-iut-blue"></i>
+                        <span class="fw-medium flex-grow-1">Nouveau compte</span>
+                        <i class="bi bi-arrow-right text-label"></i>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <a href="{{ path('app_espace_personnel_notes_new') }}"
+                       class="quick-link d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none text-geii-black">
+                        <i class="bi bi-clipboard2-check text-iut-blue"></i>
+                        <span class="fw-medium flex-grow-1">Saisir une note</span>
+                        <i class="bi bi-arrow-right text-label"></i>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <a href="{{ path('app_espace_personnel_supports_new') }}"
+                       class="quick-link d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none text-geii-black">
+                        <i class="bi bi-file-earmark-pdf text-iut-blue"></i>
+                        <span class="fw-medium flex-grow-1">Déposer un support</span>
+                        <i class="bi bi-arrow-right text-label"></i>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <a href="{{ path('app_espace_personnel_offres_alternance_new') }}"
+                       class="quick-link d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none text-geii-black">
+                        <i class="bi bi-briefcase text-iut-blue"></i>
+                        <span class="fw-medium flex-grow-1">Publier une offre</span>
+                        <i class="bi bi-arrow-right text-label"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,71 @@
+/**
+ * Espace Personnel — additions minimales.
+ *
+ * Le back-office réutilise au maximum les styles déjà définis dans
+ * pages/espace-etudiant.css (layout, sidebar, page-icon, page-icon--edt,
+ * page-icon--notes, page-icon--alternance, page-icon--projets, grade-pill,
+ * progress-track, progress-fill, text-meta, text-label, text-iut-blue, …).
+ *
+ * Ce fichier ajoute uniquement ce qui n'existe pas déjà :
+ *   • variantes de couleur supplémentaires pour .page-icon
+ *   • badge de rôle (.role-badge) et badge de statut générique (.status-badge)
+ *   • micro-interactions du tableau de bord (.quick-link, .dashboard-stat)
+ */
+
+/* ── Variantes additionnelles pour .page-icon ───────────────────────── */
+
+.page-icon--dashboard   { background: rgba(255, 215,   0, .12); color: #92400e; }
+.page-icon--comptes     { background: rgba(185,  28,  28, .08); color: #b91c1c; }
+.page-icon--etudiants   { background: rgba( 30,  64, 175, .08); color: var(--iut-blue); }
+.page-icon--enseignants { background: rgba( 13, 148, 136, .10); color: #0f766e; }
+.page-icon--personnels  { background: rgba(217, 119,   6, .10); color: #b45309; }
+.page-icon--entreprises { background: rgba(180,  83,   9, .08); color: #b45309; }
+.page-icon--matieres    { background: rgba(109,  40, 217, .08); color: #6d28d9; }
+.page-icon--supports    { background: rgba(185,  28,  28, .08); color: #b91c1c; }
+
+/* Couleurs déjà partagées avec l'espace étudiant — alias pour cohérence */
+.page-icon--edt        i { color: var(--iut-blue); }
+.page-icon--notes      i { color: #b45309; }
+.page-icon--alternance i { color: #15803d; }
+.page-icon--projets    i { color: #6d28d9; }
+
+/* ── Badges ─────────────────────────────────────────────────────────── */
+
+/** Badge utilisé pour afficher un rôle ou un compteur compact */
+.role-badge {
+    font-size: .8rem;
+    background: rgba(30, 64, 175, .08);
+    color: var(--iut-blue);
+    font-weight: 500;
+    display: inline-block;
+}
+
+/** Badge de statut générique — variantes par classe modifieur */
+.status-badge {
+    font-size: .8rem;
+    display: inline-block;
+}
+.status-badge--success { background: #dcfce7; color: #15803d; }
+.status-badge--info    { background: #dbeafe; color: #1e40af; }
+.status-badge--warning { background: #fef9c3; color: #92400e; }
+.status-badge--muted   { background: #f3f4f6; color: #6b7280; }
+.status-badge--neutral { background: rgba(30, 64, 175, .08); color: var(--iut-blue); }
+
+/* ── Tableau de bord ────────────────────────────────────────────────── */
+
+/** Carte statistique — léger relief au survol */
+.dashboard-stat {
+    transition: transform .12s ease, box-shadow .12s ease;
+}
+.dashboard-stat:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .04);
+}
+
+/** Lien d'accès rapide — surbrillance discrète au survol */
+.quick-link {
+    transition: background-color .12s ease;
+}
+.quick-link:hover {
+    background-color: rgba(30, 64, 175, .05);
+}

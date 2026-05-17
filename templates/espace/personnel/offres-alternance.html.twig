@@ -1,0 +1,65 @@
+{% extends 'layouts/espace-personnel.html.twig' %}
+{% import 'espace/personnel/_macros.html.twig' as ui %}
+
+{% block title %}Offres d'alternance — Espace Personnel — GEII{% endblock %}
+
+{% set activePage = 'alternance' %}
+{% set breadcrumb = [
+    { label: 'Espace personnel', route: 'app_espace_personnel_index' },
+    { label: 'Insertion professionnelle' },
+    { label: "Offres d'alternance" },
+] %}
+
+{% block page_content %}
+    {{ include('espace/personnel/_page-header.html.twig', {
+        icon: 'bi-briefcase',
+        variant: 'alternance',
+        title: "Offres d'alternance",
+        subtitle: offers|length ~ ' offre' ~ (offers|length > 1 ? 's' : '') ~ ' référencée' ~ (offers|length > 1 ? 's' : ''),
+    }) }}
+
+    {{ ui.toolbar('Rechercher une offre…', 'Nouvelle offre', 'app_espace_personnel_offres_alternance_new') }}
+
+    <div class="border rounded-3 overflow-hidden">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="bg-light">
+                <tr>
+                    <th class="px-4 py-3 fw-semibold border-bottom" style="font-size:1rem;">Titre</th>
+                    <th class="px-4 py-3 fw-semibold border-bottom" style="font-size:1rem;">Entreprise</th>
+                    <th class="px-4 py-3 fw-semibold border-bottom d-none d-lg-table-cell" style="font-size:1rem;">Description</th>
+                    <th class="px-4 py-3 fw-semibold border-bottom d-none d-sm-table-cell text-center" style="font-size:1rem;">Durée</th>
+                    <th class="px-4 py-3 fw-semibold border-bottom" style="font-size:1rem;">Statut</th>
+                    <th class="px-4 py-3 fw-semibold border-bottom text-end" style="font-size:1rem;width:120px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for offer in offers %}
+                    <tr>
+                        <td class="px-4 py-3 fw-medium text-geii-black">{{ offer.titre }}</td>
+                        <td class="px-4 py-3 text-meta">
+                            {% if offer.entreprise %}
+                                <i class="bi bi-building me-1 text-iut-blue"></i>{{ offer.entreprise.nom }}
+                            {% else %}
+                                <span class="text-label">—</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-4 py-3 d-none d-lg-table-cell text-meta text-truncate" style="max-width:380px;">{{ offer.description }}</td>
+                        <td class="px-4 py-3 d-none d-sm-table-cell text-center text-meta">{{ offer.duree }} mois</td>
+                        <td class="px-4 py-3">{{ ui.statusBadge(offer.statut) }}</td>
+                        <td class="px-4 py-3 text-end">
+                            {{ ui.rowActions(
+                                'app_espace_personnel_offres_alternance_edit',
+                                'app_espace_personnel_offres_alternance_delete',
+                                { id: offer.id },
+                                'delete-offre-' ~ offer.id,
+                                "Supprimer définitivement l'offre " ~ offer.titre ~ ' ?'
+                            ) }}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="6" class="px-4 py-5 text-center text-meta">Aucune offre. <a href="{{ path('app_espace_personnel_offres_alternance_new') }}">Créer la première</a>.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

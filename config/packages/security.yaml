@@ -34,9 +34,19 @@ security:
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
+    # Hiérarchie des rôles — alignée sur la matrice des droits (CDC §2.2).
+    # Le Personnel a tous les droits des autres profils (espace étudiant, espace enseignant,
+    # gestion des offres/projets comme une entreprise) + administration du contenu (exclusif).
+    role_hierarchy:
+        ROLE_PERSONNEL: [ROLE_ENSEIGNANT, ROLE_ENTREPRISE, ROLE_ETUDIANT]
+        ROLE_ENSEIGNANT: [ROLE_USER]
+        ROLE_ENTREPRISE: [ROLE_USER]
+        ROLE_ETUDIANT: [ROLE_USER]
+
     # Note: Only the *first* matching rule is applied
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/espace/personnel, roles: ROLE_PERSONNEL }
+        # - { path: ^/espace/etudiant, roles: ROLE_ETUDIANT }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

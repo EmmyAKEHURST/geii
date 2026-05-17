@@ -46,6 +46,25 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
     private bool $isVerified = false;
 
     /**
+     * Profil étudiant éventuellement rattaché à ce compte (côté inverse).
+     * L'owning side est sur Etudiant.compte (cf. unicité et onDelete SET NULL).
+     */
+    #[ORM\OneToOne(mappedBy: 'compte', targetEntity: Etudiant::class)]
+    private ?Etudiant $etudiant = null;
+
+    /**
+     * Profil enseignant éventuellement rattaché à ce compte (côté inverse).
+     */
+    #[ORM\OneToOne(mappedBy: 'compte', targetEntity: Enseignant::class)]
+    private ?Enseignant $enseignant = null;
+
+    /**
+     * Profil personnel éventuellement rattaché à ce compte (côté inverse).
+     */
+    #[ORM\OneToOne(mappedBy: 'compte', targetEntity: Personnel::class)]
+    private ?Personnel $personnel = null;
+
+    /**
      * Returns the database identifier of the account.
      */
     public function getId(): ?int
@@ -139,6 +158,78 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * Renvoie le profil étudiant lié à ce compte (ou null).
+     */
+    public function getEtudiant(): ?Etudiant
+    {
+        return $this->etudiant;
+    }
+
+    /**
+     * Met à jour le profil étudiant lié (synchronise les deux côtés de la relation).
+     */
+    public function setEtudiant(?Etudiant $etudiant): static
+    {
+        if ($etudiant === null && $this->etudiant !== null) {
+            $this->etudiant->setCompte(null);
+        }
+        if ($etudiant !== null && $etudiant->getCompte() !== $this) {
+            $etudiant->setCompte($this);
+        }
+        $this->etudiant = $etudiant;
+
+        return $this;
+    }
+
+    /**
+     * Renvoie le profil enseignant lié à ce compte (ou null).
+     */
+    public function getEnseignant(): ?Enseignant
+    {
+        return $this->enseignant;
+    }
+
+    /**
+     * Met à jour le profil enseignant lié (synchronise les deux côtés).
+     */
+    public function setEnseignant(?Enseignant $enseignant): static
+    {
+        if ($enseignant === null && $this->enseignant !== null) {
+            $this->enseignant->setCompte(null);
+        }
+        if ($enseignant !== null && $enseignant->getCompte() !== $this) {
+            $enseignant->setCompte($this);
+        }
+        $this->enseignant = $enseignant;
+
+        return $this;
+    }
+
+    /**
+     * Renvoie le profil personnel lié à ce compte (ou null).
+     */
+    public function getPersonnel(): ?Personnel
+    {
+        return $this->personnel;
+    }
+
+    /**
+     * Met à jour le profil personnel lié (synchronise les deux côtés).
+     */
+    public function setPersonnel(?Personnel $personnel): static
+    {
+        if ($personnel === null && $this->personnel !== null) {
+            $this->personnel->setCompte(null);
+        }
+        if ($personnel !== null && $personnel->getCompte() !== $this) {
+            $personnel->setCompte($this);
+        }
+        $this->personnel = $personnel;
 
         return $this;
     }

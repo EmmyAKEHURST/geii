@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EntrepriseRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EntrepriseRepository::class)]
@@ -24,6 +26,28 @@ class Entreprise
 
     #[ORM\Column(length: 255)]
     private ?string $secteur = null;
+
+    /**
+     * Offres d'alternance publiées par cette entreprise (côté inverse).
+     *
+     * @var Collection<int, OffreAlternance>
+     */
+    #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: OffreAlternance::class)]
+    private Collection $offresAlternance;
+
+    /**
+     * Projets tuteurés commandités par cette entreprise (côté inverse).
+     *
+     * @var Collection<int, ProjetTuteure>
+     */
+    #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: ProjetTuteure::class)]
+    private Collection $projetsTutores;
+
+    public function __construct()
+    {
+        $this->offresAlternance = new ArrayCollection();
+        $this->projetsTutores = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -76,5 +100,68 @@ class Entreprise
         $this->secteur = $secteur;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, OffreAlternance>
+     */
+    public function getOffresAlternance(): Collection
+    {
+        return $this->offresAlternance;
+    }
+
+    public function addOffreAlternance(OffreAlternance $offre): static
+    {
+        if (!$this->offresAlternance->contains($offre)) {
+            $this->offresAlternance->add($offre);
+            $offre->setEntreprise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffreAlternance(OffreAlternance $offre): static
+    {
+        if ($this->offresAlternance->removeElement($offre)) {
+            if ($offre->getEntreprise() === $this) {
+                $offre->setEntreprise(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProjetTuteure>
+     */
+    public function getProjetsTutores(): Collection
+    {
+        return $this->projetsTutores;
+    }
+
+    public function addProjetTutore(ProjetTuteure $projet): static
+    {
+        if (!$this->projetsTutores->contains($projet)) {
+            $this->projetsTutores->add($projet);
+            $projet->setEntreprise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProjetTutore(ProjetTuteure $projet): static
+    {
+        if ($this->projetsTutores->removeElement($projet)) {
+            if ($projet->getEntreprise() === $this) {
+                $projet->setEntreprise(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->nom ?? '';
     }
 }

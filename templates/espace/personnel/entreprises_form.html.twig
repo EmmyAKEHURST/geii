@@ -1,0 +1,21 @@
+{% extends 'layouts/espace-personnel.html.twig' %}
+
+{% block title %}{{ isNew ? 'Nouvelle entreprise' : 'Modifier l\'entreprise' }} — Espace Personnel — GEII{% endblock %}
+
+{% set activePage = 'entreprises' %}
+{% set breadcrumb = [
+    { label: 'Espace personnel', route: 'app_espace_personnel_index' },
+    { label: 'Entreprises', route: 'app_espace_personnel_entreprises' },
+    { label: isNew ? 'Nouvelle' : entreprise.nom },
+] %}
+
+{% block page_content %}
+    {{ include('espace/personnel/_form-layout.html.twig', {
+        form: form,
+        icon: 'bi-buildings',
+        variant: 'entreprises',
+        resourceLabel: 'entreprise',
+        isNew: isNew,
+        cancelRoute: 'app_espace_personnel_entreprises',
+    }) }}
+{% endblock %}

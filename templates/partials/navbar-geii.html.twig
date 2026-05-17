@@ -78,9 +78,16 @@
                 {# Connexion — bouton outline jaune #}
                 <li class="nav-item ms-lg-3 d-grid d-lg-block">
                     {% if app.user %}
+                        {# Route le bouton « Mon compte » vers l'espace correspondant au rôle le plus élevé. #}
+                        {% set accountRoute = 'app_espaces_test' %}
+                        {% if is_granted('ROLE_PERSONNEL') %}
+                            {% set accountRoute = 'app_espace_personnel_index' %}
+                        {% elseif is_granted('ROLE_ETUDIANT') %}
+                            {% set accountRoute = 'app_espace_etudiant_index' %}
+                        {% endif %}
                         <a class="btn btn-sm btn-connexion fw-semibold px-3 py-1 w-100 w-lg-auto"
-                           href="{{ path('app_espaces_test') }}"
-                           aria-label="Accéder à l'espace">
+                           href="{{ path(accountRoute) }}"
+                           aria-label="Accéder à mon espace">
                             <i class="bi bi-person-circle me-1" aria-hidden="true"></i>
                             Mon compte
                         </a>

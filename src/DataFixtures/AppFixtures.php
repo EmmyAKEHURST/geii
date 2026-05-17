@@ -59,18 +59,19 @@ class AppFixtures extends Fixture
      */
     private function addStudentAccount(ObjectManager $manager): void
     {
-        $etudiant = (new Etudiant())
-            ->setNumEtudiant("E0123456789")
-            ->setNom("John")
-            ->setPrenom("Doe")
-            ->setAnnee(2026)
-        ;
-
         $user = (new Compte())
             ->setEmail("john@doe.fr")
             ->setPassword("JohnDoe@1")
             ->setIsVerified(true)
             ->setRoles(["ROLE_ETUDIANT"])
+        ;
+
+        $etudiant = (new Etudiant())
+            ->setNumEtudiant("E0123456789")
+            ->setNom("John")
+            ->setPrenom("Doe")
+            ->setAnnee(2026)
+            ->setCompte($user)
         ;
 
         $manager->persist($user);

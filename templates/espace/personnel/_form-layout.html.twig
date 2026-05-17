@@ -1,0 +1,47 @@
+{#
+    Layout générique d'un formulaire CRUD pour l'Espace Personnel.
+
+    Inclus par chaque template `xxx_form.html.twig` (new + edit) afin d'éviter
+    la duplication. Chaque page wrapper se contente de définir le breadcrumb,
+    le titre, la variante d'icône et de passer ici la variable `form`.
+
+    Paramètres attendus :
+        • form          (FormView)    — le formulaire à rendre
+        • icon          (string)      — classe Bootstrap Icons (ex : 'bi-shield-lock')
+        • variant       (string)      — variante de couleur .page-icon--{variant}
+        • resourceLabel (string)      — libellé singulier (ex : 'compte')
+        • isNew         (bool)        — true en création, false en édition
+        • cancelRoute   (string)      — nom de la route de retour à la liste
+        • cancelParams  (array, opt.) — paramètres éventuels pour la route retour
+#}
+{{ include('espace/personnel/_page-header.html.twig', {
+    icon: icon,
+    variant: variant,
+    title: (isNew ? 'Nouveau ' : 'Modifier ') ~ resourceLabel,
+    subtitle: isNew
+        ? 'Renseignez les informations puis enregistrez.'
+        : 'Mettez à jour les informations puis enregistrez.',
+}) }}
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="border rounded-3 p-4">
+            {{ form_start(form, { attr: { novalidate: 'novalidate', class: 'd-flex flex-column gap-3' } }) }}
+
+                {{ form_errors(form) }}
+                {{ form_rest(form) }}
+
+                <div class="d-flex gap-2 pt-2 border-top">
+                    <button type="submit" class="btn btn-warning fw-semibold">
+                        <i class="bi bi-check-lg me-1"></i>
+                        {{ isNew ? 'Créer' : 'Enregistrer' }}
+                    </button>
+                    <a href="{{ path(cancelRoute, cancelParams ?? {}) }}" class="btn btn-outline-secondary">
+                        Annuler
+                    </a>
+                </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>

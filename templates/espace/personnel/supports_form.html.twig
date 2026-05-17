@@ -1,0 +1,21 @@
+{% extends 'layouts/espace-personnel.html.twig' %}
+
+{% block title %}{{ isNew ? 'Nouveau support' : 'Modifier le support' }} — Espace Personnel — GEII{% endblock %}
+
+{% set activePage = 'supports' %}
+{% set breadcrumb = [
+    { label: 'Espace personnel', route: 'app_espace_personnel_index' },
+    { label: 'Supports de cours', route: 'app_espace_personnel_supports' },
+    { label: isNew ? 'Nouveau' : support.titre },
+] %}
+
+{% block page_content %}
+    {{ include('espace/personnel/_form-layout.html.twig', {
+        form: form,
+        icon: 'bi-file-earmark-pdf',
+        variant: 'supports',
+        resourceLabel: 'support',
+        isNew: isNew,
+        cancelRoute: 'app_espace_personnel_supports',
+    }) }}
+{% endblock %}

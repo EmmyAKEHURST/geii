@@ -1,0 +1,21 @@
+{% extends 'layouts/espace-personnel.html.twig' %}
+
+{% block title %}{{ isNew ? 'Nouvel enseignant' : 'Modifier l\'enseignant' }} — Espace Personnel — GEII{% endblock %}
+
+{% set activePage = 'enseignants' %}
+{% set breadcrumb = [
+    { label: 'Espace personnel', route: 'app_espace_personnel_index' },
+    { label: 'Enseignants', route: 'app_espace_personnel_enseignants' },
+    { label: isNew ? 'Nouveau' : enseignant.nom ~ ' ' ~ enseignant.prenom },
+] %}
+
+{% block page_content %}
+    {{ include('espace/personnel/_form-layout.html.twig', {
+        form: form,
+        icon: 'bi-person-video3',
+        variant: 'enseignants',
+        resourceLabel: 'enseignant',
+        isNew: isNew,
+        cancelRoute: 'app_espace_personnel_enseignants',
+    }) }}
+{% endblock %}

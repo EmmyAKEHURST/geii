@@ -1,0 +1,21 @@
+{% extends 'layouts/espace-personnel.html.twig' %}
+
+{% block title %}{{ isNew ? 'Nouvelle offre' : 'Modifier l\'offre' }} — Espace Personnel — GEII{% endblock %}
+
+{% set activePage = 'alternance' %}
+{% set breadcrumb = [
+    { label: 'Espace personnel', route: 'app_espace_personnel_index' },
+    { label: "Offres d'alternance", route: 'app_espace_personnel_offres_alternance' },
+    { label: isNew ? 'Nouvelle' : offer.titre },
+] %}
+
+{% block page_content %}
+    {{ include('espace/personnel/_form-layout.html.twig', {
+        form: form,
+        icon: 'bi-briefcase',
+        variant: 'alternance',
+        resourceLabel: "offre d'alternance",
+        isNew: isNew,
+        cancelRoute: 'app_espace_personnel_offres_alternance',
+    }) }}
+{% endblock %}

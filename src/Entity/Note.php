@@ -17,10 +17,23 @@ class Note
     #[ORM\Column]
     private ?float $valeur = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $matiere = null;
+    /**
+     * Matière concernée par la note.
+     * CASCADE : supprimer une Matière supprime toutes les notes associées.
+     */
+    #[ORM\ManyToOne(inversedBy: 'notes', targetEntity: Matiere::class)]
+    #[ORM\JoinColumn(name: 'matiere_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
+    private ?Matiere $matiere = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    /**
+     * Étudiant concerné par la note.
+     * CASCADE : supprimer un Étudiant supprime toutes ses notes.
+     */
+    #[ORM\ManyToOne(inversedBy: 'notes', targetEntity: Etudiant::class)]
+    #[ORM\JoinColumn(name: 'etudiant_id', referencedColumnName: 'num_etudiant', nullable: true, onDelete: 'CASCADE')]
+    private ?Etudiant $etudiant = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $commentaire = null;
 
     public function getId(): ?int
@@ -40,14 +53,26 @@ class Note
         return $this;
     }
 
-    public function getMatiere(): ?string
+    public function getMatiere(): ?Matiere
     {
         return $this->matiere;
     }
 
-    public function setMatiere(string $matiere): static
+    public function setMatiere(?Matiere $matiere): static
     {
         $this->matiere = $matiere;
+
+        return $this;
+    }
+
+    public function getEtudiant(): ?Etudiant
+    {
+        return $this->etudiant;
+    }
+
+    public function setEtudiant(?Etudiant $etudiant): static
+    {
+        $this->etudiant = $etudiant;
 
         return $this;
     }
@@ -57,7 +82,7 @@ class Note
         return $this->commentaire;
     }
 
-    public function setCommentaire(string $commentaire): static
+    public function setCommentaire(?string $commentaire): static
     {
         $this->commentaire = $commentaire;
 
