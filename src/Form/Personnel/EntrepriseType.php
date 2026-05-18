@@ -16,11 +16,14 @@ class EntrepriseType extends AbstractType
             ->add('nom', TextType::class, ['label' => 'Nom'])
             ->add('siret', TextType::class, ['label' => 'SIRET'])
             ->add('secteur', TextType::class, ['label' => 'Secteur d\'activité'])
-            ->add('adresse', TextType::class, ['label' => 'Adresse']);
+            ->add('adresse', TextType::class, ['label' => 'Adresse'])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => Entreprise::class]);
+        $resolver->setDefaults([
+            'data_class' => Entreprise::class
+        ]);
     }
 }

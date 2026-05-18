@@ -58,6 +58,8 @@ class ProjetTuteureType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => ProjetTuteure::class]);
+        $resolver->setDefaults([
+            'data_class' => ProjetTuteure::class
+        ]);
     }
 }

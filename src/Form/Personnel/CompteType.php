@@ -33,10 +33,10 @@ class CompteType extends AbstractType
             ->add('roles', ChoiceType::class, [
                 'label' => 'Rôles',
                 'choices' => [
-                    'Étudiant'   => 'ROLE_ETUDIANT',
+                    'Étudiant' => 'ROLE_ETUDIANT',
                     'Enseignant' => 'ROLE_ENSEIGNANT',
                     'Entreprise' => 'ROLE_ENTREPRISE',
-                    'Personnel'  => 'ROLE_PERSONNEL',
+                    'Personnel' => 'ROLE_PERSONNEL',
                 ],
                 'multiple' => true,
                 'expanded' => true,
@@ -51,15 +51,25 @@ class CompteType extends AbstractType
                 'mapped' => false,
                 'required' => $options['is_new'],
                 'invalid_message' => 'Les mots de passe ne correspondent pas.',
-                'first_options'  => ['label' => 'Mot de passe', 'attr' => ['autocomplete' => 'new-password']],
-                'second_options' => ['label' => 'Confirmer',    'attr' => ['autocomplete' => 'new-password']],
-                'constraints' => $options['is_new']
-                    ? [new NotBlank(message: 'Veuillez saisir un mot de passe.'), new Length(min: 8, max: 4096, minMessage: 'Au moins {{ limit }} caractères.')]
-                    : [new Length(min: 8, max: 4096, minMessage: 'Au moins {{ limit }} caractères.')],
+                'first_options' => [
+                    'label' => 'Mot de passe',
+                    'attr' => ['autocomplete' => 'new-password']
+                ],
+                'second_options' => [
+                    'label' => 'Confirmer',
+                    'attr' => ['autocomplete' => 'new-password']
+                ],
+                'constraints' => $options['is_new'] ? [
+                    new NotBlank(message: 'Veuillez saisir un mot de passe.'),
+                    new Length(min: 8, max: 4096, minMessage: 'Au moins {{ limit }} caractères.')
+                ] : [
+                    new Length(min: 8, max: 4096, minMessage: 'Au moins {{ limit }} caractères.')
+                ],
                 'help' => $options['is_new']
                     ? 'Choisissez un mot de passe d\'au moins 8 caractères.'
                     : 'Laisser vide pour conserver le mot de passe actuel.',
-            ]);
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -68,6 +78,7 @@ class CompteType extends AbstractType
             'data_class' => Compte::class,
             'is_new' => false,
         ]);
+
         $resolver->setAllowedTypes('is_new', 'bool');
     }
 }

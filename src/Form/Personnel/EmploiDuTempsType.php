@@ -30,11 +30,15 @@ class EmploiDuTempsType extends AbstractType
                 'label' => 'Fin',
                 'widget' => 'single_text',
             ])
-            ->add('salle', TextType::class, ['label' => 'Salle']);
+            ->add('salle', TextType::class, [
+                'label' => 'Salle'
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => EmploiDuTemps::class]);
+        $resolver->setDefaults([
+            'data_class' => EmploiDuTemps::class
+        ]);
     }
 }
