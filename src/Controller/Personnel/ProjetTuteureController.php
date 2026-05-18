@@ -18,25 +18,31 @@ final class ProjetTuteureController extends AbstractController
 {
     use StaffContextTrait;
 
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly ProjetTuteureRepository $repository
+    ) {}
+
     #[Route('', name: 'app_espace_personnel_projets_tuteures', methods: ['GET'])]
-    public function index(ProjetTuteureRepository $repository): Response
+    public function index(): Response
     {
         return $this->render('espace/personnel/projets-tuteures.html.twig', [
             'staff' => $this->getStaffData(),
-            'projects' => $repository->findBy([], ['annee' => 'DESC', 'titre' => 'ASC']),
+            'projects' => $this->repository->findBy([], ['annee' => 'DESC', 'titre' => 'ASC']),
         ]);
     }
 
     #[Route('/new', name: 'app_espace_personnel_projets_tuteures_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $em): Response
+    public function new(Request $request): Response
     {
         $project = new ProjetTuteure();
         $form = $this->createForm(ProjetTuteureType::class, $project);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($project);
-            $em->flush();
+            $this->em->persist($project);
+            $this->em->flush();
+
             $this->addFlash('success', 'Projet créé.');
 
             return $this->redirectToRoute('app_espace_personnel_projets_tuteures');
@@ -51,13 +57,14 @@ final class ProjetTuteureController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_espace_personnel_projets_tuteures_edit', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
-    public function edit(ProjetTuteure $project, Request $request, EntityManagerInterface $em): Response
+    public function edit(ProjetTuteure $project, Request $request): Response
     {
         $form = $this->createForm(ProjetTuteureType::class, $project);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush();
+            $this->em->flush();
+
             $this->addFlash('success', 'Projet mis à jour.');
 
             return $this->redirectToRoute('app_espace_personnel_projets_tuteures');
@@ -72,14 +79,15 @@ final class ProjetTuteureController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_espace_personnel_projets_tuteures_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
-    public function delete(ProjetTuteure $project, Request $request, EntityManagerInterface $em): Response
+    public function delete(ProjetTuteure $project, Request $request): Response
     {
         if (!$this->isCsrfTokenValid('delete-projet-' . $project->getId(), (string) $request->request->get('_token'))) {
             throw $this->createAccessDeniedException('Jeton CSRF invalide.');
         }
 
-        $em->remove($project);
-        $em->flush();
+        $this->em->remove($project);
+        $this->em->flush();
+
         $this->addFlash('success', 'Projet supprimé.');
 
         return $this->redirectToRoute('app_espace_personnel_projets_tuteures');

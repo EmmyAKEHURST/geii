@@ -18,25 +18,31 @@ final class MatiereController extends AbstractController
 {
     use StaffContextTrait;
 
+    public function __construct(
+        private readonly MatiereRepository $repository,
+        private readonly EntityManagerInterface $em
+    ) {}
+
     #[Route('', name: 'app_espace_personnel_matieres', methods: ['GET'])]
-    public function index(MatiereRepository $repository): Response
+    public function index(): Response
     {
         return $this->render('espace/personnel/matieres.html.twig', [
             'staff' => $this->getStaffData(),
-            'subjects' => $repository->findBy([], ['nom' => 'ASC']),
+            'subjects' => $this->repository->findBy([], ['nom' => 'ASC']),
         ]);
     }
 
     #[Route('/new', name: 'app_espace_personnel_matieres_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $em): Response
+    public function new(Request $request): Response
     {
         $matiere = new Matiere();
         $form = $this->createForm(MatiereType::class, $matiere);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($matiere);
-            $em->flush();
+            $this->em->persist($matiere);
+            $this->em->flush();
+
             $this->addFlash('success', 'Matière créée.');
 
             return $this->redirectToRoute('app_espace_personnel_matieres');
@@ -51,13 +57,14 @@ final class MatiereController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_espace_personnel_matieres_edit', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
-    public function edit(Matiere $matiere, Request $request, EntityManagerInterface $em): Response
+    public function edit(Matiere $matiere, Request $request): Response
     {
         $form = $this->createForm(MatiereType::class, $matiere);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush();
+            $this->em->flush();
+
             $this->addFlash('success', 'Matière mise à jour.');
 
             return $this->redirectToRoute('app_espace_personnel_matieres');
@@ -72,14 +79,15 @@ final class MatiereController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_espace_personnel_matieres_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
-    public function delete(Matiere $matiere, Request $request, EntityManagerInterface $em): Response
+    public function delete(Matiere $matiere, Request $request): Response
     {
         if (!$this->isCsrfTokenValid('delete-matiere-' . $matiere->getId(), (string) $request->request->get('_token'))) {
             throw $this->createAccessDeniedException('Jeton CSRF invalide.');
         }
 
-        $em->remove($matiere);
-        $em->flush();
+        $this->em->remove($matiere);
+        $this->em->flush();
+
         $this->addFlash('success', 'Matière supprimée.');
 
         return $this->redirectToRoute('app_espace_personnel_matieres');

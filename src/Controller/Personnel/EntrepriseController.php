@@ -18,25 +18,31 @@ final class EntrepriseController extends AbstractController
 {
     use StaffContextTrait;
 
+    public function __construct(
+        private readonly EntrepriseRepository $repository,
+        private readonly EntityManagerInterface $em,
+    ) {}
+
     #[Route('', name: 'app_espace_personnel_entreprises', methods: ['GET'])]
-    public function index(EntrepriseRepository $repository): Response
+    public function index(): Response
     {
         return $this->render('espace/personnel/entreprises.html.twig', [
             'staff' => $this->getStaffData(),
-            'companies' => $repository->findBy([], ['nom' => 'ASC']),
+            'companies' => $this->repository->findBy([], ['nom' => 'ASC']),
         ]);
     }
 
     #[Route('/new', name: 'app_espace_personnel_entreprises_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $em): Response
+    public function new(Request $request): Response
     {
         $entreprise = new Entreprise();
         $form = $this->createForm(EntrepriseType::class, $entreprise);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($entreprise);
-            $em->flush();
+            $this->em->persist($entreprise);
+            $this->em->flush();
+
             $this->addFlash('success', 'Entreprise créée.');
 
             return $this->redirectToRoute('app_espace_personnel_entreprises');
@@ -51,13 +57,14 @@ final class EntrepriseController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_espace_personnel_entreprises_edit', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
-    public function edit(Entreprise $entreprise, Request $request, EntityManagerInterface $em): Response
+    public function edit(Entreprise $entreprise, Request $request): Response
     {
         $form = $this->createForm(EntrepriseType::class, $entreprise);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush();
+            $this->em->flush();
+
             $this->addFlash('success', 'Entreprise mise à jour.');
 
             return $this->redirectToRoute('app_espace_personnel_entreprises');
@@ -72,14 +79,15 @@ final class EntrepriseController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_espace_personnel_entreprises_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
-    public function delete(Entreprise $entreprise, Request $request, EntityManagerInterface $em): Response
+    public function delete(Entreprise $entreprise, Request $request): Response
     {
         if (!$this->isCsrfTokenValid('delete-entreprise-' . $entreprise->getId(), (string) $request->request->get('_token'))) {
             throw $this->createAccessDeniedException('Jeton CSRF invalide.');
         }
 
-        $em->remove($entreprise);
-        $em->flush();
+        $this->em->remove($entreprise);
+        $this->em->flush();
+
         $this->addFlash('success', 'Entreprise supprimée.');
 
         return $this->redirectToRoute('app_espace_personnel_entreprises');

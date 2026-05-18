@@ -18,17 +18,22 @@ final class PersonnelController extends AbstractController
 {
     use StaffContextTrait;
 
+    public function __construct(
+        private readonly PersonnelRepository $repository,
+        private readonly EntityManagerInterface $em
+    ) {}
+
     #[Route('', name: 'app_espace_personnel_personnels', methods: ['GET'])]
-    public function index(PersonnelRepository $repository): Response
+    public function index(): Response
     {
         return $this->render('espace/personnel/personnels.html.twig', [
             'staff' => $this->getStaffData(),
-            'personnels' => $repository->findBy([], ['nom' => 'ASC', 'prenom' => 'ASC']),
+            'personnels' => $this->repository->findBy([], ['nom' => 'ASC', 'prenom' => 'ASC']),
         ]);
     }
 
     #[Route('/new', name: 'app_espace_personnel_personnels_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $em): Response
+    public function new(Request $request): Response
     {
         $personnel = new Personnel();
         $form = $this->createForm(PersonnelType::class, $personnel, ['current_compte' => null]);
@@ -38,8 +43,10 @@ final class PersonnelController extends AbstractController
             if ($personnel->getCompte() !== null) {
                 $this->addRoleToCompte($personnel->getCompte(), 'ROLE_PERSONNEL');
             }
-            $em->persist($personnel);
-            $em->flush();
+
+            $this->em->persist($personnel);
+            $this->em->flush();
+
             $this->addFlash('success', 'Membre du personnel créé.');
 
             return $this->redirectToRoute('app_espace_personnel_personnels');
@@ -54,7 +61,7 @@ final class PersonnelController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_espace_personnel_personnels_edit', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
-    public function edit(Personnel $personnel, Request $request, EntityManagerInterface $em): Response
+    public function edit(Personnel $personnel, Request $request): Response
     {
         $form = $this->createForm(PersonnelType::class, $personnel, [
             'current_compte' => $personnel->getCompte(),
@@ -65,7 +72,9 @@ final class PersonnelController extends AbstractController
             if ($personnel->getCompte() !== null) {
                 $this->addRoleToCompte($personnel->getCompte(), 'ROLE_PERSONNEL');
             }
-            $em->flush();
+
+            $this->em->flush();
+
             $this->addFlash('success', 'Membre du personnel mis à jour.');
 
             return $this->redirectToRoute('app_espace_personnel_personnels');
@@ -80,14 +89,15 @@ final class PersonnelController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_espace_personnel_personnels_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
-    public function delete(Personnel $personnel, Request $request, EntityManagerInterface $em): Response
+    public function delete(Personnel $personnel, Request $request): Response
     {
         if (!$this->isCsrfTokenValid('delete-personnel-' . $personnel->getId(), (string) $request->request->get('_token'))) {
             throw $this->createAccessDeniedException('Jeton CSRF invalide.');
         }
 
-        $em->remove($personnel);
-        $em->flush();
+        $this->em->remove($personnel);
+        $this->em->flush();
+
         $this->addFlash('success', 'Membre du personnel supprimé.');
 
         return $this->redirectToRoute('app_espace_personnel_personnels');

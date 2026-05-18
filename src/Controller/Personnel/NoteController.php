@@ -18,25 +18,31 @@ final class NoteController extends AbstractController
 {
     use StaffContextTrait;
 
+    public function __construct(
+        private readonly NoteRepository $repository,
+        private readonly EntityManagerInterface $em,
+    ) {}
+
     #[Route('', name: 'app_espace_personnel_notes', methods: ['GET'])]
-    public function index(NoteRepository $repository): Response
+    public function index(): Response
     {
         return $this->render('espace/personnel/notes.html.twig', [
             'staff' => $this->getStaffData(),
-            'grades' => $repository->findBy([], ['id' => 'DESC']),
+            'grades' => $this->repository->findBy([], ['id' => 'DESC']),
         ]);
     }
 
     #[Route('/new', name: 'app_espace_personnel_notes_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $em): Response
+    public function new(Request $request): Response
     {
         $note = new Note();
         $form = $this->createForm(NoteType::class, $note);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($note);
-            $em->flush();
+            $this->em->persist($note);
+            $this->em->flush();
+
             $this->addFlash('success', 'Note enregistrée.');
 
             return $this->redirectToRoute('app_espace_personnel_notes');
@@ -51,13 +57,14 @@ final class NoteController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_espace_personnel_notes_edit', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
-    public function edit(Note $note, Request $request, EntityManagerInterface $em): Response
+    public function edit(Note $note, Request $request): Response
     {
         $form = $this->createForm(NoteType::class, $note);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush();
+            $this->em->flush();
+
             $this->addFlash('success', 'Note mise à jour.');
 
             return $this->redirectToRoute('app_espace_personnel_notes');
@@ -72,14 +79,15 @@ final class NoteController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_espace_personnel_notes_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
-    public function delete(Note $note, Request $request, EntityManagerInterface $em): Response
+    public function delete(Note $note, Request $request): Response
     {
         if (!$this->isCsrfTokenValid('delete-note-' . $note->getId(), (string) $request->request->get('_token'))) {
             throw $this->createAccessDeniedException('Jeton CSRF invalide.');
         }
 
-        $em->remove($note);
-        $em->flush();
+        $this->em->remove($note);
+        $this->em->flush();
+
         $this->addFlash('success', 'Note supprimée.');
 
         return $this->redirectToRoute('app_espace_personnel_notes');

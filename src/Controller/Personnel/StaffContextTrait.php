@@ -3,6 +3,7 @@
 namespace App\Controller\Personnel;
 
 use App\Entity\Compte;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * Trait partagé par tous les contrôleurs CRUD de l'Espace Personnel.
@@ -12,16 +13,18 @@ use App\Entity\Compte;
  *  - addRoleToCompte() : ajout idempotent d'un rôle Symfony à un Compte (utilisé
  *    pour propager automatiquement ROLE_ETUDIANT/ENSEIGNANT/PERSONNEL quand on
  *    rattache un Compte à un profil métier).
+ *
+ * @phpstan-require-extends AbstractController
  */
 trait StaffContextTrait
 {
     /**
-     * @return array{firstName: string, lastName: string, function: string}
+     * @return array<string, string>
      */
     private function getStaffData(): array
     {
         /** @var Compte|null $user */
-        $user = method_exists($this, 'getUser') ? $this->getUser() : null;
+        $user = $this->getUser();
         $email = $user?->getUserIdentifier() ?? 'personnel@geii.fr';
 
         return [
@@ -41,9 +44,11 @@ trait StaffContextTrait
     private function addRoleToCompte(Compte $compte, string $role): void
     {
         $current = array_filter($compte->getRoles(), static fn (string $r): bool => $r !== 'ROLE_USER');
+
         if (in_array($role, $current, true)) {
             return;
         }
+
         $current[] = $role;
         $compte->setRoles(array_values(array_unique($current)));
     }

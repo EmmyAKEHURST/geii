@@ -27,6 +27,17 @@ final class CompteController extends AbstractController
 {
     use StaffContextTrait;
 
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly UserPasswordHasherInterface $hasher
+    ) {}
+
+    /**
+     * Espace personnel qui affiche un ensemble de comptes utilisateurs.
+     *
+     * @param CompteRepository $repository
+     * @return Response
+     */
     #[Route('', name: 'app_espace_personnel_comptes', methods: ['GET'])]
     public function index(CompteRepository $repository): Response
     {
@@ -36,20 +47,28 @@ final class CompteController extends AbstractController
         ]);
     }
 
+    /**
+     * Permet de procéder à la création d'un compte utilisateur.
+     *
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/new', name: 'app_espace_personnel_comptes_new', methods: ['GET', 'POST'])]
-    public function new(
-        Request $request,
-        EntityManagerInterface $em,
-        UserPasswordHasherInterface $hasher,
-    ): Response {
+    public function new(Request $request): Response
+    {
         $compte = new Compte();
+
         $form = $this->createForm(CompteType::class, $compte, ['is_new' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $compte->setPassword($hasher->hashPassword($compte, (string) $form->get('plainPassword')->getData()));
-            $em->persist($compte);
-            $em->flush();
+            /** @var string $plain */
+            $plain = $form->get('plainPassword')->getData();
+
+            $compte->setPassword($this->hasher->hashPassword($compte, $plain));
+
+            $this->em->persist($compte);
+            $this->em->flush();
 
             $this->addFlash('success', 'Compte créé avec succès.');
 
@@ -64,22 +83,29 @@ final class CompteController extends AbstractController
         ]);
     }
 
+    /**
+     * Permet de procéder à la modification d'un compte utilisateur.
+     *
+     * @param Compte $compte
+     * @param Request $request
+     *
+     * @return Response
+     */
     #[Route('/{id}/edit', name: 'app_espace_personnel_comptes_edit', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
-    public function edit(
-        Compte $compte,
-        Request $request,
-        EntityManagerInterface $em,
-        UserPasswordHasherInterface $hasher,
-    ): Response {
+    public function edit(Compte $compte, Request $request): Response
+    {
         $form = $this->createForm(CompteType::class, $compte);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $plain = (string) $form->get('plainPassword')->getData();
+            /** @var string $plain */
+            $plain = $form->get('plainPassword')->getData();
+
             if ($plain !== '') {
-                $compte->setPassword($hasher->hashPassword($compte, $plain));
+                $compte->setPassword($this->hasher->hashPassword($compte, $plain));
             }
-            $em->flush();
+
+            $this->em->flush();
 
             $this->addFlash('success', 'Compte mis à jour.');
 
@@ -94,8 +120,16 @@ final class CompteController extends AbstractController
         ]);
     }
 
+    /**
+     * Permet de procéder à la suppression d'un compte utilisateur.
+     *
+     * @param Compte $compte
+     * @param Request $request
+     *
+     * @return Response
+     */
     #[Route('/{id}/delete', name: 'app_espace_personnel_comptes_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
-    public function delete(Compte $compte, Request $request, EntityManagerInterface $em): Response
+    public function delete(Compte $compte, Request $request): Response
     {
         if (!$this->isCsrfTokenValid('delete-compte-' . $compte->getId(), (string) $request->request->get('_token'))) {
             throw $this->createAccessDeniedException('Jeton CSRF invalide.');
@@ -107,8 +141,8 @@ final class CompteController extends AbstractController
             return $this->redirectToRoute('app_espace_personnel_comptes');
         }
 
-        $em->remove($compte);
-        $em->flush();
+        $this->em->remove($compte);
+        $this->em->flush();
 
         $this->addFlash('success', 'Compte supprimé.');
 
