@@ -6,28 +6,28 @@ use App\Entity\Compte;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 /**
  * Provides helper methods to send and validate signed email verification links.
  */
-class EmailVerifier
+readonly class EmailVerifier
 {
     /**
      * Injects required services for signature generation, email sending, and persistence.
      */
     public function __construct(
         private VerifyEmailHelperInterface $verifyEmailHelper,
-        private MailerInterface $mailer,
-        private EntityManagerInterface $entityManager,
-    )
-    {
-        // ...
-    }
+        private MailerInterface            $mailer,
+        private EntityManagerInterface     $entityManager,
+    ) {}
 
     /**
      * Generates a signed verification URL, injects it into the email context, and sends the message.
+     *
+     * @throws TransportExceptionInterface
      */
     public function sendEmailConfirmation(string $verifyEmailRouteName, Compte $user, TemplatedEmail $email): void
     {
