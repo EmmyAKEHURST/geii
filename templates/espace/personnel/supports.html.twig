@@ -55,7 +55,11 @@
                         </td>
                     </tr>
                 {% else %}
-                    <tr><td colspan="4" class="px-4 py-5 text-center text-meta">Aucun support. <a href="{{ path('app_espace_personnel_supports_new') }}">Déposer le premier</a>.</td></tr>
+                    <tr>
+                        <td colspan="4" class="px-4 py-5 text-center text-meta">
+                            Aucun support. <a href="{{ path('app_espace_personnel_supports_new') }}">Déposer le premier</a>.
+                        </td>
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>

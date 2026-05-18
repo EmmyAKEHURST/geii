@@ -1,6 +1,8 @@
 {% extends 'layouts/espace-personnel.html.twig' %}
 
-{% block title %}{{ isNew ? 'Nouveau compte' : 'Modifier le compte' }} — Espace Personnel — GEII{% endblock %}
+{% block title %}
+    {{ isNew ? 'Nouveau compte' : 'Modifier le compte' }} — Espace Personnel — GEII
+{% endblock %}
 
 {% set activePage = 'comptes' %}
 {% set breadcrumb = [

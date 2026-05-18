@@ -1,6 +1,8 @@
 {% extends 'layouts/espace-personnel.html.twig' %}
 
-{% block title %}{{ isNew ? 'Nouvelle entreprise' : 'Modifier l\'entreprise' }} — Espace Personnel — GEII{% endblock %}
+{% block title %}
+    {{ isNew ? 'Nouvelle entreprise' : 'Modifier l\'entreprise' }} — Espace Personnel — GEII
+{% endblock %}
 
 {% set activePage = 'entreprises' %}
 {% set breadcrumb = [
