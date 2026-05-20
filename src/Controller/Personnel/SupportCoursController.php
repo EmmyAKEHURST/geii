@@ -41,6 +41,13 @@ final class SupportCoursController extends AbstractController
         private readonly SupportCoursRepository $repository,
     ) {}
 
+    /**
+     * Affiche la liste complète des supports de cours.
+     *
+     * @description Cette liste est triée par date de dépôt en ordre décroissant.
+     *
+     * @return Response La page HTML de la liste des supports
+     */
     #[Route('', name: 'app_espace_personnel_supports', methods: ['GET'])]
     public function index(): Response
     {
@@ -50,6 +57,16 @@ final class SupportCoursController extends AbstractController
         ]);
     }
 
+    /**
+     * Crée et dépose un nouveau support de cours.
+     *
+     * @description Affiche le formulaire de création en GET et traite la soumission en POST.
+     * Le fichier PDF est stocké de manière sécurisée hors du document root.
+     *
+     * @param Request $request La requête HTTP
+     * @param SluggerInterface $slugger Service pour générer des slugs sécurisés
+     * @return Response La page HTML du formulaire ou redirection après création
+     */
     #[Route('/new', name: 'app_espace_personnel_supports_new', methods: ['GET', 'POST'])]
     public function new(Request $request, SluggerInterface $slugger): Response
     {
@@ -81,6 +98,17 @@ final class SupportCoursController extends AbstractController
         ]);
     }
 
+    /**
+     * Modifie un support de cours existant.
+     *
+     * @description Affiche le formulaire d'édition en GET et traite la soumission en POST.
+     * Un nouveau fichier peut optionnellement être fourni pour remplacer l'ancien.
+     *
+     * @param SupportCours $support Le support à modifier
+     * @param Request $request La requête HTTP
+     * @param SluggerInterface $slugger Service pour générer des slugs sécurisés
+     * @return Response La page HTML du formulaire ou redirection après modification
+     */
     #[Route('/{id}/edit', name: 'app_espace_personnel_supports_edit', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
     public function edit(SupportCours $support, Request $request, SluggerInterface $slugger): Response
     {
@@ -110,10 +138,23 @@ final class SupportCoursController extends AbstractController
         ]);
     }
 
+    /**
+     * Supprime un support de cours et son fichier associé.
+     *
+     * @description Nécessite un token CSRF valide pour la validation du formulaire.
+     * Le fichier stocké est supprimé du disque.
+     *
+     * @param SupportCours $support Le support à supprimer
+     * @param Request $request La requête HTTP
+     * @return Response Redirection vers la liste des supports
+     */
     #[Route('/{id}/delete', name: 'app_espace_personnel_supports_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
     public function delete(SupportCours $support, Request $request): Response
     {
-        if (!$this->isCsrfTokenValid('delete-support-' . $support->getId(), (string) $request->request->get('_token'))) {
+        /** @var string $csrfToken */
+        $csrfToken = $request->request->get('_token');
+
+        if (!$this->isCsrfTokenValid('delete-support-' . $support->getId(), $csrfToken)) {
             throw $this->createAccessDeniedException('Jeton CSRF invalide.');
         }
 
@@ -127,6 +168,14 @@ final class SupportCoursController extends AbstractController
         return $this->redirectToRoute('app_espace_personnel_supports');
     }
 
+    /**
+     * Télécharge un support de cours en tant que pièce jointe.
+     *
+     * @description Vérifie que le fichier existe avant de le servir.
+     *
+     * @param SupportCours $support Le support à télécharger
+     * @return BinaryFileResponse La réponse binaire du fichier
+     */
     #[Route('/{id}/download', name: 'app_espace_personnel_supports_download', methods: ['GET'], requirements: ['id' => '\d+'])]
     public function download(SupportCours $support): BinaryFileResponse
     {
@@ -145,6 +194,16 @@ final class SupportCoursController extends AbstractController
         return $response;
     }
 
+    /**
+     * Stocke un fichier uploadé dans le système de fichiers.
+     *
+     * @description Génère un nom unique en utilisant un slug du nom original et un identifiant unique.
+     * Crée le répertoire de destination s'il n'existe pas avec les permissions appropriées.
+     *
+     * @param UploadedFile $file
+     * @param SluggerInterface $slugger
+     * @return string Le nom du fichier stocké
+     */
     private function storeFile(UploadedFile $file, SluggerInterface $slugger): string
     {
         $original = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -162,6 +221,15 @@ final class SupportCoursController extends AbstractController
         return $newName;
     }
 
+    /**
+     * Supprime un fichier du système de fichiers s'il existe.
+     *
+     * @description Effectue une suppression silencieuse si le chemin fourni est null ou vide.
+     * Ignore les erreurs de suppression si le fichier a déjà été supprimé.
+     *
+     * @param string|null $relativePath Chemin relatif du fichier à supprimer
+     * @return void
+     */
     private function deleteFileIfExists(?string $relativePath): void
     {
         if ($relativePath === null || $relativePath === '') {
@@ -175,6 +243,14 @@ final class SupportCoursController extends AbstractController
         }
     }
 
+    /**
+     * Récupère le chemin absolu du répertoire de stockage des fichiers uploadés.
+     *
+     * @description Construit le chemin en combinant le répertoire du projet (kernel.project_dir),
+     * le répertoire var, et le répertoire relatif configuré (share/supports).
+     *
+     * @return string Le chemin absolu du répertoire de stockage
+     */
     private function getUploadAbsoluteDir(): string
     {
         /** @var string $path */

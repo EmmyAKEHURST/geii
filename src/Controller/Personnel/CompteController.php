@@ -33,10 +33,12 @@ final class CompteController extends AbstractController
     ) {}
 
     /**
-     * Espace personnel qui affiche un ensemble de comptes utilisateurs.
+     * Affiche la liste complète des comptes utilisateurs.
      *
-     * @param CompteRepository $repository
-     * @return Response
+     * @description Cette liste est triée par adresse e-mail en ordre croissant.
+     *
+     * @param CompteRepository $repository Repository pour accéder aux comptes
+     * @return Response La page HTML de la liste des comptes
      */
     #[Route('', name: 'app_espace_personnel_comptes', methods: ['GET'])]
     public function index(CompteRepository $repository): Response
@@ -48,10 +50,13 @@ final class CompteController extends AbstractController
     }
 
     /**
-     * Permet de procéder à la création d'un compte utilisateur.
+     * Crée un nouveau compte utilisateur.
      *
-     * @param Request $request
-     * @return Response
+     * @description Affiche le formulaire de création en GET et traite la soumission en POST.
+     * Le mot de passe est hashé via `UserPasswordHasherInterface`.
+     *
+     * @param Request $request La requête HTTP
+     * @return Response La page HTML du formulaire ou redirection après création
      */
     #[Route('/new', name: 'app_espace_personnel_comptes_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
@@ -84,12 +89,16 @@ final class CompteController extends AbstractController
     }
 
     /**
-     * Permet de procéder à la modification d'un compte utilisateur.
+     * Modifie un compte utilisateur existant.
      *
-     * @param Compte $compte
-     * @param Request $request
+     * @description Affiche le formulaire d'édition en GET et traite la soumission en POST.
+     * Le mot de passe n'est mis à jour que s'il est modifié. Un Personnel connecté
+     * ne peut pas modifier ses propres rôles.
      *
-     * @return Response
+     * @param Compte $compte Le compte à modifier
+     * @param Request $request La requête HTTP
+     *
+     * @return Response La page HTML du formulaire ou redirection après modification
      */
     #[Route('/{id}/edit', name: 'app_espace_personnel_comptes_edit', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
     public function edit(Compte $compte, Request $request): Response
@@ -121,17 +130,23 @@ final class CompteController extends AbstractController
     }
 
     /**
-     * Permet de procéder à la suppression d'un compte utilisateur.
+     * Supprime un compte utilisateur.
      *
-     * @param Compte $compte
-     * @param Request $request
+     * @description Nécessite un token CSRF valide. Un Personnel connecté ne peut pas
+     * supprimer son propre compte.
      *
-     * @return Response
+     * @param Compte $compte Le compte à supprimer
+     * @param Request $request La requête HTTP
+     *
+     * @return Response Redirection vers la liste des comptes
      */
     #[Route('/{id}/delete', name: 'app_espace_personnel_comptes_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
     public function delete(Compte $compte, Request $request): Response
     {
-        if (!$this->isCsrfTokenValid('delete-compte-' . $compte->getId(), (string) $request->request->get('_token'))) {
+        /** @var string $csrfToken */
+        $csrfToken = $request->request->get('_token');
+
+        if (!$this->isCsrfTokenValid('delete-compte-' . $compte->getId(), $csrfToken)) {
             throw $this->createAccessDeniedException('Jeton CSRF invalide.');
         }
 

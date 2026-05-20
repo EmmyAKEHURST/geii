@@ -12,6 +12,11 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+/**
+ * Gestion des enseignants de l'établissement.
+ *
+ * Permet d'afficher, créer, modifier et supprimer les enseignants.
+ */
 #[Route('/espace/personnel/enseignants')]
 #[IsGranted('ROLE_PERSONNEL')]
 final class EnseignantController extends AbstractController
@@ -23,6 +28,13 @@ final class EnseignantController extends AbstractController
         private readonly EntityManagerInterface $em
     ) {}
 
+    /**
+     * Affiche la liste complète des enseignants.
+     *
+     * @description Cette liste est triée par nom et prénom en ordre croissant.
+     *
+     * @return Response La page HTML de la liste des enseignants
+     */
     #[Route('', name: 'app_espace_personnel_enseignants', methods: ['GET'])]
     public function index(): Response
     {
@@ -32,6 +44,15 @@ final class EnseignantController extends AbstractController
         ]);
     }
 
+    /**
+     * Crée un nouvel enseignant.
+     *
+     * @description Affiche le formulaire de création en GET et traite la soumission en POST.
+     * Si un compte est associé, le rôle ROLE_ENSEIGNANT y est automatiquement ajouté.
+     *
+     * @param Request $request La requête HTTP
+     * @return Response La page HTML du formulaire ou redirection après création
+     */
     #[Route('/new', name: 'app_espace_personnel_enseignants_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
@@ -60,6 +81,16 @@ final class EnseignantController extends AbstractController
         ]);
     }
 
+    /**
+     * Modifie un enseignant existant.
+     *
+     * @description Affiche le formulaire d'édition en GET et traite la soumission en POST.
+     * Si un compte est associé, le rôle ROLE_ENSEIGNANT y est automatiquement ajouté.
+     *
+     * @param Enseignant $enseignant L'enseignant à modifier
+     * @param Request $request La requête HTTP
+     * @return Response La page HTML du formulaire ou redirection après modification
+     */
     #[Route('/{id}/edit', name: 'app_espace_personnel_enseignants_edit', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
     public function edit(Enseignant $enseignant, Request $request): Response
     {
@@ -89,10 +120,22 @@ final class EnseignantController extends AbstractController
         ]);
     }
 
+    /**
+     * Supprime un enseignant.
+     *
+     * @description Nécessite un token CSRF valide pour la validation du formulaire.
+     *
+     * @param Enseignant $enseignant L'enseignant à supprimer
+     * @param Request $request La requête HTTP
+     * @return Response Redirection vers la liste des enseignants
+     */
     #[Route('/{id}/delete', name: 'app_espace_personnel_enseignants_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
     public function delete(Enseignant $enseignant, Request $request): Response
     {
-        if (!$this->isCsrfTokenValid('delete-enseignant-' . $enseignant->getId(), (string) $request->request->get('_token'))) {
+        /** @var string $csrfToken */
+        $csrfToken = $request->request->get('_token');
+
+        if (!$this->isCsrfTokenValid('delete-enseignant-' . $enseignant->getId(), $csrfToken)) {
             throw $this->createAccessDeniedException('Jeton CSRF invalide.');
         }
 

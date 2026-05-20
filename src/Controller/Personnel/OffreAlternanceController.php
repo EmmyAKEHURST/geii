@@ -12,6 +12,11 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+/**
+ * Gestion des offres d'alternance proposées par les entreprises partenaires.
+ *
+ * Permet d'afficher, créer, modifier et supprimer les offres d'alternance.
+ */
 #[Route('/espace/personnel/offres-alternance')]
 #[IsGranted('ROLE_PERSONNEL')]
 final class OffreAlternanceController extends AbstractController
@@ -23,6 +28,13 @@ final class OffreAlternanceController extends AbstractController
         private readonly EntityManagerInterface $em
     ) {}
 
+    /**
+     * Affiche la liste complète des offres d'alternance.
+     *
+     * @description Cette liste est triée par ID en ordre décroissant (les plus récentes en premier).
+     *
+     * @return Response La page HTML de la liste des offres
+     */
     #[Route('', name: 'app_espace_personnel_offres_alternance', methods: ['GET'])]
     public function index(): Response
     {
@@ -32,6 +44,14 @@ final class OffreAlternanceController extends AbstractController
         ]);
     }
 
+    /**
+     * Crée et publie une nouvelle offre d'alternance.
+     *
+     * @description Affiche le formulaire de création en GET et traite la soumission en POST.
+     *
+     * @param Request $request La requête HTTP
+     * @return Response La page HTML du formulaire ou redirection après création
+     */
     #[Route('/new', name: 'app_espace_personnel_offres_alternance_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
@@ -56,6 +76,15 @@ final class OffreAlternanceController extends AbstractController
         ]);
     }
 
+    /**
+     * Modifie une offre d'alternance existante.
+     *
+     * @description Affiche le formulaire d'édition en GET et traite la soumission en POST.
+     *
+     * @param OffreAlternance $offer L'offre à modifier
+     * @param Request $request La requête HTTP
+     * @return Response La page HTML du formulaire ou redirection après modification
+     */
     #[Route('/{id}/edit', name: 'app_espace_personnel_offres_alternance_edit', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
     public function edit(OffreAlternance $offer, Request $request): Response
     {
@@ -78,10 +107,22 @@ final class OffreAlternanceController extends AbstractController
         ]);
     }
 
+    /**
+     * Supprime une offre d'alternance.
+     *
+     * @description Nécessite un token CSRF valide pour la validation du formulaire.
+     *
+     * @param OffreAlternance $offer L'offre à supprimer
+     * @param Request $request La requête HTTP
+     * @return Response Redirection vers la liste des offres
+     */
     #[Route('/{id}/delete', name: 'app_espace_personnel_offres_alternance_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
     public function delete(OffreAlternance $offer, Request $request): Response
     {
-        if (!$this->isCsrfTokenValid('delete-offre-' . $offer->getId(), (string) $request->request->get('_token'))) {
+        /** @var string $csrfToken */
+        $csrfToken = $request->request->get('_token');
+
+        if (!$this->isCsrfTokenValid('delete-offre-' . $offer->getId(), $csrfToken)) {
             throw $this->createAccessDeniedException('Jeton CSRF invalide.');
         }
 

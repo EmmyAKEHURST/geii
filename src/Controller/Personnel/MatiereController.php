@@ -12,6 +12,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+/**
+ * Gestion des matières/disciplines enseignées.
+ *
+ * Permet d'afficher, créer, modifier et supprimer les matières de l'établissement.
+ */
 #[Route('/espace/personnel/matieres')]
 #[IsGranted('ROLE_PERSONNEL')]
 final class MatiereController extends AbstractController
@@ -23,6 +28,13 @@ final class MatiereController extends AbstractController
         private readonly EntityManagerInterface $em
     ) {}
 
+    /**
+     * Affiche la liste complète des matières.
+     *
+     * @description Cette liste est triée par nom en ordre croissant.
+     *
+     * @return Response La page HTML de la liste des matières
+     */
     #[Route('', name: 'app_espace_personnel_matieres', methods: ['GET'])]
     public function index(): Response
     {
@@ -32,6 +44,14 @@ final class MatiereController extends AbstractController
         ]);
     }
 
+    /**
+     * Crée une nouvelle matière.
+     *
+     * @description Affiche le formulaire de création en GET et traite la soumission en POST.
+     *
+     * @param Request $request La requête HTTP
+     * @return Response La page HTML du formulaire ou redirection après création
+     */
     #[Route('/new', name: 'app_espace_personnel_matieres_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
@@ -56,6 +76,15 @@ final class MatiereController extends AbstractController
         ]);
     }
 
+    /**
+     * Modifie une matière existante.
+     *
+     * @description Affiche le formulaire d'édition en GET et traite la soumission en POST.
+     *
+     * @param Matiere $matiere La matière à modifier
+     * @param Request $request La requête HTTP
+     * @return Response La page HTML du formulaire ou redirection après modification
+     */
     #[Route('/{id}/edit', name: 'app_espace_personnel_matieres_edit', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
     public function edit(Matiere $matiere, Request $request): Response
     {
@@ -78,10 +107,22 @@ final class MatiereController extends AbstractController
         ]);
     }
 
+    /**
+     * Supprime une matière.
+     *
+     * @description Nécessite un token CSRF valide pour la validation du formulaire.
+     *
+     * @param Matiere $matiere La matière à supprimer
+     * @param Request $request La requête HTTP
+     * @return Response Redirection vers la liste des matières
+     */
     #[Route('/{id}/delete', name: 'app_espace_personnel_matieres_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
     public function delete(Matiere $matiere, Request $request): Response
     {
-        if (!$this->isCsrfTokenValid('delete-matiere-' . $matiere->getId(), (string) $request->request->get('_token'))) {
+        /** @var string $csrfToken */
+        $csrfToken = $request->request->get('_token');
+
+        if (!$this->isCsrfTokenValid('delete-matiere-' . $matiere->getId(), $csrfToken)) {
             throw $this->createAccessDeniedException('Jeton CSRF invalide.');
         }
 
