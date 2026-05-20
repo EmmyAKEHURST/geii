@@ -66,6 +66,7 @@
     {% set s = raw|lower %}
     {% set label = raw|capitalize %}
     {% set cls = 'status-badge--neutral' %}
+
     {% if s in ['active', 'en_cours', 'en cours', 'ouvert', 'actif'] %}
         {% set cls = 'status-badge--success' %}
     {% elseif s in ['pourvue', 'termine', 'terminé', 'validé'] %}
@@ -75,9 +76,17 @@
     {% elseif s in ['en attente', 'brouillon'] %}
         {% set cls = 'status-badge--warning' %}
     {% endif %}
-    {% if s == 'en_cours' %}{% set label = 'En cours' %}{% endif %}
-    {% if s == 'expiree' %}{% set label = 'Expirée' %}{% endif %}
-    {% if s == 'termine' %}{% set label = 'Terminé' %}{% endif %}
+
+    {% if s == 'en_cours' %}
+        {% set label = 'En cours' %}
+    {% endif %}
+    {% if s == 'expiree' %}
+        {% set label = 'Expirée' %}
+    {% endif %}
+    {% if s == 'termine' %}
+        {% set label = 'Terminé' %}
+    {% endif %}
+
     <span class="status-badge rounded-pill px-3 py-1 fw-medium {{ cls }}">
         <i class="bi bi-circle-fill me-1" style="font-size:.45rem;vertical-align:middle;"></i>
         {{ label }}

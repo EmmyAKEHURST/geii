@@ -1,6 +1,8 @@
 {% extends 'layouts/espace-personnel.html.twig' %}
 
-{% block title %}{{ isNew ? 'Nouveau support' : 'Modifier le support' }} — Espace Personnel — GEII{% endblock %}
+{% block title %}
+    {{ isNew ? 'Nouveau support' : 'Modifier le support' }} — Espace Personnel — GEII
+{% endblock %}
 
 {% set activePage = 'supports' %}
 {% set breadcrumb = [

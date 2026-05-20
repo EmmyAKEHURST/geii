@@ -7,22 +7,51 @@
         • Pédagogie                              — comme l'enseignant
         • Insertion professionnelle             — comme l'entreprise
 #}
+
 {% set navSections = [
     {
         label: null,
         items: [
-            { route: 'app_espace_personnel_index', page: 'accueil', label: 'Tableau de bord', icon: 'bi-speedometer2' },
+            {
+                route: 'app_espace_personnel_index',
+                page: 'accueil',
+                label: 'Tableau de bord',
+                icon: 'bi-speedometer2'
+            },
         ]
     },
     {
         label: 'Administration',
         items: [
-            { route: 'app_espace_personnel_comptes',     page: 'comptes',     label: 'Comptes & rôles', icon: 'bi-shield-lock' },
-            { route: 'app_espace_personnel_etudiants',   page: 'etudiants',   label: 'Étudiants',       icon: 'bi-mortarboard' },
-            { route: 'app_espace_personnel_enseignants', page: 'enseignants', label: 'Enseignants',     icon: 'bi-person-video3' },
-            { route: 'app_espace_personnel_personnels',  page: 'personnels',  label: 'Personnel',       icon: 'bi-person-badge' },
-            { route: 'app_espace_personnel_entreprises', page: 'entreprises', label: 'Entreprises',     icon: 'bi-buildings' },
-            { route: 'app_espace_personnel_matieres',    page: 'matieres',    label: 'Matières',        icon: 'bi-bookmark-star' },
+            {
+                route: 'app_espace_personnel_comptes',
+                page: 'comptes',
+                label: 'Comptes & rôles',
+                icon: 'bi-shield-lock'
+            }, {
+                route: 'app_espace_personnel_etudiants',
+                page: 'etudiants',
+                label: 'Étudiants',
+                icon: 'bi-mortarboard'
+            },
+        {
+                route: 'app_espace_personnel_enseignants',
+                page: 'enseignants',
+                label: 'Enseignants',
+                icon: 'bi-person-video3'
+            }, {
+                route: 'app_espace_personnel_personnels',
+                page: 'personnels',
+                label: 'Personnel',
+                icon: 'bi-person-badge' },
+            { route: 'app_espace_personnel_entreprises',
+                page: 'entreprises',
+                label: 'Entreprises',
+                icon: 'bi-buildings' },
+            { route: 'app_espace_personnel_matieres',
+                page: 'matieres',
+                label: 'Matières',
+                icon: 'bi-bookmark-star' },
         ]
     },
     {

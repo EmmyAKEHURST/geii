@@ -1,6 +1,8 @@
 {% extends 'layouts/espace-personnel.html.twig' %}
 
-{% block title %}{{ isNew ? 'Nouvel enseignant' : 'Modifier l\'enseignant' }} — Espace Personnel — GEII{% endblock %}
+{% block title %}
+    {{ isNew ? 'Nouvel enseignant' : 'Modifier l\'enseignant' }} — Espace Personnel — GEII
+{% endblock %}
 
 {% set activePage = 'enseignants' %}
 {% set breadcrumb = [

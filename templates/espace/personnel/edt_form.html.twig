@@ -1,6 +1,8 @@
 {% extends 'layouts/espace-personnel.html.twig' %}
 
-{% block title %}{{ isNew ? 'Nouveau créneau' : 'Modifier le créneau' }} — Espace Personnel — GEII{% endblock %}
+{% block title %}
+    {{ isNew ? 'Nouveau créneau' : 'Modifier le créneau' }} — Espace Personnel — GEII
+{% endblock %}
 
 {% set activePage = 'edt' %}
 {% set breadcrumb = [

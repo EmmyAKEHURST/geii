@@ -49,6 +49,7 @@ class SupportCoursType extends AbstractType
             'data_class' => SupportCours::class,
             'is_new' => false,
         ]);
+
         $resolver->setAllowedTypes('is_new', 'bool');
     }
 }
