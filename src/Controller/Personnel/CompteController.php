@@ -3,6 +3,7 @@
 namespace App\Controller\Personnel;
 
 use App\Entity\Compte;
+use App\Form\Personnel\ComptePasswordType;
 use App\Form\Personnel\CompteType;
 use App\Repository\CompteRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -117,6 +118,37 @@ final class CompteController extends AbstractController
             'form' => $form,
             'compte' => $compte,
             'isNew' => false,
+        ]);
+    }
+
+    /**
+     * Modifie le mot de passe d'un compte utilisateur.
+     *
+     * @description Affiche un formulaire dédié en GET et applique le hash en POST.
+     * Les règles de complexité sont identiques à la création de compte.
+     */
+    #[Route('/{id}/password', name: 'app_espace_personnel_comptes_password', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
+    public function changePassword(Compte $compte, Request $request): Response
+    {
+        $form = $this->createForm(ComptePasswordType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var string $plain */
+            $plain = $form->get('plainPassword')->getData();
+
+            $compte->setPassword($this->hasher->hashPassword($compte, $plain));
+            $this->em->flush();
+
+            $this->addFlash('success', 'Mot de passe mis à jour.');
+
+            return $this->redirectToRoute('app_espace_personnel_comptes');
+        }
+
+        return $this->render('espace/personnel/comptes_password.html.twig', [
+            'staff' => $this->getStaffData(),
+            'form' => $form,
+            'compte' => $compte,
         ]);
     }
 

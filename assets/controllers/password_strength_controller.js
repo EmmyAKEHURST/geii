@@ -6,6 +6,10 @@ import { Controller } from '@hotwired/stimulus';
 export default class extends Controller {
     static targets = ['input', 'bar', 'text', 'ruleLength', 'ruleDigit', 'ruleUpper', 'ruleLower', 'ruleSpecial'];
 
+    static values = {
+        minLength: { type: Number, default: 13 },
+    };
+
     /**
      * Initializes UI state when the controller is attached to the DOM.
      */
@@ -19,7 +23,7 @@ export default class extends Controller {
     update() {
         const password = this.hasInputTarget ? this.inputTarget.value : '';
         const checks = {
-            length: password.length >= 13,
+            length: password.length >= this.minLengthValue,
             digit: /[0-9]/.test(password),
             upper: /[A-Z]/.test(password),
             lower: /[a-z]/.test(password),

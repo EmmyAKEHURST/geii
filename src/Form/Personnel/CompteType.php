@@ -11,8 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
+use App\Validator\ComptePasswordConstraints;
 
 /**
  * Formulaire de gestion d'un Compte par le Personnel.
@@ -62,11 +61,7 @@ class CompteType extends AbstractType
                     'label' => 'Confirmer',
                     'attr' => ['autocomplete' => 'new-password'],
                 ],
-                'constraints' => [
-                    new NotBlank(message: 'Veuillez saisir un mot de passe.'),
-                    new Length(min: 8, max: 4096, minMessage: 'Au moins {{ limit }} caractères.'),
-                ],
-                'help' => 'Choisissez un mot de passe d\'au moins 8 caractères.',
+                'constraints' => ComptePasswordConstraints::rules(),
             ]);
         }
     }

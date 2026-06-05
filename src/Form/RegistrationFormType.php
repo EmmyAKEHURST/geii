@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Compte;
+use App\Validator\ComptePasswordConstraints;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -10,9 +11,6 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Regex;
 
 class RegistrationFormType extends AbstractType
 {
@@ -47,33 +45,7 @@ class RegistrationFormType extends AbstractType
                         'autocomplete' => 'new-password',
                     ],
                 ],
-                'constraints' => [
-                    new NotBlank(
-                        message: 'Veuillez saisir un mot de passe.',
-                    ),
-                    new Length(
-                        min: 13,
-                        max: 4096,
-                        // max length allowed by Symfony for security reasons
-                        minMessage: 'Le mot de passe doit contenir au moins {{ limit }} caractères.',
-                    ),
-                    new Regex(
-                        pattern: '/[0-9]/',
-                        message: 'Le mot de passe doit contenir au moins un chiffre.',
-                    ),
-                    new Regex(
-                        pattern: '/[A-Z]/',
-                        message: 'Le mot de passe doit contenir au moins une lettre majuscule.',
-                    ),
-                    new Regex(
-                        pattern: '/[a-z]/',
-                        message: 'Le mot de passe doit contenir au moins une lettre minuscule.',
-                    ),
-                    new Regex(
-                        pattern: '/[^A-Za-z0-9]/',
-                        message: 'Le mot de passe doit contenir au moins un caractère spécial.',
-                    ),
-                ],
+                'constraints' => ComptePasswordConstraints::rules(),
             ])
         ;
     }

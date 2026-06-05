@@ -38,10 +38,17 @@
         • deleteRoute   : nom de la route de suppression
         • routeParams   : paramètres communs aux deux routes (ex : { id: 12 })
         • csrfTokenId   : id du token CSRF (ex : 'delete-compte-12')
-        • confirmText   : message de la confirmation JS
+        • confirmText     : message de la confirmation JS
+        • passwordRoute   : (optionnel) nom de la route de changement de mot de passe
 #}
-{% macro rowActions(editRoute, deleteRoute, routeParams, csrfTokenId, confirmText = 'Supprimer définitivement ?') %}
+{% macro rowActions(editRoute, deleteRoute, routeParams, csrfTokenId, confirmText = 'Supprimer définitivement ?', passwordRoute = null) %}
     <div class="d-flex gap-1 justify-content-end">
+        {% if passwordRoute %}
+            <a href="{{ path(passwordRoute, routeParams) }}" class="btn btn-sm btn-outline-secondary"
+               aria-label="Modifier le mot de passe" title="Modifier le mot de passe">
+                <i class="bi bi-lock"></i>
+            </a>
+        {% endif %}
         <a href="{{ path(editRoute, routeParams) }}" class="btn btn-sm btn-outline-secondary"
            aria-label="Modifier" title="Modifier">
             <i class="bi bi-pencil"></i>

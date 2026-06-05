@@ -12,18 +12,19 @@
         • resourceLabel (string)      — libellé singulier (ex : 'compte')
         • isNew         (bool)        — true en création, false en édition
         • cancelRoute   (string)      — nom de la route de retour à la liste
-        • cancelParams  (array, opt.) — paramètres éventuels pour la route retour
+        • cancelParams      (array, opt.)  — paramètres éventuels pour la route retour
+        • titleOverride     (string, opt.) — titre personnalisé (ex : changement de mot de passe)
+        • subtitleOverride  (string, opt.) — sous-titre personnalisé
+        • submitLabel       (string, opt.) — libellé du bouton de soumission
 #}
-
-{% form_theme form 'bootstrap_5_layout.html.twig' %}
 
 {{ include('espace/personnel/_page-header.html.twig', {
     icon: icon,
     variant: variant,
-    title: (isNew ? 'Nouveau ' : 'Modifier ') ~ resourceLabel,
-    subtitle: isNew
+    title: titleOverride ?? ((isNew ? 'Nouveau ' : 'Modifier ') ~ resourceLabel),
+    subtitle: subtitleOverride ?? (isNew
         ? 'Renseignez les informations puis enregistrez.'
-        : 'Mettez à jour les informations puis enregistrez.',
+        : 'Mettez à jour les informations puis enregistrez.'),
 }) }}
 
 <div class="row">
@@ -37,7 +38,7 @@
                 <div class="d-flex gap-2 pt-2 border-top">
                     <button type="submit" class="btn btn-warning fw-semibold">
                         <i class="bi bi-check-lg me-1"></i>
-                        {{ isNew ? 'Créer' : 'Enregistrer' }}
+                        {{ submitLabel ?? (isNew ? 'Créer' : 'Enregistrer') }}
                     </button>
                     <a href="{{ path(cancelRoute, cancelParams ?? {}) }}" class="btn btn-outline-secondary">
                         Annuler
