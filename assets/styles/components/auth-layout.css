@@ -36,6 +36,7 @@
 }
 
 .auth-panel {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -43,6 +44,28 @@
     padding: clamp(2rem, 5vw, 3.25rem);
     background: #fff;
     border-left: 1px solid var(--bs-border-color);
+}
+
+.auth-home-link {
+    position: absolute;
+    top: clamp(1rem, 3vw, 1.5rem);
+    left: clamp(1rem, 3vw, 1.5rem);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    color: var(--body-text);
+    text-decoration: none;
+    opacity: 0.55;
+    transition: opacity 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+}
+
+.auth-home-link:hover {
+    opacity: 1;
+    color: var(--iut-blue);
+    background-color: rgba(30, 64, 175, 0.08);
 }
 
 .auth-panel-content {
