@@ -29,6 +29,7 @@
                     <th class="px-4 py-3 fw-semibold border-bottom" style="font-size:1rem;">Secteur</th>
                     <th class="px-4 py-3 fw-semibold border-bottom d-none d-md-table-cell" style="font-size:1rem;">SIRET</th>
                     <th class="px-4 py-3 fw-semibold border-bottom d-none d-lg-table-cell" style="font-size:1rem;">Adresse</th>
+                    <th class="px-4 py-3 fw-semibold border-bottom d-none d-lg-table-cell" style="font-size:1rem;">Compte</th>
                     <th class="px-4 py-3 fw-semibold border-bottom text-end" style="font-size:1rem;width:120px;">Actions</th>
                 </tr>
             </thead>
@@ -41,6 +42,13 @@
                         <td class="px-4 py-3 text-meta">{{ company.secteur }}</td>
                         <td class="px-4 py-3 d-none d-md-table-cell text-meta" style="font-variant-numeric:tabular-nums;">{{ company.siret }}</td>
                         <td class="px-4 py-3 d-none d-lg-table-cell text-meta">{{ company.adresse }}</td>
+                        <td class="px-4 py-3 d-none d-lg-table-cell text-meta">
+                            {% if company.compte %}
+                                <i class="bi bi-envelope me-1"></i>{{ company.compte.email }}
+                            {% else %}
+                                <span class="text-label">—</span>
+                            {% endif %}
+                        </td>
                         <td class="px-4 py-3 text-end">
                             {{ ui.rowActions(
                                 'app_espace_personnel_entreprises_edit',
@@ -52,7 +60,7 @@
                         </td>
                     </tr>
                 {% else %}
-                    <tr><td colspan="5" class="px-4 py-5 text-center text-meta">Aucune entreprise. <a href="{{ path('app_espace_personnel_entreprises_new') }}">Créer la première</a>.</td></tr>
+                    <tr><td colspan="6" class="px-4 py-5 text-center text-meta">Aucune entreprise. <a href="{{ path('app_espace_personnel_entreprises_new') }}">Créer la première</a>.</td></tr>
                 {% endfor %}
             </tbody>
         </table>

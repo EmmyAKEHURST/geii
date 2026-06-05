@@ -56,6 +56,8 @@
                                 <i class="bi bi-person-video3 me-1" style="color:#0f766e;"></i>{{ account.enseignant }}
                             {% elseif account.personnel %}
                                 <i class="bi bi-person-badge me-1" style="color:#b45309;"></i>{{ account.personnel }}
+                            {% elseif account.entreprise %}
+                                <i class="bi bi-building me-1 text-iut-blue"></i>{{ account.entreprise }}
                             {% else %}
                                 <span class="text-label">—</span>
                             {% endif %}
@@ -82,7 +84,7 @@
                                 'app_espace_personnel_comptes_delete',
                                 { id: account.id },
                                 'delete-compte-' ~ account.id,
-                                'Supprimer le compte ' ~ account.email ~ ' ? Cela supprimera AUSSI le profil lié (étudiant/enseignant/personnel) et toutes ses notes / projets associés.',
+                                'Supprimer le compte ' ~ account.email ~ ' ? Cela supprimera AUSSI le profil lié (étudiant/enseignant/personnel/entreprise) et toutes ses données associées.',
                                 'app_espace_personnel_comptes_password'
                             ) }}
                         </td>
