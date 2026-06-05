@@ -16,8 +16,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 /**
  * CRUD des comptes utilisateurs (exclusif Personnel — CDC §2.2).
  *
- * Le mot de passe est hashé via UserPasswordHasherInterface ; en édition,
- * il n'est mis à jour que si l'opérateur en a saisi un nouveau.
+ * Le mot de passe est hashé via UserPasswordHasherInterface à la création.
  *
  * Garde-fou : un Personnel connecté ne peut pas supprimer son propre compte.
  */
@@ -92,8 +91,7 @@ final class CompteController extends AbstractController
      * Modifie un compte utilisateur existant.
      *
      * @description Affiche le formulaire d'édition en GET et traite la soumission en POST.
-     * Le mot de passe n'est mis à jour que s'il est modifié. Un Personnel connecté
-     * ne peut pas modifier ses propres rôles.
+     * Le mot de passe n'est pas modifiable depuis ce formulaire.
      *
      * @param Compte $compte Le compte à modifier
      * @param Request $request La requête HTTP
@@ -107,13 +105,6 @@ final class CompteController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var string $plain */
-            $plain = $form->get('plainPassword')->getData();
-
-            if ($plain !== '') {
-                $compte->setPassword($this->hasher->hashPassword($compte, $plain));
-            }
-
             $this->em->flush();
 
             $this->addFlash('success', 'Compte mis à jour.');

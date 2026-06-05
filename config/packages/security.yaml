@@ -46,6 +46,7 @@ security:
     # Note: Only the *first* matching rule is applied
     access_control:
         - { path: ^/espace/personnel, roles: ROLE_PERSONNEL }
+        - { path: ^/espace/entreprise, roles: ROLE_ENTREPRISE }
         - { path: ^/espace/enseignant, roles: ROLE_ENSEIGNANT }
         # - { path: ^/espace/etudiant, roles: ROLE_ETUDIANT }
         # - { path: ^/profile, roles: ROLE_USER }

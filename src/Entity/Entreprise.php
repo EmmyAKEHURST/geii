@@ -6,8 +6,10 @@ use App\Repository\EntrepriseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: EntrepriseRepository::class)]
+#[UniqueEntity(fields: ['compte'], message: 'Ce compte est déjà associé à une autre entreprise.', ignoreNull: true)]
 class Entreprise
 {
     #[ORM\Id]
@@ -26,6 +28,15 @@ class Entreprise
 
     #[ORM\Column(length: 255)]
     private ?string $secteur = null;
+
+    /**
+     * Compte utilisateur associé (relation owning, FK unique).
+     * onDelete=CASCADE : supprimer un Compte supprime l'Entreprise liée
+     * (et donc, par transitivité, ses offres et projets).
+     */
+    #[ORM\OneToOne(inversedBy: 'entreprise', targetEntity: Compte::class)]
+    #[ORM\JoinColumn(name: 'compte_id', referencedColumnName: 'id', unique: true, nullable: true, onDelete: 'CASCADE')]
+    private ?Compte $compte = null;
 
     /**
      * Offres d'alternance publiées par cette entreprise (côté inverse).
@@ -98,6 +109,22 @@ class Entreprise
     public function setSecteur(string $secteur): static
     {
         $this->secteur = $secteur;
+
+        return $this;
+    }
+
+    public function getCompte(): ?Compte
+    {
+        return $this->compte;
+    }
+
+    /**
+     * Met à jour le compte associé. Pas de synchronisation explicite côté Compte
+     * pour éviter une récursion infinie avec Compte::setEntreprise().
+     */
+    public function setCompte(?Compte $compte): static
+    {
+        $this->compte = $compte;
 
         return $this;
     }

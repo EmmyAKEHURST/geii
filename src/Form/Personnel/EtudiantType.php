@@ -73,7 +73,8 @@ class EtudiantType extends AbstractType
             ->leftJoin('c.etudiant', 'e')
             ->leftJoin('c.enseignant', 'en')
             ->leftJoin('c.personnel', 'p')
-            ->where('e IS NULL AND en IS NULL AND p IS NULL')
+            ->leftJoin('c.entreprise', 'ent')
+            ->where('e IS NULL AND en IS NULL AND p IS NULL AND ent IS NULL')
             ->orderBy('c.email', 'ASC')
         ;
 

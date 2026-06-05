@@ -75,27 +75,36 @@
                     </ul>
                 </li>
 
-                {# Connexion — bouton outline jaune #}
-                <li class="nav-item ms-lg-3 d-grid d-lg-block">
+                {# Connexion / Mon compte + déconnexion #}
+                <li class="nav-item ms-lg-3">
                     {% if app.user %}
                         {# Route le bouton « Mon compte » vers l'espace correspondant au rôle le plus élevé. #}
-                        {% set accountRoute = 'app_espaces_test' %}
+                        {% set accountRoute = 'app_espaces_attente_validation' %}
                         {% if is_granted('ROLE_PERSONNEL') %}
                             {% set accountRoute = 'app_espace_personnel_index' %}
+                        {% elseif is_granted('ROLE_ENTREPRISE') and app.user.entreprise %}
+                            {% set accountRoute = 'app_espace_entreprise_index' %}
                         {% elseif is_granted('ROLE_ETUDIANT') %}
                             {% set accountRoute = 'app_espace_etudiant_index' %}
                         {% endif %}
-                        <a class="btn btn-sm btn-connexion fw-semibold px-3 py-1 w-100 w-lg-auto"
-                           href="{{ path(accountRoute) }}"
-                           aria-label="Accéder à mon espace">
-                            <i class="bi bi-person-circle me-1" aria-hidden="true"></i>
-                            Mon compte
-                        </a>
+                        <div class="d-flex gap-2 w-100 w-lg-auto">
+                            <a class="btn btn-sm btn-connexion fw-semibold px-3 py-1 flex-grow-1"
+                               href="{{ path(accountRoute) }}"
+                               aria-label="Accéder à mon espace">
+                                <i class="bi bi-person-circle me-1" aria-hidden="true"></i>
+                                Mon compte
+                            </a>
+                            <a class="btn btn-sm btn-outline-danger flex-shrink-0 px-2 py-1"
+                               href="{{ path('app_logout') }}"
+                               aria-label="Se déconnecter"
+                               title="Se déconnecter">
+                                <i class="bi bi-door-open" aria-hidden="true"></i>
+                            </a>
+                        </div>
                     {% else %}
-                        <a
-                            class="btn btn-sm btn-connexion fw-semibold px-3 py-1 w-100 w-lg-auto"
-                            href="{{ path('app_login') }}"
-                            aria-label="Connexion à un compte">
+                        <a class="btn btn-sm btn-connexion fw-semibold px-3 py-1 w-100 w-lg-auto"
+                           href="{{ path('app_login') }}"
+                           aria-label="Connexion à un compte">
                             <i class="bi bi-person-circle me-1" aria-hidden="true"></i>
                             Se connecter
                         </a>

@@ -1,0 +1,23 @@
+{% extends 'layouts/espace-entreprise.html.twig' %}
+
+{% block title %}
+    {{ isNew ? 'Nouveau projet' : 'Modifier le projet' }} — Espace Entreprise — GEII
+{% endblock %}
+
+{% set activePage = 'projets' %}
+{% set breadcrumb = [
+    { label: 'Espace entreprise', route: 'app_espace_entreprise_index' },
+    { label: 'Projets tuteurés', route: 'app_espace_entreprise_projets_tuteures' },
+    { label: isNew ? 'Nouveau' : project.titre },
+] %}
+
+{% block page_content %}
+    {{ include('espace/entreprise/_form-layout.html.twig', {
+        form: form,
+        icon: 'bi-diagram-3',
+        variant: 'projets',
+        resourceLabel: 'projet tuteuré',
+        isNew: isNew,
+        cancelRoute: 'app_espace_entreprise_projets_tuteures',
+    }) }}
+{% endblock %}

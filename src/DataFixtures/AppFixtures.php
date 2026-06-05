@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Compte;
+use App\Entity\Entreprise;
 use App\Entity\Etudiant;
 use DateMalformedStringException;
 use DateTime;
@@ -19,6 +20,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $this->addStudentAccount($manager);
+        $this->addCompanyAccount($manager);
 
         $monday = (new DateTime('monday this week'));
         $nomMatieres = $this->getListMatieres();
@@ -76,6 +78,27 @@ class AppFixtures extends Fixture
 
         $manager->persist($user);
         $manager->persist($etudiant);
+    }
+
+    private function addCompanyAccount(ObjectManager $manager): void
+    {
+        $user = (new Compte())
+            ->setEmail('partenaire@geii.fr')
+            ->setPassword('Partenaire@1')
+            ->setIsVerified(true)
+            ->setRoles(['ROLE_ENTREPRISE'])
+        ;
+
+        $entreprise = (new Entreprise())
+            ->setNom('Siemens France')
+            ->setSiret('12345678901234')
+            ->setSecteur('Industrie / Électronique')
+            ->setAdresse('12 avenue de l\'Innovation, 69000 Lyon')
+            ->setCompte($user)
+        ;
+
+        $manager->persist($user);
+        $manager->persist($entreprise);
     }
 
     /**

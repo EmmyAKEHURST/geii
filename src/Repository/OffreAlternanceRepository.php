@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Entreprise;
 use App\Entity\OffreAlternance;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,6 +15,29 @@ class OffreAlternanceRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, OffreAlternance::class);
+    }
+
+    /**
+     * @return list<OffreAlternance>
+     */
+    public function findByEntrepriseOrdered(Entreprise $entreprise): array
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.entreprise = :entreprise')
+            ->setParameter('entreprise', $entreprise)
+            ->orderBy('o.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function countByEntreprise(Entreprise $entreprise): int
+    {
+        return (int) $this->createQueryBuilder('o')
+            ->select('COUNT(o.id)')
+            ->andWhere('o.entreprise = :entreprise')
+            ->setParameter('entreprise', $entreprise)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     //    /**

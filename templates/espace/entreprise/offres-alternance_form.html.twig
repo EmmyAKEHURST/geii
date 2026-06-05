@@ -1,0 +1,23 @@
+{% extends 'layouts/espace-entreprise.html.twig' %}
+
+{% block title %}
+    {{ isNew ? 'Nouvelle offre' : 'Modifier l\'offre' }} — Espace Entreprise — GEII
+{% endblock %}
+
+{% set activePage = 'alternance' %}
+{% set breadcrumb = [
+    { label: 'Espace entreprise', route: 'app_espace_entreprise_index' },
+    { label: "Offres d'alternance", route: 'app_espace_entreprise_offres_alternance' },
+    { label: isNew ? 'Nouvelle' : offer.titre },
+] %}
+
+{% block page_content %}
+    {{ include('espace/entreprise/_form-layout.html.twig', {
+        form: form,
+        icon: 'bi-briefcase',
+        variant: 'alternance',
+        resourceLabel: "offre d'alternance",
+        isNew: isNew,
+        cancelRoute: 'app_espace_entreprise_offres_alternance',
+    }) }}
+{% endblock %}

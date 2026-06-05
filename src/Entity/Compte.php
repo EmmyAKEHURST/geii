@@ -65,6 +65,12 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Personnel $personnel = null;
 
     /**
+     * Profil entreprise éventuellement rattaché à ce compte (côté inverse).
+     */
+    #[ORM\OneToOne(mappedBy: 'compte', targetEntity: Entreprise::class)]
+    private ?Entreprise $entreprise = null;
+
+    /**
      * Returns the database identifier of the account.
      */
     public function getId(): ?int
@@ -230,6 +236,30 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
             $personnel->setCompte($this);
         }
         $this->personnel = $personnel;
+
+        return $this;
+    }
+
+    /**
+     * Renvoie le profil entreprise lié à ce compte (ou null).
+     */
+    public function getEntreprise(): ?Entreprise
+    {
+        return $this->entreprise;
+    }
+
+    /**
+     * Met à jour le profil entreprise lié (synchronise les deux côtés).
+     */
+    public function setEntreprise(?Entreprise $entreprise): static
+    {
+        if ($entreprise === null && $this->entreprise !== null) {
+            $this->entreprise->setCompte(null);
+        }
+        if ($entreprise !== null && $entreprise->getCompte() !== $this) {
+            $entreprise->setCompte($this);
+        }
+        $this->entreprise = $entreprise;
 
         return $this;
     }

@@ -56,10 +56,14 @@ final class EntrepriseController extends AbstractController
     public function new(Request $request): Response
     {
         $entreprise = new Entreprise();
-        $form = $this->createForm(EntrepriseType::class, $entreprise);
+        $form = $this->createForm(EntrepriseType::class, $entreprise, ['current_compte' => null]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($entreprise->getCompte() !== null) {
+                $this->addRoleToCompte($entreprise->getCompte(), 'ROLE_ENTREPRISE');
+            }
+
             $this->em->persist($entreprise);
             $this->em->flush();
 
@@ -88,10 +92,16 @@ final class EntrepriseController extends AbstractController
     #[Route('/{id}/edit', name: 'app_espace_personnel_entreprises_edit', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
     public function edit(Entreprise $entreprise, Request $request): Response
     {
-        $form = $this->createForm(EntrepriseType::class, $entreprise);
+        $form = $this->createForm(EntrepriseType::class, $entreprise, [
+            'current_compte' => $entreprise->getCompte(),
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($entreprise->getCompte() !== null) {
+                $this->addRoleToCompte($entreprise->getCompte(), 'ROLE_ENTREPRISE');
+            }
+
             $this->em->flush();
 
             $this->addFlash('success', 'Entreprise mise à jour.');

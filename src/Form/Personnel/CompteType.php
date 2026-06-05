@@ -18,8 +18,8 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  * Formulaire de gestion d'un Compte par le Personnel.
  *
  * Le mot de passe est non mappé : le contrôleur s'occupe du hash via
- * UserPasswordHasherInterface. Il est obligatoire à la création
- * (option `is_new` à true) et facultatif en édition.
+ * UserPasswordHasherInterface. Il n'est proposé qu'à la création
+ * (option `is_new` à true).
  */
 class CompteType extends AbstractType
 {
@@ -46,30 +46,29 @@ class CompteType extends AbstractType
                 'label' => 'Compte vérifié',
                 'required' => false,
             ])
-            ->add('plainPassword', RepeatedType::class, [
+        ;
+
+        if ($options['is_new']) {
+            $builder->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'mapped' => false,
-                'required' => $options['is_new'],
+                'required' => true,
                 'invalid_message' => 'Les mots de passe ne correspondent pas.',
                 'first_options' => [
                     'label' => 'Mot de passe',
-                    'attr' => ['autocomplete' => 'new-password']
+                    'attr' => ['autocomplete' => 'new-password'],
                 ],
                 'second_options' => [
                     'label' => 'Confirmer',
-                    'attr' => ['autocomplete' => 'new-password']
+                    'attr' => ['autocomplete' => 'new-password'],
                 ],
-                'constraints' => $options['is_new'] ? [
+                'constraints' => [
                     new NotBlank(message: 'Veuillez saisir un mot de passe.'),
-                    new Length(min: 8, max: 4096, minMessage: 'Au moins {{ limit }} caractères.')
-                ] : [
-                    new Length(min: 8, max: 4096, minMessage: 'Au moins {{ limit }} caractères.')
+                    new Length(min: 8, max: 4096, minMessage: 'Au moins {{ limit }} caractères.'),
                 ],
-                'help' => $options['is_new']
-                    ? 'Choisissez un mot de passe d\'au moins 8 caractères.'
-                    : 'Laisser vide pour conserver le mot de passe actuel.',
-            ])
-        ;
+                'help' => 'Choisissez un mot de passe d\'au moins 8 caractères.',
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -1,0 +1,47 @@
+{% extends 'layouts/espace-entreprise.html.twig' %}
+
+{% block title %}Mon entreprise — Espace Entreprise — GEII{% endblock %}
+
+{% set activePage = 'profil' %}
+{% set breadcrumb = [
+    { label: 'Espace entreprise', route: 'app_espace_entreprise_index' },
+    { label: 'Mon entreprise' },
+] %}
+
+{% block page_content %}
+    {{ include('espace/personnel/_page-header.html.twig', {
+        icon: 'bi-buildings',
+        variant: 'entreprises',
+        title: 'Fiche entreprise',
+        subtitle: 'Coordonnées visibles par le département GEII',
+    }) }}
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="border rounded-3 p-4">
+                {% form_theme form 'bootstrap_5_layout.html.twig' %}
+                {{ form_start(form, { attr: { novalidate: 'novalidate', class: 'd-flex flex-column gap-3' } }) }}
+                    {{ form_errors(form) }}
+                    {{ form_rest(form) }}
+                    <div class="d-flex gap-2 pt-2 border-top">
+                        <button type="submit" class="btn btn-warning fw-semibold">
+                            <i class="bi bi-check-lg me-1"></i> Enregistrer
+                        </button>
+                        <a href="{{ path('app_espace_entreprise_index') }}" class="btn btn-outline-secondary">Retour</a>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+        <div class="col-lg-4 mt-4 mt-lg-0">
+            <div class="border rounded-3 p-4 bg-light">
+                <h2 class="h6 fw-semibold text-geii-black mb-3">Compte de connexion</h2>
+                <p class="text-meta mb-0">
+                    <i class="bi bi-envelope me-1"></i>{{ company.email }}
+                </p>
+                <p class="text-meta small mt-2 mb-0">
+                    Pour modifier l'email ou le mot de passe, contactez le personnel GEII.
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
