@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Compte;
 use App\Enum\StatutAlternance;
-use App\Repository\{EmploiDuTempsRepository, NoteRepository, OffreAlternanceRepository, ProjetTuteureRepository};
+use App\Repository\{EmploiDuTempsRepository, NoteRepository, OffreAlternanceRepository, ProjetTuteureRepository, SupportCoursRepository};
 use DateTime;
 use DateMalformedStringException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,6 +24,7 @@ final class EspaceEtudiantController extends AbstractController
         private readonly NoteRepository            $noteRepository,
         private readonly OffreAlternanceRepository $offreRepository,
         private readonly ProjetTuteureRepository   $projetRepository,
+        private readonly SupportCoursRepository    $supportCoursRepository,
     ) {}
 
     /**
@@ -134,6 +135,21 @@ final class EspaceEtudiantController extends AbstractController
         return $this->render('espace/etudiant/projets.html.twig', [
             'etudiant' => $compte->getEtudiant(),
             'projects' => $this->projetRepository->findAll(),
+        ]);
+    }
+
+    /**
+     * Représente la liste des supports de cours disponibles.
+     */
+    #[Route('/supports-cours', name: 'app_espace_etudiant_supports_cours')]
+    public function supportsCours(): Response
+    {
+        /** @var Compte $compte */
+        $compte = $this->getUser();
+
+        return $this->render('espace/etudiant/supports-cours.html.twig', [
+            'etudiant' => $compte->getEtudiant(),
+            'supports' => $this->supportCoursRepository->findBy([], ['date_depot' => 'DESC']),
         ]);
     }
 

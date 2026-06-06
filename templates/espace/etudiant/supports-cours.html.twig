@@ -1,0 +1,74 @@
+{% extends 'layouts/espace.html.twig' %}
+
+{% block title %}Supports de cours — Espace Étudiant — GEII{% endblock %}
+
+{% block content %}
+    {% set activePage = 'supports-cours' %}
+
+    <div class="d-flex espace-layout-scroll">
+        {{ include('espace/etudiant/_navbar.html.twig') }}
+
+        <main class="flex-grow-1 d-flex flex-column bg-white espace-main-scroll">
+            {# Mobile header #}
+            <header class="d-lg-none bg-dark text-white px-3 py-2 d-flex align-items-center justify-content-between flex-shrink-0">
+                <span class="fw-bold">GEII — Espace Étudiant</span>
+                <button class="btn btn-sm btn-outline-secondary" type="button"
+                        data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
+                    <i class="bi bi-list"></i>
+                </button>
+            </header>
+
+            {# Fil d'Ariane #}
+            <div class="px-4 py-2 border-bottom d-flex align-items-center gap-2 flex-shrink-0 bg-white espace-breadcrumb">
+                <i class="bi bi-layout-sidebar text-label" style="font-size:.9rem;"></i>
+                <nav aria-label="fil d'Ariane">
+                    <ol class="breadcrumb mb-0" style="font-size:.875rem;">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('app_espace_etudiant_index') }}" class="text-label text-decoration-none">Espace étudiant</a>
+                        </li>
+                        <li class="breadcrumb-item active fw-medium">Supports de cours</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="espace-content-scroll">
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <div class="page-icon rounded-3 d-flex align-items-center justify-content-center" style="background:#eff6ff;">
+                        <i class="bi bi-file-earmark-text fs-4" style="color:#3b82f6;"></i>
+                    </div>
+                    <div>
+                        <h1 class="h3 mb-0 fw-bold">Supports de cours</h1>
+                        <p class="mb-0 text-muted-sm">{{ supports|length }} document(s) disponible(s)</p>
+                    </div>
+                </div>
+
+                {% if supports is empty %}
+                    <div class="text-center py-5 text-meta">
+                        <i class="bi bi-inbox fs-1 d-block mb-3"></i>
+                        Aucun support de cours disponible pour le moment.
+                    </div>
+                {% else %}
+                    <div class="d-flex flex-column gap-2">
+                        {% for support in supports %}
+                            <div class="border rounded-3 px-4 py-3 d-flex align-items-center gap-3">
+                                <i class="bi bi-file-earmark-pdf flex-shrink-0" style="font-size:1.5rem;color:#ef4444;"></i>
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <div class="fw-semibold text-truncate text-geii-black" style="font-size:1rem;">
+                                        {{ support.titre }}
+                                    </div>
+                                    <div class="text-meta" style="font-size:.85rem;">
+                                        Déposé le {{ support.dateDepot|date('d/m/Y') }}
+                                    </div>
+                                </div>
+                                <a href="{{ asset(support.fichierPath) }}" target="_blank" rel="noopener"
+                                   class="btn btn-sm btn-outline-primary flex-shrink-0">
+                                    <i class="bi bi-download me-1"></i>Télécharger
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </main>
+    </div>
+{% endblock %}
