@@ -12,3 +12,4 @@ import './styles/app.css';
 import './javascripts/home-page.js';
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+import './javascripts/table-manager.js';

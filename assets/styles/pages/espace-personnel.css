@@ -51,6 +51,19 @@
 .status-badge--muted   { background: #f3f4f6; color: #6b7280; }
 .status-badge--neutral { background: rgba(30, 64, 175, .08); color: var(--iut-blue); }
 
+/* ── Tableaux de données ────────────────────────────────────────────── */
+
+/** Lignes plus compactes : réduit le padding vertical de py-3 à ~py-2 */
+.espace-content-scroll .table > :not(caption) > * > * {
+    padding-top: .5rem !important;
+    padding-bottom: .5rem !important;
+}
+
+/** Contrôles de pagination sous le tableau */
+.table-pagination {
+    min-height: 2rem;
+}
+
 /* ── Tableau de bord ────────────────────────────────────────────────── */
 
 /** Carte statistique — léger relief au survol */

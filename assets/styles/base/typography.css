@@ -19,6 +19,13 @@ code, pre {
     border: 1px solid var(--bs-border-color);
 }
 
+.font-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: .85em;
+    letter-spacing: .01em;
+}
+
 /** Focus accessible — contour jaune sur tous les éléments interactifs */
 :focus-visible {
     outline: 3px solid var(--geii-yellow);

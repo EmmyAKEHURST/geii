@@ -115,6 +115,53 @@
     border-left-color: var(--geii-yellow);
 }
 
+/* ── Emploi du temps : scroll vertical sur viewport peu haut (paysage mobile) ── */
+
+/**
+ * En dessous de 600px de hauteur (typiquement mobile paysage), on abandonne
+ * le layout "tout en hauteur fixe" au profit d'un scroll vertical classique.
+ * --hour-h passe d'une valeur relative (calc 100%/9) à 65px fixes, ce qui
+ * donne à la grille une hauteur naturelle de 9 × 65px = 585px.
+ */
+@media (max-height: 600px) {
+    .espace-layout-fixed {
+        height: auto;
+        min-height: 100dvh;
+        overflow: visible;
+    }
+
+    .espace-main-fixed {
+        height: auto;
+        min-height: 100dvh;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .espace-content {
+        overflow: visible;
+    }
+
+    /* Bootstrap .overflow-hidden sur le div englobant la grille */
+    .espace-content .overflow-hidden {
+        overflow: visible !important;
+    }
+
+    .week-grid-wrap {
+        height: auto;
+        overflow-x: auto;
+        overflow-y: visible;
+    }
+
+    .week-grid {
+        height: auto;
+    }
+
+    .week-grid-col {
+        --hour-h: 65px;
+        height: calc(9 * 65px);
+    }
+}
+
 /* ── Emploi du temps hebdomadaire ───────────────────────────────────── */
 
 /** Wrapper du tableau — scroll horizontal uniquement */
