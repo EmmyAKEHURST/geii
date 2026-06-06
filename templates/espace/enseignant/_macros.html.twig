@@ -14,12 +14,18 @@
         • newRouteParams    : paramètres éventuels
 #}
 {% macro toolbar(searchPlaceholder, newLabel, newRoute, newRouteParams = {}) %}
-    <div class="d-flex flex-wrap gap-2 mb-3 align-items-center">
+    <div class="d-flex flex-wrap gap-2 mb-3 align-items-center" data-toolbar>
         <div class="flex-grow-1 position-relative" style="min-width:220px;">
             <i class="bi bi-search position-absolute text-label" style="left:.75rem;top:50%;transform:translateY(-50%);"></i>
             <input type="search" class="form-control ps-5" placeholder="{{ searchPlaceholder }}"
                    aria-label="{{ searchPlaceholder }}" data-table-filter>
         </div>
+        <select class="form-select" style="width:auto;" aria-label="Lignes par page" data-page-size>
+            <option value="10">10 lignes</option>
+            <option value="20" selected>20 lignes</option>
+            <option value="50">50 lignes</option>
+            <option value="100">100 lignes</option>
+        </select>
         <a href="{{ path(newRoute, newRouteParams) }}" class="btn btn-warning fw-semibold">
             <i class="bi bi-plus-lg me-1"></i> {{ newLabel }}
         </a>
