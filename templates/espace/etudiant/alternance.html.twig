@@ -48,15 +48,15 @@
                             <div class="offer-card border rounded-3 p-4 h-100 d-flex flex-column">
                                 <div class="d-flex align-items-start justify-content-between mb-3">
                                     <span class="offer-type-badge rounded-pill px-3 py-1 text-dark">
-                                        {{ offer.type }}
+                                        Alternance
                                     </span>
                                     <span class="text-meta">
-                                        <i class="bi bi-geo-alt me-1"></i>{{ offer.location }}
+                                        {{ offer.duree }} mois
                                     </span>
                                 </div>
-                                <h2 class="fw-bold mb-1" style="font-size:1.2rem;">{{ offer.title }}</h2>
+                                <h2 class="fw-bold mb-1" style="font-size:1.2rem;">{{ offer.titre }}</h2>
                                 <p class="fw-semibold mb-3 text-iut-blue" style="font-size:1rem;">
-                                    <i class="bi bi-building me-1"></i>{{ offer.company }}
+                                    <i class="bi bi-building me-1"></i>{{ offer.entreprise.nom }}
                                 </p>
                                 <p class="flex-grow-1 mb-4 text-meta" style="font-size:1rem;">{{ offer.description }}</p>
                                 <a href="#" class="btn btn-sm align-self-start text-white" style="background:var(--iut-blue);font-size:.9rem;">

@@ -6,15 +6,16 @@
     {#
         Variables fournies par EspaceEtudiantController::index() :
 
-        • hourHeightPx  (int)    – hauteur en pixels d'une heure dans la grille mini-EDT (défini ici)
-        • scheduleDay   (string) – nom français du jour courant ('lundi', 'mardi', …)
-        • scheduleHours (int[])  – plage horaire affichée : [9, 10, …, 18]
+        • hourHeightPx  (int)           – hauteur en pixels d'une heure dans la grille mini-EDT (défini ici)
+        • scheduleDay   (string)        – nom français du jour courant ('lundi', 'mardi', …)
+        • scheduleHours (int[])         – plage horaire affichée : [9, 10, …, 18]
         • schedule      (EmploiDuTemps[]) – cours du jour courant, triés par heure de début
 
-        • grades        (array{subject, grade, teacher, date}[]) – notes de l'étudiant
-        • gradeStats    (array{average, best, worst})            – statistiques calculées côté contrôleur
+        • etudiant      (Etudiant)      – profil de l'étudiant connecté
+        • notes         (Note[])        – notes de l'étudiant (avec matiere eager-loaded)
+        • gradeStats    (array{average, best, worst}) – statistiques calculées côté contrôleur
 
-        • offers        (array{id, title, company, location, type, description}[]) – offres d'alternance
+        • offers        (OffreAlternance[]) – offres d'alternance actives (avec entreprise eager-loaded)
 
         Variables calculées dans ce template pour le positionnement des créneaux :
             startH / startM – heure et minutes de début (issues du filtre date())
@@ -119,17 +120,16 @@
                             </span>
                         </div>
                         <div class="flex-grow-1 overflow-auto">
-                            {% for grade in grades %}
+                            {% for note in notes %}
                                 <div class="px-4 py-3 border-bottom d-flex align-items-center gap-4">
                                     <div class="fw-bold flex-shrink-0 text-geii-black"
                                          style="font-size:1.1rem;min-width:92px;font-variant-numeric:tabular-nums;">
-                                        {{ grade.grade|number_format(2) }}&nbsp;/&nbsp;20
+                                        {{ note.valeur|number_format(2) }}&nbsp;/&nbsp;20
                                     </div>
                                     <div class="overflow-hidden">
                                         <div class="fw-medium text-truncate text-geii-black" style="font-size:1rem;">
-                                            {{ grade.subject }}
+                                            {{ note.matiere.nom }}
                                         </div>
-                                        <div class="text-truncate text-meta">{{ grade.teacher }}</div>
                                     </div>
                                 </div>
                             {% endfor %}
@@ -150,7 +150,7 @@
                                    style="transition:background .12s;">
                                     <div class="flex-grow-1 overflow-hidden">
                                         <div class="fw-semibold text-truncate" style="font-size:1rem;">
-                                            {{ offer.title }}
+                                            {{ offer.titre }}
                                         </div>
                                         <div class="text-meta"
                                              style="overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">
