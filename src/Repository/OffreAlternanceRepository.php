@@ -18,18 +18,28 @@ class OffreAlternanceRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param Entreprise $entreprise
+     *
      * @return list<OffreAlternance>
      */
     public function findByEntrepriseOrdered(Entreprise $entreprise): array
     {
-        return $this->createQueryBuilder('o')
+        /** @var list<OffreAlternance> $result */
+        $result = $this->createQueryBuilder('o')
             ->andWhere('o.entreprise = :entreprise')
             ->setParameter('entreprise', $entreprise)
             ->orderBy('o.id', 'DESC')
             ->getQuery()
             ->getResult();
+
+        return $result;
     }
 
+    /**
+     * @param Entreprise $entreprise
+     *
+     * @return int
+     */
     public function countByEntreprise(Entreprise $entreprise): int
     {
         return (int) $this->createQueryBuilder('o')
@@ -37,31 +47,7 @@ class OffreAlternanceRepository extends ServiceEntityRepository
             ->andWhere('o.entreprise = :entreprise')
             ->setParameter('entreprise', $entreprise)
             ->getQuery()
-            ->getSingleScalarResult();
+            ->getSingleScalarResult()
+        ;
     }
-
-    //    /**
-    //     * @return OffreAlternance[] Returns an array of OffreAlternance objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('o')
-    //            ->andWhere('o.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('o.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?OffreAlternance
-    //    {
-    //        return $this->createQueryBuilder('o')
-    //            ->andWhere('o.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }

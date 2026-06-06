@@ -18,18 +18,27 @@ class ProjetTuteureRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param Entreprise $entreprise
      * @return list<ProjetTuteure>
      */
     public function findByEntrepriseOrdered(Entreprise $entreprise): array
     {
-        return $this->createQueryBuilder('p')
+        /** @var list<ProjetTuteure> $result */
+        $result =  $this->createQueryBuilder('p')
             ->andWhere('p.entreprise = :entreprise')
             ->setParameter('entreprise', $entreprise)
             ->orderBy('p.id', 'DESC')
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
+
+        return $result;
     }
 
+    /**
+     * @param Entreprise $entreprise
+     * @return int
+     */
     public function countByEntreprise(Entreprise $entreprise): int
     {
         return (int) $this->createQueryBuilder('p')
@@ -37,31 +46,7 @@ class ProjetTuteureRepository extends ServiceEntityRepository
             ->andWhere('p.entreprise = :entreprise')
             ->setParameter('entreprise', $entreprise)
             ->getQuery()
-            ->getSingleScalarResult();
+            ->getSingleScalarResult()
+        ;
     }
-
-    //    /**
-    //     * @return ProjetTuteure[] Returns an array of ProjetTuteure objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?ProjetTuteure
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }
