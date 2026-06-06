@@ -1,0 +1,22 @@
+{% extends 'layouts/espace-enseignant.html.twig' %}
+
+{% block title %}{{ isNew ? 'Déposer un support' : 'Modifier le support' }} — Espace Enseignant — GEII{% endblock %}
+
+{% set activePage = 'supports' %}
+{% set breadcrumb = [
+    { label: 'Espace enseignant', route: 'app_espace_enseignant_index' },
+    { label: 'Pédagogie' },
+    { label: 'Supports de cours', route: 'app_espace_enseignant_supports' },
+    { label: isNew ? 'Déposer un PDF' : 'Modifier' },
+] %}
+
+{% block page_content %}
+    {{ include('espace/enseignant/_form-layout.html.twig', {
+        form: form,
+        icon: 'bi-file-earmark-pdf',
+        variant: 'supports',
+        resourceLabel: 'support de cours',
+        isNew: isNew,
+        cancelRoute: 'app_espace_enseignant_supports',
+    }) }}
+{% endblock %}

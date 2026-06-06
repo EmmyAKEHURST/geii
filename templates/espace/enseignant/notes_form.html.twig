@@ -1,0 +1,22 @@
+{% extends 'layouts/espace-enseignant.html.twig' %}
+
+{% block title %}{{ isNew ? 'Nouvelle note' : 'Modifier la note' }} — Espace Enseignant — GEII{% endblock %}
+
+{% set activePage = 'notes' %}
+{% set breadcrumb = [
+    { label: 'Espace enseignant', route: 'app_espace_enseignant_index' },
+    { label: 'Pédagogie' },
+    { label: 'Notes', route: 'app_espace_enseignant_notes' },
+    { label: isNew ? 'Nouvelle note' : 'Modifier' },
+] %}
+
+{% block page_content %}
+    {{ include('espace/enseignant/_form-layout.html.twig', {
+        form: form,
+        icon: 'bi-clipboard2-check',
+        variant: 'notes',
+        resourceLabel: 'note',
+        isNew: isNew,
+        cancelRoute: 'app_espace_enseignant_notes',
+    }) }}
+{% endblock %}

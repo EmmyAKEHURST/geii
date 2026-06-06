@@ -1,0 +1,54 @@
+{#
+    Macros réutilisables dans toutes les pages de l'Espace Enseignant.
+
+    Centralise les éléments d'UI répétitifs : barre d'outils (recherche +
+    bouton « Nouveau »), boutons d'action ligne (édition + suppression CSRF).
+#}
+
+{#
+    Barre d'outils au-dessus d'un tableau.
+    Paramètres :
+        • searchPlaceholder : placeholder du champ recherche
+        • newLabel          : libellé du bouton « Nouveau »
+        • newRoute          : nom de la route de création
+        • newRouteParams    : paramètres éventuels
+#}
+{% macro toolbar(searchPlaceholder, newLabel, newRoute, newRouteParams = {}) %}
+    <div class="d-flex flex-wrap gap-2 mb-3 align-items-center">
+        <div class="flex-grow-1 position-relative" style="min-width:220px;">
+            <i class="bi bi-search position-absolute text-label" style="left:.75rem;top:50%;transform:translateY(-50%);"></i>
+            <input type="search" class="form-control ps-5" placeholder="{{ searchPlaceholder }}"
+                   aria-label="{{ searchPlaceholder }}" data-table-filter>
+        </div>
+        <a href="{{ path(newRoute, newRouteParams) }}" class="btn btn-warning fw-semibold">
+            <i class="bi bi-plus-lg me-1"></i> {{ newLabel }}
+        </a>
+    </div>
+{% endmacro %}
+
+{#
+    Actions ligne : lien édition + form POST suppression protégé par token CSRF.
+
+    Paramètres :
+        • editRoute     : nom de la route d'édition
+        • deleteRoute   : nom de la route de suppression
+        • routeParams   : paramètres communs aux deux routes (ex : { id: 12 })
+        • csrfTokenId   : id du token CSRF (ex : 'delete-note-12')
+        • confirmText   : message de la confirmation JS
+#}
+{% macro rowActions(editRoute, deleteRoute, routeParams, csrfTokenId, confirmText = 'Supprimer définitivement ?') %}
+    <div class="d-flex gap-1 justify-content-end">
+        <a href="{{ path(editRoute, routeParams) }}" class="btn btn-sm btn-outline-secondary"
+           aria-label="Modifier" title="Modifier">
+            <i class="bi bi-pencil"></i>
+        </a>
+        <form method="post" action="{{ path(deleteRoute, routeParams) }}"
+              class="d-inline" onsubmit="return confirm('{{ confirmText|e('js') }}');">
+            <input type="hidden" name="_token" value="{{ csrf_token(csrfTokenId) }}">
+            <button type="submit" class="btn btn-sm btn-outline-danger"
+                    aria-label="Supprimer" title="Supprimer">
+                <i class="bi bi-trash"></i>
+            </button>
+        </form>
+    </div>
+{% endmacro %}

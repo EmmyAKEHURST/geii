@@ -1,0 +1,134 @@
+{% extends 'layouts/espace-enseignant.html.twig' %}
+
+{% block title %}Tableau de bord — Espace Enseignant — GEII{% endblock %}
+
+{% set activePage = 'accueil' %}
+{% set breadcrumb = [
+    { label: 'Espace enseignant' },
+    { label: 'Tableau de bord' },
+] %}
+
+{% block page_content %}
+    {{ include('espace/enseignant/_page-header.html.twig', {
+        icon: 'bi-speedometer2',
+        variant: 'dashboard',
+        title: 'Tableau de bord',
+        subtitle: 'Bienvenue dans votre espace enseignant',
+    }) }}
+
+    {# ── Statistiques ─────────────────────────────────────────────────── #}
+    <section aria-labelledby="stats-title">
+        <h2 id="stats-title" class="visually-hidden">Statistiques</h2>
+        <div class="row g-3 mb-4">
+            {% for stat in stats %}
+                <div class="col-sm-6 col-lg-4">
+                    <div class="dashboard-stat border rounded-3 p-3 h-100 d-flex align-items-center gap-3">
+                        <div class="page-icon page-icon--{{ stat.variant }} rounded-3 d-flex align-items-center justify-content-center flex-shrink-0">
+                            <i class="bi {{ stat.icon }} fs-5"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <div class="fw-bold text-geii-black" style="font-size:1.5rem;line-height:1;">{{ stat.value }}</div>
+                            <div class="text-meta text-truncate">{{ stat.label }}</div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <div class="row g-4">
+        {# ── Emploi du temps du jour ──────────────────────────────────── #}
+        <div class="col-lg-6">
+            <div class="border rounded-3 overflow-hidden">
+                <div class="px-4 py-3 border-bottom d-flex align-items-center justify-content-between">
+                    <span class="fw-semibold text-geii-black" style="font-size:1rem;">
+                        Emploi du temps : {{ scheduleDay }}
+                    </span>
+                    <a href="{{ path('app_espace_enseignant_edt') }}" class="btn btn-sm btn-outline-secondary">
+                        Voir tout
+                    </a>
+                </div>
+                {% set hourHeightPx = 64 %}
+                <div style="height:{{ (18 - 9) * hourHeightPx }}px;overflow:auto;">
+                    <div class="d-flex" style="height:{{ (18 - 9) * hourHeightPx }}px;">
+                        <div class="mini-edt-time">
+                            {% for hour in scheduleHours %}
+                                <span class="mini-time-label" style="top:{{ (hour - 9) * hourHeightPx }}px;">
+                                    {{ hour }}h
+                                </span>
+                            {% endfor %}
+                        </div>
+                        <div class="mini-edt-grid">
+                            {% for hour in scheduleHours %}
+                                <div class="position-absolute w-100" style="top:{{ (hour - 9) * hourHeightPx }}px;border-top:1px solid #e5e7eb;"></div>
+                            {% endfor %}
+                            {% for edt in schedule %}
+                                {% set startH       = edt.dateHeureDebut|date('G') %}
+                                {% set startM       = edt.dateHeureDebut|date('i') %}
+                                {% set endH         = edt.dateHeureFin|date('G') %}
+                                {% set endM         = edt.dateHeureFin|date('i') %}
+                                {% set topOffset    = (startH - 9) + startM / 60 %}
+                                {% set duration     = (endH * 60 + endM - startH * 60 - startM) / 60 %}
+                                {% set slotTopPx    = topOffset * hourHeightPx %}
+                                {% set slotHeightPx = duration  * hourHeightPx %}
+                                <div class="course-block position-absolute rounded-2"
+                                     style="top:{{ slotTopPx + 2 }}px;height:{{ slotHeightPx - 4 }}px;left:4px;right:4px;background:#eff6ff;border-left:3px solid #3b82f6;overflow:hidden;">
+                                    <div class="px-2 py-1">
+                                        <div class="fw-semibold lh-sm" style="font-size:.8rem;color:#3b82f6;">
+                                            {{ edt.matiere ? edt.matiere.nom : '—' }}
+                                        </div>
+                                        <div class="text-meta lh-sm" style="margin-top:2px;font-size:.72rem;">
+                                            {{ edt.dateHeureDebut|date("H\\hi") }}–{{ edt.dateHeureFin|date("H\\hi") }}
+                                            {% if slotHeightPx >= 54 %} · {{ edt.salle ?? '' }}{% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="position-absolute w-100 d-flex align-items-center justify-content-center text-meta" style="top:50%;transform:translateY(-50%);font-size:.9rem;">
+                                    Aucun cours aujourd'hui
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# ── Accès rapides ────────────────────────────────────────────── #}
+        <div class="col-lg-6">
+            <div class="border rounded-3" aria-labelledby="quick-title">
+                <div class="px-4 py-3 border-bottom">
+                    <span id="quick-title" class="fw-semibold text-geii-black" style="font-size:1rem;">Accès rapides</span>
+                </div>
+                <div class="p-3">
+                    <div class="d-flex flex-column gap-2">
+                        <a href="{{ path('app_espace_enseignant_notes_new') }}"
+                           class="quick-link d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none text-geii-black">
+                            <i class="bi bi-clipboard2-plus text-iut-blue"></i>
+                            <span class="fw-medium flex-grow-1">Saisir une note</span>
+                            <i class="bi bi-arrow-right text-label"></i>
+                        </a>
+                        <a href="{{ path('app_espace_enseignant_supports_new') }}"
+                           class="quick-link d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none text-geii-black">
+                            <i class="bi bi-file-earmark-arrow-up text-iut-blue"></i>
+                            <span class="fw-medium flex-grow-1">Déposer un support de cours</span>
+                            <i class="bi bi-arrow-right text-label"></i>
+                        </a>
+                        <a href="{{ path('app_espace_enseignant_edt') }}"
+                           class="quick-link d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none text-geii-black">
+                            <i class="bi bi-calendar-week text-iut-blue"></i>
+                            <span class="fw-medium flex-grow-1">Consulter l'emploi du temps</span>
+                            <i class="bi bi-arrow-right text-label"></i>
+                        </a>
+                        <a href="{{ path('app_espace_enseignant_notes') }}"
+                           class="quick-link d-flex align-items-center gap-3 px-3 py-2 rounded-3 text-decoration-none text-geii-black">
+                            <i class="bi bi-clipboard2-check text-iut-blue"></i>
+                            <span class="fw-medium flex-grow-1">Voir toutes les notes</span>
+                            <i class="bi bi-arrow-right text-label"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
