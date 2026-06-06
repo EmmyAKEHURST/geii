@@ -38,7 +38,7 @@
                     </div>
                     <div>
                         <h1 class="h3 mb-0 fw-bold">Mes notes</h1>
-                        <p class="mb-0 text-muted-sm">{{ grades|length }} évaluations enregistrées</p>
+                        <p class="mb-0 text-muted-sm">{{ notes|length }} évaluations enregistrées</p>
                     </div>
                 </div>
 
@@ -72,21 +72,17 @@
                             <tr>
                                 <th class="px-4 py-3 fw-semibold border-bottom" style="font-size:1rem;">Matière</th>
                                 <th class="px-4 py-3 fw-semibold border-bottom" style="font-size:1rem;">Note</th>
-                                <th class="px-4 py-3 fw-semibold border-bottom d-none d-md-table-cell" style="font-size:1rem;">Enseignant</th>
-                                <th class="px-4 py-3 fw-semibold border-bottom d-none d-sm-table-cell" style="font-size:1rem;">Date</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for grade in grades %}
+                            {% for note in notes %}
                                 <tr>
-                                    <td class="px-4 py-3 fw-medium" style="font-size:1rem;">{{ grade.subject }}</td>
+                                    <td class="px-4 py-3 fw-medium" style="font-size:1rem;">{{ note.matiere.nom }}</td>
                                     <td class="px-4 py-3">
-                                        <span class="grade-pill rounded-pill px-3 py-1 fw-semibold {{ grade.grade >= 14 ? 'grade-pill--good' : (grade.grade >= 10 ? 'grade-pill--medium' : 'grade-pill--bad') }}">
-                                            {{ grade.grade|number_format(2) }}&nbsp;/&nbsp;20
+                                        <span class="grade-pill rounded-pill px-3 py-1 fw-semibold {{ note.valeur >= 14 ? 'grade-pill--good' : (note.valeur >= 10 ? 'grade-pill--medium' : 'grade-pill--bad') }}">
+                                            {{ note.valeur|number_format(2) }}&nbsp;/&nbsp;20
                                         </span>
                                     </td>
-                                    <td class="px-4 py-3 d-none d-md-table-cell text-meta" style="font-size:1rem;">{{ grade.teacher }}</td>
-                                    <td class="px-4 py-3 d-none d-sm-table-cell text-meta" style="font-size:1rem;">{{ grade.date|date('d/m/Y') }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
