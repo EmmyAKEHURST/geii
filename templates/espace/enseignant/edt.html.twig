@@ -1,0 +1,90 @@
+{% extends 'layouts/espace-enseignant.html.twig' %}
+
+{% block title %}Emploi du temps — Espace Enseignant — GEII{% endblock %}
+
+{% set activePage = 'edt' %}
+{% set scrollMode = false %}
+{% set breadcrumb = [
+    { label: 'Espace enseignant', route: 'app_espace_enseignant_index' },
+    { label: 'Pédagogie' },
+    { label: 'Emploi du temps' },
+] %}
+
+{% block page_content %}
+    <div class="d-flex align-items-center gap-3 mb-3 flex-shrink-0">
+        <div class="page-icon page-icon--edt rounded-3 d-flex align-items-center justify-content-center">
+            <i class="bi bi-calendar-week fs-4 text-iut-blue"></i>
+        </div>
+        <div>
+            <h1 class="h3 mb-0 fw-bold">Emploi du temps</h1>
+            <p class="mb-0 text-muted-sm">Semaine du {{ "now"|date("d/m/Y") }}</p>
+        </div>
+    </div>
+
+    {# Grille hebdomadaire — remplit la hauteur disponible #}
+    <div class="border rounded-3 overflow-hidden flex-grow-1">
+        <div class="week-grid-wrap">
+            <div class="week-grid">
+
+                {# ── En-tête ─────────────────────────────────────── #}
+                <div class="week-grid-header bg-white border-bottom border-end"></div>
+                {% for day in weekdays %}
+                    {% set isToday = day.key == scheduleDay %}
+                    <div class="week-grid-header bg-white border-bottom {{ not loop.last ? 'border-end' : '' }} py-3 text-center fw-semibold {{ isToday ? 'text-iut-blue' : 'text-geii-black' }}"
+                         style="font-size:1rem;">
+                        {{ day.label }}
+                        {% if isToday %}<span class="week-grid-today-dot"></span>{% endif %}
+                    </div>
+                {% endfor %}
+
+                {# ── Axe horaire ─────────────────────────────────── #}
+                <div class="week-grid-col border-end">
+                    {% for hour in scheduleHours %}
+                        <div class="week-grid-time-label"
+                             style="top:calc({{ hour - 9 }} * var(--hour-h) + 2px);">
+                            {{ hour }}h
+                        </div>
+                    {% endfor %}
+                </div>
+
+                {# ── Colonnes jours ──────────────────────────────── #}
+                {% for day in weekdays %}
+                    {% set daySlots = weeklyByDay[day.key] ?? [] %}
+                    {% set isToday  = day.key == scheduleDay %}
+
+                    <div class="week-grid-col {{ not loop.last ? 'border-end' : '' }}">
+                        {% if isToday %}
+                            <div class="week-grid-today-overlay"></div>
+                        {% endif %}
+
+                        {% for hour in scheduleHours %}
+                            <div class="week-grid-line" style="top:calc({{ hour - 9 }} * var(--hour-h));"></div>
+                        {% endfor %}
+
+                        {% for edt in daySlots %}
+                            {% set startH    = edt.dateHeureDebut|date('G') %}
+                            {% set startM    = edt.dateHeureDebut|date('i') %}
+                            {% set endH      = edt.dateHeureFin|date('G') %}
+                            {% set endM      = edt.dateHeureFin|date('i') %}
+                            {% set topOffset = (startH - 9) + startM / 60 %}
+                            {% set duration  = (endH * 60 + endM - startH * 60 - startM) / 60 %}
+                            <div class="course-block position-absolute rounded-2"
+                                 style="top:calc({{ topOffset }} * var(--hour-h) + 2px);height:calc({{ duration }} * var(--hour-h) - 4px);left:3px;right:3px;background:#eff6ff;border-left:3px solid #3b82f6;overflow:hidden;"
+                                 title="{{ edt.matiere ? edt.matiere.nom : '—' }} · {{ edt.dateHeureDebut|date("H\\hi") }}–{{ edt.dateHeureFin|date("H\\hi") }} · {{ edt.salle ?? '' }}">
+                                <div class="ps-2 pe-1 pt-1">
+                                    <div class="fw-semibold lh-sm text-truncate" style="font-size:.78rem;color:#3b82f6;">
+                                        {{ edt.matiere ? edt.matiere.nom : '—' }}
+                                    </div>
+                                    <div class="text-meta lh-sm" style="margin-top:1px;font-size:.68rem;">
+                                        {{ edt.dateHeureDebut|date("H\\hi") }}–{{ edt.dateHeureFin|date("H\\hi") }}
+                                        {% if duration >= 0.9 %}<br>{{ edt.salle ?? '' }}{% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
