@@ -6,6 +6,7 @@ use App\Enum\StatutAlternance;
 use App\Repository\OffreAlternanceRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: OffreAlternanceRepository::class)]
 class OffreAlternance
@@ -16,15 +17,21 @@ class OffreAlternance
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le titre de l'offre ne peut pas être vide.")]
+    #[Assert\Length(max: 255, maxMessage: 'Le titre ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $titre = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'La description ne peut pas être vide.')]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Assert\NotNull(message: 'La durée doit être spécifiée.')]
+    #[Assert\Positive(message: 'La durée doit être un entier positif (en mois).')]
     private ?int $duree = null;
 
     #[ORM\Column(enumType: StatutAlternance::class)]
+    #[Assert\NotNull(message: 'Le statut doit être spécifié.')]
     private ?StatutAlternance $statut = null;
 
     /**

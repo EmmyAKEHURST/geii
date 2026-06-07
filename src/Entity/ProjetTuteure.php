@@ -6,6 +6,7 @@ use App\Enum\StatutProjetTuteure;
 use App\Repository\ProjetTuteureRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProjetTuteureRepository::class)]
 class ProjetTuteure
@@ -16,15 +17,21 @@ class ProjetTuteure
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le titre ne peut pas être vide.')]
+    #[Assert\Length(max: 255, maxMessage: 'Le titre ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $titre = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'La description ne peut pas être vide.')]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Assert\NotNull(message: "L'année doit être spécifiée.")]
+    #[Assert\Positive(message: "L'année doit être un entier positif.")]
     private ?int $annee = null;
 
     #[ORM\Column(enumType: StatutProjetTuteure::class)]
+    #[Assert\NotNull(message: 'Le statut doit être spécifié.')]
     private ?StatutProjetTuteure $statut = null;
 
     /**

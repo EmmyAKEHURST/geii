@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EntrepriseRepository::class)]
 #[UniqueEntity(fields: ['compte'], message: 'Ce compte est déjà associé à une autre entreprise.', ignoreNull: true)]
@@ -18,15 +19,28 @@ class Entreprise
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le nom de l'entreprise ne peut pas être vide.")]
+    #[Assert\Length(max: 255, maxMessage: 'Le nom ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le numéro SIRET ne peut pas être vide.')]
+    #[Assert\Length(
+        min: 14,
+        max: 14,
+        exactMessage: 'Le numéro SIRET doit contenir exactement {{ limit }} chiffres.'
+    )]
+    #[Assert\Regex(pattern: '/^\d{14}$/', message: 'Le numéro SIRET doit seulement contenir des chiffres.')]
     private ?string $siret = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "L'adresse ne peut pas être vide.")]
+    #[Assert\Length(max: 255, maxMessage: "L'adresse ne peut pas dépasser {{ limit }} caractères.")]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le secteur d'activité ne peut pas être vide.")]
+    #[Assert\Length(max: 255, maxMessage: 'Le secteur ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $secteur = null;
 
     /**

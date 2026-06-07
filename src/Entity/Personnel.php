@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PersonnelRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PersonnelRepository::class)]
 #[UniqueEntity(fields: ['compte'], message: 'Ce compte est déjà associé à un autre membre du personnel.', ignoreNull: true)]
@@ -16,15 +17,22 @@ class Personnel
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le nom ne peut pas être vide.')]
+    #[Assert\Length(max: 255, maxMessage: 'Le nom ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le prénom ne peut pas être vide.')]
+    #[Assert\Length(max: 255, maxMessage: 'Le prénom ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'La fonction ne peut pas être vide.')]
+    #[Assert\Length(max: 255, maxMessage: 'La fonction ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $fonction = null;
 
     #[ORM\Column]
+    #[Assert\NotNull(message: 'Le statut administrateur doit être renseigné.')]
     private ?bool $admin = null;
 
     /**

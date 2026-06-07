@@ -7,6 +7,7 @@ use App\Repository\CompteRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CompteRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
@@ -25,6 +26,9 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string|null The email address.
      */
     #[ORM\Column(length: 180)]
+    #[Assert\NotBlank(message: "L'adresse email ne peut pas être vide.")]
+    #[Assert\Email(message: "L'adresse email \"{{ value }}\" n'est pas valide.")]
+    #[Assert\Length(max: 180, maxMessage: "L'adresse email ne peut pas dépasser {{ limit }} caractères.")]
     private ?string $email = null;
 
     /**
