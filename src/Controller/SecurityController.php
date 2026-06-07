@@ -36,6 +36,7 @@ class SecurityController extends AbstractController
     {
         if ($request->isMethod('POST')) {
             $csrfToken = (string) $request->request->get('_csrf_token');
+
             if (!$this->isCsrfTokenValid('forgot_password', $csrfToken)) {
                 throw $this->createAccessDeniedException('Jeton CSRF invalide.');
             }
