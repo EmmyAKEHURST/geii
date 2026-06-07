@@ -2,10 +2,11 @@
 
 namespace App\EventListener;
 
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 #[AsEventListener]
 readonly class LoginSuccessListener
@@ -14,6 +15,12 @@ readonly class LoginSuccessListener
         private RouterInterface $router
     ) {}
 
+    /**
+     * Redirige l'utilisateur vers la bonne espace après succès de l'authentification.
+     *
+     * @param LoginSuccessEvent $event
+     * @return void
+     */
     public function __invoke(LoginSuccessEvent $event): void
     {
         $user = $event->getAuthenticatedToken()->getUser();
@@ -24,6 +31,9 @@ readonly class LoginSuccessListener
             'ROLE_ENTREPRISE' => 'app_espace_entreprise_index',
             'ROLE_ETUDIANT'   => 'app_espace_etudiant_index',
         ];
+
+        if (!$user instanceof UserInterface)
+            return;
 
         foreach ($roleRouteMap as $role => $route) {
             if (in_array($role, $user->getRoles(), true)) {
