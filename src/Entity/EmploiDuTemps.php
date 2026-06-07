@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\EmploiDuTempsRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EmploiDuTempsRepository::class)]
 class EmploiDuTemps
@@ -14,12 +15,17 @@ class EmploiDuTemps
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotNull(message: 'La date et heure de début doit être spécifiée.')]
     private ?\DateTime $date_heure_debut = null;
 
     #[ORM\Column]
+    #[Assert\NotNull(message: 'La date et heure de fin doit être spécifiée.')]
+    #[Assert\GreaterThan(propertyPath: 'date_heure_debut', message: 'La date de fin doit être postérieure à la date de début.')]
     private ?\DateTime $date_heure_fin = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'La salle ne peut pas être vide.')]
+    #[Assert\Length(max: 255, maxMessage: 'Le nom de la salle ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $salle = null;
 
     #[ORM\ManyToOne(inversedBy: 'emploiDuTemps')]

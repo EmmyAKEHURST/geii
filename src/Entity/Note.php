@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\NoteRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: NoteRepository::class)]
 class Note
@@ -15,6 +16,12 @@ class Note
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotNull(message: 'La valeur de la note doit être spécifiée.')]
+    #[Assert\Range(
+        min: 0,
+        max: 20,
+        notInRangeMessage: 'La note doit être comprise entre {{ min }} et {{ max }}.'
+    )]
     private ?float $valeur = null;
 
     /**
