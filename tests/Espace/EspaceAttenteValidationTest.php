@@ -30,7 +30,6 @@ class EspaceAttenteValidationTest extends FunctionalTestCase
     {
         $compte = $this->createCompte('user@test.fr');
         $this->client->loginUser($compte);
-
         $this->client->request('GET', self::ROUTE);
 
         $this->assertResponseIsSuccessful();
@@ -44,7 +43,6 @@ class EspaceAttenteValidationTest extends FunctionalTestCase
     {
         $compte = $this->createComptePersonnel('personnel@test.fr');
         $this->client->loginUser($compte);
-
         $this->client->request('GET', self::ROUTE);
 
         $this->assertResponseRedirects('/espace/personnel/');
@@ -58,7 +56,6 @@ class EspaceAttenteValidationTest extends FunctionalTestCase
     {
         $compte = $this->createCompteEtudiant('etudiant@test.fr');
         $this->client->loginUser($compte);
-
         $this->client->request('GET', self::ROUTE);
 
         $this->assertResponseRedirects('/espace/etudiant/');

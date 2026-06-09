@@ -19,11 +19,12 @@ class EntrepriseRepositoryTest extends IntegrationTestCase
 
     private function createEntreprise(string $nom, string $siret, string $secteur = 'Informatique'): Entreprise
     {
-        $entreprise = new Entreprise();
-        $entreprise->setNom($nom);
-        $entreprise->setSiret($siret);
-        $entreprise->setAdresse('1 rue Test, 75001 Paris');
-        $entreprise->setSecteur($secteur);
+        $entreprise = (new Entreprise())
+            ->setNom($nom)
+            ->setSiret($siret)
+            ->setAdresse('1 rue Test, 75001 Paris')
+            ->setSecteur($secteur)
+        ;
 
         $this->em->persist($entreprise);
 

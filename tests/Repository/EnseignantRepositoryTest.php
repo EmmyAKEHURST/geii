@@ -69,7 +69,7 @@ class EnseignantRepositoryTest extends IntegrationTestCase
     {
         $this->createEnseignant('Martin', 'Électronique');
         $this->createEnseignant('Bernard', 'Électronique');
-        $this->createEnseignant('Dupuis', 'Informatique');
+        $this->createEnseignant('Dupuis');
 
         $this->em->flush();
 

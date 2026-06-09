@@ -2,8 +2,9 @@
 
 namespace App\Tests\Entity;
 
-use App\Entity\EmploiDuTemps;
+use DateTime;
 use App\Entity\Matiere;
+use App\Entity\EmploiDuTemps;
 use App\Tests\IntegrationTestCase;
 
 class EmploiDuTempsIntegrationTest extends IntegrationTestCase
@@ -14,8 +15,8 @@ class EmploiDuTempsIntegrationTest extends IntegrationTestCase
     public function testPersistanceEmploiDuTemps(): void
     {
         $emploi = new EmploiDuTemps();
-        $emploi->setDateHeureDebut(new \DateTime('2024-09-02 08:00:00'));
-        $emploi->setDateHeureFin(new \DateTime('2024-09-02 10:00:00'));
+        $emploi->setDateHeureDebut(new DateTime('2024-09-02 08:00:00'));
+        $emploi->setDateHeureFin(new DateTime('2024-09-02 10:00:00'));
         $emploi->setSalle('A101');
 
         $this->em->persist($emploi);
@@ -42,8 +43,8 @@ class EmploiDuTempsIntegrationTest extends IntegrationTestCase
         $this->em->persist($matiere);
 
         $emploi = new EmploiDuTemps();
-        $emploi->setDateHeureDebut(new \DateTime('2024-09-03 14:00:00'));
-        $emploi->setDateHeureFin(new \DateTime('2024-09-03 16:00:00'));
+        $emploi->setDateHeureDebut(new DateTime('2024-09-03 14:00:00'));
+        $emploi->setDateHeureFin(new DateTime('2024-09-03 16:00:00'));
         $emploi->setSalle('B305');
         $emploi->setMatiere($matiere);
 

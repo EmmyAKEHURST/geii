@@ -20,11 +20,12 @@ class ProjetTuteureRepositoryTest extends IntegrationTestCase
 
     private function createEntreprise(string $nom, string $siret): Entreprise
     {
-        $entreprise = new Entreprise();
-        $entreprise->setNom($nom);
-        $entreprise->setSiret($siret);
-        $entreprise->setAdresse('1 rue Test, 75001 Paris');
-        $entreprise->setSecteur('Industrie');
+        $entreprise = (new Entreprise())
+            ->setNom($nom)
+            ->setSiret($siret)
+            ->setAdresse('1 rue Test, 75001 Paris')
+            ->setSecteur('Industrie')
+        ;
 
         $this->em->persist($entreprise);
 
@@ -33,12 +34,13 @@ class ProjetTuteureRepositoryTest extends IntegrationTestCase
 
     private function createProjet(string $titre, Entreprise $entreprise): ProjetTuteure
     {
-        $projet = new ProjetTuteure();
-        $projet->setTitre($titre);
-        $projet->setDescription('Description du projet.');
-        $projet->setAnnee(2024);
-        $projet->setStatut(StatutProjetTuteure::OUVERT);
-        $projet->setEntreprise($entreprise);
+        $projet = (new ProjetTuteure())
+            ->setTitre($titre)
+            ->setDescription('Description du projet.')
+            ->setAnnee(2024)
+            ->setStatut(StatutProjetTuteure::OUVERT)
+            ->setEntreprise($entreprise)
+        ;
 
         $this->em->persist($projet);
 

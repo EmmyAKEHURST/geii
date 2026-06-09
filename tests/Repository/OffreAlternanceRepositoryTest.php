@@ -20,11 +20,12 @@ class OffreAlternanceRepositoryTest extends IntegrationTestCase
 
     private function createEntreprise(string $nom, string $siret): Entreprise
     {
-        $entreprise = new Entreprise();
-        $entreprise->setNom($nom);
-        $entreprise->setSiret($siret);
-        $entreprise->setAdresse('1 rue Test, 75001 Paris');
-        $entreprise->setSecteur('Informatique');
+        $entreprise = (new Entreprise())
+            ->setNom($nom)
+            ->setSiret($siret)
+            ->setAdresse('1 rue Test, 75001 Paris')
+            ->setSecteur('Informatique')
+        ;
 
         $this->em->persist($entreprise);
 
@@ -33,12 +34,13 @@ class OffreAlternanceRepositoryTest extends IntegrationTestCase
 
     private function createOffre(string $titre, Entreprise $entreprise): OffreAlternance
     {
-        $offre = new OffreAlternance();
-        $offre->setTitre($titre);
-        $offre->setDescription('Description de l\'offre.');
-        $offre->setDuree(12);
-        $offre->setStatut(StatutAlternance::ACTIVE);
-        $offre->setEntreprise($entreprise);
+        $offre = (new OffreAlternance())
+            ->setTitre($titre)
+            ->setDescription('Description de l\'offre.')
+            ->setDuree(12)
+            ->setStatut(StatutAlternance::ACTIVE)
+            ->setEntreprise($entreprise)
+        ;
 
         $this->em->persist($offre);
 

@@ -14,9 +14,7 @@ class NoteIntegrationTest extends IntegrationTestCase
      */
     public function testPersistanceNote(): void
     {
-        $matiere = (new Matiere())
-            ->setNom('Automatisme')
-        ;
+        $matiere = (new Matiere())->setNom('Automatisme');
 
         $this->em->persist($matiere);
 
@@ -57,9 +55,7 @@ class NoteIntegrationTest extends IntegrationTestCase
      */
     public function testPersistanceNoteSansCommentaire(): void
     {
-        $matiere = (new Matiere())
-            ->setNom('Électronique')
-        ;
+        $matiere = (new Matiere())->setNom('Électronique');
 
         $this->em->persist($matiere);
 

@@ -19,11 +19,12 @@ class PersonnelRepositoryTest extends IntegrationTestCase
 
     private function createPersonnel(string $nom, bool $admin = false): Personnel
     {
-        $personnel = new Personnel();
-        $personnel->setNom($nom);
-        $personnel->setPrenom('Prénom');
-        $personnel->setFonction('Agent administratif');
-        $personnel->setAdmin($admin);
+        $personnel = (new Personnel())
+            ->setNom($nom)
+            ->setPrenom('Prénom')
+            ->setFonction('Agent administratif')
+            ->setAdmin($admin)
+        ;
 
         $this->em->persist($personnel);
 

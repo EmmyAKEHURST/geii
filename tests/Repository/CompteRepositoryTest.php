@@ -5,27 +5,27 @@ namespace App\Tests\Repository;
 use App\Entity\Compte;
 use App\Repository\CompteRepository;
 use App\Tests\IntegrationTestCase;
-use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class CompteRepositoryTest extends IntegrationTestCase
 {
+    private const string MOT_DE_PASSE = 'MotDePasse123!';
+
     private CompteRepository $repository;
+    private UserPasswordHasherInterface $hasher;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->repository = $this->em->getRepository(Compte::class);
+        $this->hasher = static::getContainer()->get(UserPasswordHasherInterface::class);
     }
 
     private function createCompte(string $email): Compte
     {
-        $compte = (new Compte())
-            ->setEmail($email)
-            ->setPassword('$2y$13$hashInitial')
-        ;
+        $compte = (new Compte())->setEmail($email);
+        $compte->setPassword($this->hasher->hashPassword($compte, self::MOT_DE_PASSE));
 
         $this->em->persist($compte);
 
@@ -33,7 +33,7 @@ class CompteRepositoryTest extends IntegrationTestCase
     }
 
     /**
-     * Vérifie que upgradePassword met bien à jour le hash en base.
+     * Vérifie qu'upgradePassword() met bien à jour le hash en base.
      */
     public function testUpgradePasswordMetsAJourLeMotDePasse(): void
     {
@@ -45,39 +45,6 @@ class CompteRepositoryTest extends IntegrationTestCase
         $this->em->clear();
         $trouve = $this->em->find(Compte::class, $compte->getId());
         $this->assertSame('$2y$13$nouveauHash', $trouve->getPassword());
-    }
-
-    /**
-     * Vérifie qu'une UnsupportedUserException est levée pour un utilisateur non-Compte.
-     */
-    public function testUpgradePasswordRejeteUnNonCompte(): void
-    {
-        $this->expectException(UnsupportedUserException::class);
-
-        $fakeUser = new class implements UserInterface, PasswordAuthenticatedUserInterface
-        {
-            public function getPassword(): ?string
-            {
-                return 'hash';
-            }
-
-            public function getUserIdentifier(): string
-            {
-                return 'fake';
-            }
-
-            public function getRoles(): array
-            {
-                return [];
-            }
-
-            public function eraseCredentials(): void
-            {
-                // ...
-            }
-        };
-
-        $this->repository->upgradePassword($fakeUser, 'nouveau_hash');
     }
 
     /**

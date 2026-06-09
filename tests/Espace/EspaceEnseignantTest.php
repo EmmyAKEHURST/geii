@@ -16,7 +16,6 @@ class EspaceEnseignantTest extends FunctionalTestCase
     {
         $compte = $this->createCompteEnseignant('enseignant@test.fr');
         $this->client->loginUser($compte);
-
         $this->client->request('GET', self::ROUTE);
 
         $this->assertResponseIsSuccessful();
@@ -30,7 +29,6 @@ class EspaceEnseignantTest extends FunctionalTestCase
     {
         $compte = $this->createComptePersonnel('personnel@test.fr');
         $this->client->loginUser($compte);
-
         $this->client->request('GET', self::ROUTE);
 
         $this->assertResponseIsSuccessful();
@@ -55,7 +53,6 @@ class EspaceEnseignantTest extends FunctionalTestCase
     {
         $compte = $this->createCompteEtudiant('etudiant@test.fr');
         $this->client->loginUser($compte);
-
         $this->client->request('GET', self::ROUTE);
 
         $this->assertResponseStatusCodeSame(403);
@@ -69,7 +66,6 @@ class EspaceEnseignantTest extends FunctionalTestCase
     {
         $compte = $this->createCompteEntreprise('entreprise@test.fr');
         $this->client->loginUser($compte);
-
         $this->client->request('GET', self::ROUTE);
 
         $this->assertResponseStatusCodeSame(403);

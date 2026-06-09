@@ -19,8 +19,7 @@ class MatiereRepositoryTest extends IntegrationTestCase
 
     private function createMatiere(string $nom): Matiere
     {
-        $matiere = new Matiere();
-        $matiere->setNom($nom);
+        $matiere = (new Matiere())->setNom($nom);
 
         $this->em->persist($matiere);
 

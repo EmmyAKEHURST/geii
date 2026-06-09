@@ -21,11 +21,12 @@ class NoteRepositoryTest extends IntegrationTestCase
 
     private function createEtudiant(string $num): Etudiant
     {
-        $etudiant = new Etudiant();
-        $etudiant->setNumEtudiant($num);
-        $etudiant->setNom('Dupont');
-        $etudiant->setPrenom('Alice');
-        $etudiant->setAnnee(1);
+        $etudiant = (new Etudiant())
+            ->setNumEtudiant($num)
+            ->setNom('Dupont')
+            ->setPrenom('Alice')
+            ->setAnnee(1)
+        ;
 
         $this->em->persist($etudiant);
 
@@ -34,8 +35,7 @@ class NoteRepositoryTest extends IntegrationTestCase
 
     private function createMatiere(string $nom): Matiere
     {
-        $matiere = new Matiere();
-        $matiere->setNom($nom);
+        $matiere = (new Matiere())->setNom($nom);
 
         $this->em->persist($matiere);
 
@@ -44,10 +44,11 @@ class NoteRepositoryTest extends IntegrationTestCase
 
     private function createNote(float $valeur, Etudiant $etudiant, Matiere $matiere): Note
     {
-        $note = new Note();
-        $note->setValeur($valeur);
-        $note->setEtudiant($etudiant);
-        $note->setMatiere($matiere);
+        $note = (new Note())
+            ->setValeur($valeur)
+            ->setEtudiant($etudiant)
+            ->setMatiere($matiere)
+        ;
 
         $this->em->persist($note);
 

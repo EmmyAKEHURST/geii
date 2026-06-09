@@ -21,7 +21,6 @@ class EtudiantIntegrationTest extends IntegrationTestCase
 
         $this->em->persist($etudiant);
         $this->em->flush();
-
         $this->em->clear();
 
         $trouve = $this->em->find(Etudiant::class, 'ETU2024001');

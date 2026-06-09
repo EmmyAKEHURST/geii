@@ -8,7 +8,7 @@ use App\Tests\IntegrationTestCase;
 class PersonnelIntegrationTest extends IntegrationTestCase
 {
     /**
-     * Vérifie qu'un membre du personnel non administrateur est persisté correctement.
+     * Vérifie qu'un membre du personnel non-administrateur est persisté correctement.
      */
     public function testPersistancePersonnelNonAdmin(): void
     {

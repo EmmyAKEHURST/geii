@@ -9,7 +9,8 @@ use DateTime;
 class SupportCoursIntegrationTest extends IntegrationTestCase
 {
     /**
-     * Vérifie qu'un support de cours est persisté avec son titre, son chemin de fichier et sa date de dépôt.
+     * Vérifie qu'un support de cours est persisté avec son titre,
+     * son chemin de fichier et sa date de dépôt.
      */
     public function testPersistanceSupportCours(): void
     {

@@ -24,10 +24,12 @@ class SupportCoursRepositoryTest extends IntegrationTestCase
      */
     private function createSupportCours(string $titre, string $date = '2024-09-01'): SupportCours
     {
-        $support = new SupportCours();
-        $support->setTitre($titre);
-        $support->setFichierPath('uploads/' . strtolower(str_replace(' ', '_', $titre)) . '.pdf');
-        $support->setDateDepot(new DateTime($date));
+        $support = (new SupportCours())
+            ->setTitre($titre)
+            ->setFichierPath('uploads/' . strtolower(str_replace(' ', '_', $titre)) . '.pdf')
+            ->setDateDepot(new DateTime($date))
+        ;
+
         $this->em->persist($support);
 
         return $support;

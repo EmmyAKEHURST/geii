@@ -12,9 +12,7 @@ class MatiereIntegrationTest extends IntegrationTestCase
      */
     public function testPersistanceMatiere(): void
     {
-        $matiere = (new Matiere())
-            ->setNom('Systèmes embarqués')
-        ;
+        $matiere = (new Matiere())->setNom('Systèmes embarqués');
 
         $this->em->persist($matiere);
         $this->em->flush();
