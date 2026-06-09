@@ -33,13 +33,36 @@
 
             {# Contenu — remplit la hauteur restante, pas de scroll #}
             <div class="espace-content">
-                <div class="d-flex align-items-center gap-3 mb-3 flex-shrink-0">
-                    <div class="page-icon page-icon--edt rounded-3 d-flex align-items-center justify-content-center">
-                        <i class="bi bi-calendar-week fs-4 text-iut-blue"></i>
+                <div class="d-flex align-items-center justify-content-between gap-3 mb-3 flex-shrink-0">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="page-icon page-icon--edt rounded-3 d-flex align-items-center justify-content-center">
+                            <i class="bi bi-calendar-week fs-4 text-iut-blue"></i>
+                        </div>
+                        <div>
+                            <h1 class="h3 mb-0 fw-bold">Emploi du temps</h1>
+                            <p class="mb-0 text-muted-sm">Semaine du {{ weekStart }}</p>
+                        </div>
                     </div>
-                    <div>
-                        <h1 class="h3 mb-0 fw-bold">Emploi du temps</h1>
-                        <p class="mb-0 text-muted-sm">Semaine du {{ "now"|date("d/m/Y") }}</p>
+                    <div class="d-flex align-items-center gap-2">
+                        <a href="{{ path('app_espace_etudiant_edt', {week: weekOffset - 1}) }}"
+                           class="btn btn-sm btn-outline-secondary d-flex align-items-center justify-content-center"
+                           style="width:2rem;height:2rem;padding:0;"
+                           title="Semaine précédente">
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+                        {% if weekOffset != 0 %}
+                        <a href="{{ path('app_espace_etudiant_edt') }}"
+                           class="btn btn-sm btn-outline-primary"
+                           style="font-size:.8rem;">
+                            Aujourd'hui
+                        </a>
+                        {% endif %}
+                        <a href="{{ path('app_espace_etudiant_edt', {week: weekOffset + 1}) }}"
+                           class="btn btn-sm btn-outline-secondary d-flex align-items-center justify-content-center"
+                           style="width:2rem;height:2rem;padding:0;"
+                           title="Semaine suivante">
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
                     </div>
                 </div>
 
@@ -52,10 +75,10 @@
                             <div class="week-grid-header bg-white border-bottom border-end"></div>
                             {% for day in weekdays %}
                             {% set isToday = day.key == scheduleDay %}
-                            <div class="week-grid-header bg-white border-bottom {{ not loop.last ? 'border-end' : '' }} py-3 text-center fw-semibold {{ isToday ? 'text-iut-blue' : 'text-geii-black' }}"
-                                 style="font-size:1rem;">
-                                {{ day.label }}
-                                {% if isToday %}<span class="week-grid-today-dot"></span>{% endif %}
+                            <div class="week-grid-header bg-white border-bottom {{ not loop.last ? 'border-end' : '' }} py-2 text-center {{ isToday ? 'text-iut-blue' : 'text-geii-black' }}">
+                                <div class="fw-semibold" style="font-size:1rem;">{{ day.label }}</div>
+                                <div style="font-size:.78rem;opacity:.7;margin-top:1px;">{{ day.date }}</div>
+                                {% if isToday %}<span class="week-grid-today-dot" style="display:block;margin:2px auto 0;"></span>{% endif %}
                             </div>
                             {% endfor %}
 

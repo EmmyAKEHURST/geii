@@ -34,6 +34,9 @@ class ProjetTuteure
     #[Assert\NotNull(message: 'Le statut doit être spécifié.')]
     private ?StatutProjetTuteure $statut = null;
 
+    #[ORM\Column]
+    private bool $publie = false;
+
     /**
      * Entreprise commanditaire du projet.
      * CASCADE : supprimer une Entreprise supprime ses projets.
@@ -123,6 +126,18 @@ class ProjetTuteure
     public function setEnseignantTuteur(?Enseignant $enseignantTuteur): static
     {
         $this->enseignantTuteur = $enseignantTuteur;
+
+        return $this;
+    }
+
+    public function isPublie(): bool
+    {
+        return $this->publie;
+    }
+
+    public function setPublie(bool $publie): static
+    {
+        $this->publie = $publie;
 
         return $this;
     }

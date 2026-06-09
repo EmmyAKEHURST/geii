@@ -56,7 +56,7 @@ final class ProjetTuteureController extends AbstractController
     public function new(Request $request): Response
     {
         $project = new ProjetTuteure();
-        $form = $this->createForm(ProjetTuteureType::class, $project);
+        $form = $this->createForm(ProjetTuteureType::class, $project, ['is_personnel' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -88,7 +88,7 @@ final class ProjetTuteureController extends AbstractController
     #[Route('/{id}/edit', name: 'app_espace_personnel_projets_tuteures_edit', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
     public function edit(ProjetTuteure $project, Request $request): Response
     {
-        $form = $this->createForm(ProjetTuteureType::class, $project);
+        $form = $this->createForm(ProjetTuteureType::class, $project, ['is_personnel' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
