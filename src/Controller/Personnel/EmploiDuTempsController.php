@@ -37,11 +37,25 @@ final class EmploiDuTempsController extends AbstractController
      * @return Response La page HTML de la liste des créneaux
      */
     #[Route('', name: 'app_espace_personnel_edt', methods: ['GET'])]
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $weekOffset = (int) $request->query->get('week', 0);
+
+        $modifier = $weekOffset === 0 ? 'monday this week' : sprintf('monday this week %+d week', $weekOffset);
+        $monday = (new \DateTime())->modify($modifier)->setTime(0, 0);
+
+        $monthNames = [
+            1 => 'janvier', 2 => 'février', 3 => 'mars', 4 => 'avril',
+            5 => 'mai', 6 => 'juin', 7 => 'juillet', 8 => 'août',
+            9 => 'septembre', 10 => 'octobre', 11 => 'novembre', 12 => 'décembre',
+        ];
+
         return $this->render('espace/personnel/edt.html.twig', [
-            'staff' => $this->getStaffData(),
-            'schedules' => $this->repository->findBy([], ['date_heure_debut' => 'ASC']),
+            'staff'      => $this->getStaffData(),
+            'schedules'  => $this->repository->getWeekSchedules($weekOffset),
+            'weekOffset' => $weekOffset,
+            'weekStart'  => $monday->format('d/m/Y'),
+            'weekLabel'  => (int) $monday->format('j') . ' ' . $monthNames[(int) $monday->format('n')] . ' ' . $monday->format('Y'),
         ]);
     }
 

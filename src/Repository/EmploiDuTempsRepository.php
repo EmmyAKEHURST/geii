@@ -44,15 +44,42 @@ class EmploiDuTempsRepository extends ServiceEntityRepository
     }
 
     /**
-     * Retourne les cours de la semaine courante, ces cours sont groupés par jour.
+     * Retourne les cours de la semaine donnée sous forme de liste plate, triés par date/heure.
+     *
+     * @return EmploiDuTemps[]
+     * @throws DateMalformedStringException
+     */
+    public function getWeekSchedules(int $weekOffset = 0): array
+    {
+        $modifier = $weekOffset === 0 ? 'monday this week' : sprintf('monday this week %+d week', $weekOffset);
+        $monday = (new DateTime())->modify($modifier)->setTime(0, 0);
+        $friday = (clone $monday)->modify('+4 days')->setTime(23, 59, 59);
+
+        /** @var EmploiDuTemps[] $result */
+        $result = $this->createQueryBuilder('e')
+            ->where('e.date_heure_debut >= :monday')
+            ->andWhere('e.date_heure_fin <= :friday')
+            ->setParameter('monday', $monday)
+            ->setParameter('friday', $friday)
+            ->orderBy('e.date_heure_debut', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $result;
+    }
+
+    /**
+     * Retourne les cours de la semaine donnée (décalage en semaines par rapport à aujourd'hui), groupés par jour.
      *
      * @return array<string, list<mixed>>
      * @throws DateMalformedStringException
      */
-    public function getWeeklyPlanning(): array
+    public function getWeeklyPlanning(int $weekOffset = 0): array
     {
-        $monday = (new DateTime())->modify('monday this week')->setTime(0, 0);
-        $friday = (new DateTime())->modify('friday this week')->setTime(23, 59, 59);
+        $modifier = $weekOffset === 0 ? 'monday this week' : sprintf('monday this week %+d week', $weekOffset);
+        $monday = (new DateTime())->modify($modifier)->setTime(0, 0);
+        $friday = (clone $monday)->modify('+4 days')->setTime(23, 59, 59);
 
         /** @var array<EmploiDuTemps> $entries */
         $entries = $this->createQueryBuilder('e')
