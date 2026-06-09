@@ -50,9 +50,16 @@
                                     <span class="offer-type-badge rounded-pill px-3 py-1 text-dark">
                                         Alternance
                                     </span>
-                                    <span class="text-meta">
-                                        {{ offer.duree }} mois
-                                    </span>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="rounded-pill px-2 py-1 fw-semibold"
+                                              style="font-size:.75rem;
+                                                     {% if offer.statut.value == 'active' %}background:#dcfce7;color:#15803d;
+                                                     {% elseif offer.statut.value == 'pourvue' %}background:#dbeafe;color:#1d4ed8;
+                                                     {% else %}background:#f1f5f9;color:#64748b;{% endif %}">
+                                            {{ offer.statut.value|capitalize }}
+                                        </span>
+                                        <span class="text-meta">{{ offer.duree }} mois</span>
+                                    </div>
                                 </div>
                                 <h2 class="fw-bold mb-1" style="font-size:1.2rem;">{{ offer.titre }}</h2>
                                 <p class="fw-semibold mb-3 text-iut-blue" style="font-size:1rem;">

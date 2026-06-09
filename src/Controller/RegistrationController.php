@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
@@ -24,13 +25,11 @@ class RegistrationController extends AbstractController
      */
     public function __construct(
         private readonly EmailVerifier $emailVerifier
-    )
-    {
-        // ...
-    }
+    ) {}
 
     /**
      * Displays and processes the registration form, persists the account, and sends email verification.
+     * @throws TransportExceptionInterface
      */
     #[Route('/register', name: 'app_register')]
     public function register(
