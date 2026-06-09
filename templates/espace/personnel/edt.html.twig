@@ -16,10 +16,29 @@
         icon: 'bi-calendar-week',
         variant: 'edt',
         title: 'Emplois du temps',
-        subtitle: schedules|length ~ ' créneau' ~ (schedules|length > 1 ? 'x' : '') ~ ' enregistré' ~ (schedules|length > 1 ? 's' : ''),
+        subtitle: schedules|length ~ ' créneau' ~ (schedules|length > 1 ? 'x' : '') ~ ' — semaine du ' ~ weekStart,
     }) }}
 
-    {{ ui.toolbar('Rechercher un créneau (matière, salle)…', 'Nouveau créneau', 'app_espace_personnel_edt_new') }}
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        {{ ui.toolbar('Rechercher un créneau (matière, salle)…', 'Nouveau créneau', 'app_espace_personnel_edt_new') }}
+        <div class="d-flex align-items-center gap-2 flex-shrink-0 ms-3">
+            <a href="{{ path('app_espace_personnel_edt', {week: weekOffset - 1}) }}"
+               class="btn btn-sm btn-outline-secondary d-flex align-items-center justify-content-center"
+               style="width:2rem;height:2rem;padding:0;" title="Semaine précédente">
+                <i class="bi bi-chevron-left"></i>
+            </a>
+            {% if weekOffset != 0 %}
+            <a href="{{ path('app_espace_personnel_edt') }}"
+               class="btn btn-sm btn-outline-primary"
+               style="font-size:.8rem;">Aujourd'hui</a>
+            {% endif %}
+            <a href="{{ path('app_espace_personnel_edt', {week: weekOffset + 1}) }}"
+               class="btn btn-sm btn-outline-secondary d-flex align-items-center justify-content-center"
+               style="width:2rem;height:2rem;padding:0;" title="Semaine suivante">
+                <i class="bi bi-chevron-right"></i>
+            </a>
+        </div>
+    </div>
 
     <div class="border rounded-3 overflow-hidden">
         <table class="table table-hover align-middle mb-0">
