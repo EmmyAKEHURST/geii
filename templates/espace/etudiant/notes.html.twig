@@ -46,22 +46,28 @@
                     <div class="col-md-4">
                         <div class="rounded-3 border text-center py-4">
                             <div class="text-label mb-2">Meilleure note</div>
-                            <div class="fw-bold" style="font-size:2rem;color:#15803d;">{{ gradeStats.best|number_format(2) }}</div>
-                            <div class="text-label">/ 20</div>
+                            <div class="d-flex align-items-baseline justify-content-center gap-1">
+                                <span class="fw-bold" style="font-size:2rem;color:#15803d;">{{ gradeStats.best|number_format(2) }}</span>
+                                <span class="text-label">/ 20</span>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="rounded-3 border text-center py-4" style="border-color:var(--iut-blue)!important;">
                             <div class="text-label mb-2">Moyenne générale</div>
-                            <div class="fw-bold text-iut-blue" style="font-size:2rem;">{{ gradeStats.average|number_format(2) }}</div>
-                            <div class="text-label">/ 20</div>
+                            <div class="d-flex align-items-baseline justify-content-center gap-1">
+                                <span class="fw-bold text-iut-blue" style="font-size:2rem;">{{ gradeStats.average|number_format(2) }}</span>
+                                <span class="text-label">/ 20</span>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="rounded-3 border text-center py-4">
                             <div class="text-label mb-2">Note la plus basse</div>
-                            <div class="fw-bold" style="font-size:2rem;color:#b45309;">{{ gradeStats.worst|number_format(2) }}</div>
-                            <div class="text-label">/ 20</div>
+                            <div class="d-flex align-items-baseline justify-content-center gap-1">
+                                <span class="fw-bold" style="font-size:2rem;color:#b45309;">{{ gradeStats.worst|number_format(2) }}</span>
+                                <span class="text-label">/ 20</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -72,6 +78,7 @@
                             <tr>
                                 <th class="px-4 py-3 fw-semibold border-bottom" style="font-size:1rem;">Matière</th>
                                 <th class="px-4 py-3 fw-semibold border-bottom" style="font-size:1rem;">Note</th>
+                                <th class="px-4 py-3 fw-semibold border-bottom" style="font-size:1rem;">Commentaire</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -79,10 +86,11 @@
                                 <tr>
                                     <td class="px-4 py-3 fw-medium" style="font-size:1rem;">{{ note.matiere.nom }}</td>
                                     <td class="px-4 py-3">
-                                        <span class="grade-pill rounded-pill px-3 py-1 fw-semibold {{ note.valeur >= 14 ? 'grade-pill--good' : (note.valeur >= 10 ? 'grade-pill--medium' : 'grade-pill--bad') }}">
+                                        <span class="grade-pill rounded-pill px-3 py-1 fw-semibold {{ note.valeur >= 14 ? 'grade-pill--good' : (note.valeur >= 10 ? 'grade-pill--medium' : 'grade-pill--bad') }}" style="white-space:nowrap;">
                                             {{ note.valeur|number_format(2) }}&nbsp;/&nbsp;20
                                         </span>
                                     </td>
+                                    <td class="px-4 py-3 text-meta" style="font-size:.9rem;">{{ note.commentaire ?? '—' }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>

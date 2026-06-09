@@ -8,6 +8,7 @@ use App\Repository\{EmploiDuTempsRepository, NoteRepository, OffreAlternanceRepo
 use DateTime;
 use DateMalformedStringException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -64,28 +65,47 @@ final class EspaceEtudiantController extends AbstractController
      * @throws DateMalformedStringException
      */
     #[Route('/emploi-du-temps', name: 'app_espace_etudiant_edt')]
-    public function emploiDuTemps(): Response
+    public function emploiDuTemps(Request $request): Response
     {
         $dayNames = [
             'Monday' => 'lundi', 'Tuesday' => 'mardi', 'Wednesday' => 'mercredi',
             'Thursday' => 'jeudi', 'Friday' => 'vendredi', 'Saturday' => 'samedi', 'Sunday' => 'dimanche',
         ];
 
+        $weekOffset = (int) $request->query->get('week', 0);
+
+        $modifier = $weekOffset === 0 ? 'monday this week' : sprintf('monday this week %+d week', $weekOffset);
+        $monday = (new DateTime())->modify($modifier)->setTime(0, 0);
+
+        $monthNames = [
+            1 => 'janvier', 2 => 'février', 3 => 'mars', 4 => 'avril',
+            5 => 'mai', 6 => 'juin', 7 => 'juillet', 8 => 'août',
+            9 => 'septembre', 10 => 'octobre', 11 => 'novembre', 12 => 'décembre',
+        ];
+
+        $weekdays = [];
+        for ($i = 0; $i < 5; $i++) {
+            $day = (clone $monday)->modify("+$i days");
+            $keys = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi'];
+            $labels = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'];
+            $weekdays[] = [
+                'key' => $keys[$i],
+                'label' => $labels[$i],
+                'date' => (int) $day->format('j') . ' ' . $monthNames[(int) $day->format('n')],
+            ];
+        }
+
         /** @var Compte $compte */
         $compte = $this->getUser();
 
         return $this->render('espace/etudiant/edt.html.twig', [
             'etudiant' => $compte->getEtudiant(),
-            'scheduleDay' => $dayNames[(new DateTime())->format('l')],
+            'scheduleDay' => $weekOffset === 0 ? $dayNames[(new DateTime())->format('l')] : '',
             'scheduleHours' => range(9, 18),
-            'weekdays' => [
-                ['key' => 'lundi', 'label' => 'Lundi'],
-                ['key' => 'mardi', 'label' => 'Mardi'],
-                ['key' => 'mercredi', 'label' => 'Mercredi'],
-                ['key' => 'jeudi', 'label' => 'Jeudi'],
-                ['key' => 'vendredi', 'label' => 'Vendredi'],
-            ],
-            'weeklyByDay' => $this->edtRepository->getWeeklyPlanning(),
+            'weekdays' => $weekdays,
+            'weeklyByDay' => $this->edtRepository->getWeeklyPlanning($weekOffset),
+            'weekOffset' => $weekOffset,
+            'weekStart' => $monday->format('d/m/Y'),
         ]);
     }
 

@@ -234,4 +234,104 @@ class EmploiDuTempsRepositoryTest extends IntegrationTestCase
         $this->assertSame('Vendredi AM', $result['vendredi'][0]->getSalle());
         $this->assertSame('Vendredi PM', $result['vendredi'][1]->getSalle());
     }
+
+    // ── getWeeklyPlanning avec offset ────────────────────────────────────────
+
+    /**
+     * Vérifie que getWeeklyPlanning(0) est équivalent à getWeeklyPlanning() sans argument.
+     *
+     * @throws DateMalformedStringException
+     */
+    public function testGetWeeklyPlanningOffset0EquivalentSemaineCourante(): void
+    {
+        $lundi = (new DateTime())->modify('monday this week');
+        $this->createCours(
+            (clone $lundi)->setTime(9, 0),
+            (clone $lundi)->setTime(11, 0),
+            'Semaine courante'
+        );
+        $this->em->flush();
+
+        $result = $this->repository->getWeeklyPlanning(0);
+
+        $this->assertCount(1, $result['lundi']);
+        $this->assertSame('Semaine courante', $result['lundi'][0]->getSalle());
+    }
+
+    /**
+     * Vérifie que getWeeklyPlanning(+1) retourne les cours de la semaine suivante.
+     *
+     * @throws DateMalformedStringException
+     */
+    public function testGetWeeklyPlanningOffsetPlusUnRetourneSemaineSuivante(): void
+    {
+        $lundiSuivant = (new DateTime())->modify('monday this week +1 week');
+        $this->createCours(
+            (clone $lundiSuivant)->setTime(9, 0),
+            (clone $lundiSuivant)->setTime(11, 0),
+            'Semaine suivante'
+        );
+
+        // Cours de cette semaine — ne doit pas apparaître avec offset +1
+        $lundiCourant = (new DateTime())->modify('monday this week');
+        $this->createCours(
+            (clone $lundiCourant)->setTime(9, 0),
+            (clone $lundiCourant)->setTime(11, 0),
+            'Semaine courante'
+        );
+
+        $this->em->flush();
+
+        $result = $this->repository->getWeeklyPlanning(1);
+
+        $this->assertCount(1, $result['lundi']);
+        $this->assertSame('Semaine suivante', $result['lundi'][0]->getSalle());
+    }
+
+    /**
+     * Vérifie que getWeeklyPlanning(-1) retourne les cours de la semaine précédente.
+     *
+     * @throws DateMalformedStringException
+     */
+    public function testGetWeeklyPlanningOffsetMoinsUnRetourneSemainePrecedente(): void
+    {
+        $lundiPrecedent = (new DateTime())->modify('monday this week -1 week');
+        $this->createCours(
+            (clone $lundiPrecedent)->setTime(14, 0),
+            (clone $lundiPrecedent)->setTime(16, 0),
+            'Semaine précédente'
+        );
+
+        // Cours de cette semaine — ne doit pas apparaître avec offset -1
+        $lundiCourant = (new DateTime())->modify('monday this week');
+        $this->createCours(
+            (clone $lundiCourant)->setTime(14, 0),
+            (clone $lundiCourant)->setTime(16, 0),
+            'Semaine courante'
+        );
+
+        $this->em->flush();
+
+        $result = $this->repository->getWeeklyPlanning(-1);
+
+        $this->assertCount(1, $result['lundi']);
+        $this->assertSame('Semaine précédente', $result['lundi'][0]->getSalle());
+    }
+
+    /**
+     * Vérifie que getWeeklyPlanning avec un offset retourne bien les 5 clés de jours.
+     *
+     * @throws DateMalformedStringException
+     */
+    public function testGetWeeklyPlanningOffsetRetourneLes5Jours(): void
+    {
+        $result = $this->repository->getWeeklyPlanning(2);
+
+        $this->assertArrayHasKey('lundi', $result);
+        $this->assertArrayHasKey('mardi', $result);
+        $this->assertArrayHasKey('mercredi', $result);
+        $this->assertArrayHasKey('jeudi', $result);
+        $this->assertArrayHasKey('vendredi', $result);
+        $this->assertCount(5, $result);
+    }
 }

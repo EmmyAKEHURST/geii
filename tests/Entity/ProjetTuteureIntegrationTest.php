@@ -84,4 +84,75 @@ class ProjetTuteureIntegrationTest extends IntegrationTestCase
         $this->assertNotNull($trouve->getEnseignantTuteur());
         $this->assertSame('Dupuis', $trouve->getEnseignantTuteur()->getNom());
     }
+
+    /**
+     * Vérifie que la propriété publie vaut false par défaut.
+     */
+    public function testPublieEstFauxParDefaut(): void
+    {
+        $projet = (new ProjetTuteure())
+            ->setTitre('Projet test')
+            ->setDescription('Description.')
+            ->setAnnee(2024)
+            ->setStatut(StatutProjetTuteure::OUVERT)
+        ;
+
+        $this->em->persist($projet);
+        $this->em->flush();
+        $this->em->clear();
+
+        $trouve = $this->em->find(ProjetTuteure::class, $projet->getId());
+
+        $this->assertNotNull($trouve);
+        $this->assertFalse($trouve->isPublie());
+    }
+
+    /**
+     * Vérifie qu'un projet peut être marqué comme publié et que la valeur est persistée.
+     */
+    public function testProjetPeutEtrePublie(): void
+    {
+        $projet = (new ProjetTuteure())
+            ->setTitre('Projet publié')
+            ->setDescription('Description.')
+            ->setAnnee(2025)
+            ->setStatut(StatutProjetTuteure::OUVERT)
+            ->setPublie(true)
+        ;
+
+        $this->em->persist($projet);
+        $this->em->flush();
+        $this->em->clear();
+
+        $trouve = $this->em->find(ProjetTuteure::class, $projet->getId());
+
+        $this->assertNotNull($trouve);
+        $this->assertTrue($trouve->isPublie());
+    }
+
+    /**
+     * Vérifie que la publication d'un projet peut être annulée.
+     */
+    public function testProjetPeutEtreDepublie(): void
+    {
+        $projet = (new ProjetTuteure())
+            ->setTitre('Projet à dépublier')
+            ->setDescription('Description.')
+            ->setAnnee(2025)
+            ->setStatut(StatutProjetTuteure::OUVERT)
+            ->setPublie(true)
+        ;
+
+        $this->em->persist($projet);
+        $this->em->flush();
+
+        $projet->setPublie(false);
+        $this->em->flush();
+        $this->em->clear();
+
+        $trouve = $this->em->find(ProjetTuteure::class, $projet->getId());
+
+        $this->assertNotNull($trouve);
+        $this->assertFalse($trouve->isPublie());
+    }
 }
