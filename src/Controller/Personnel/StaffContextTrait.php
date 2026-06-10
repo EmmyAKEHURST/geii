@@ -10,9 +10,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  *
  * Fournit :
  *  - getStaffData() : données affichées dans la sidebar pour l'utilisateur connecté ;
- *  - addRoleToCompte() : ajout idempotent d'un rôle Symfony à un Compte (utilisé
- *    pour propager automatiquement ROLE_ETUDIANT/ENSEIGNANT/PERSONNEL quand on
- *    rattache un Compte à un profil métier).
+ *  - addRoleToCompte() / removeRoleFromCompte() / syncCompteRole() : gestion
+ *    idempotente des rôles Symfony d'un Compte quand on rattache ou détache un
+ *    profil métier (étudiant, enseignant, personnel, entreprise).
  *
  * @phpstan-require-extends AbstractController
  */
@@ -51,5 +51,38 @@ trait StaffContextTrait
 
         $current[] = $role;
         $compte->setRoles(array_values(array_unique($current)));
+    }
+
+    /**
+     * Retire un rôle du Compte s'il y figure.
+     */
+    private function removeRoleFromCompte(Compte $compte, string $role): void
+    {
+        $current = array_filter($compte->getRoles(), static fn (string $r): bool => $r !== 'ROLE_USER');
+        $updated = array_values(array_filter($current, static fn (string $r): bool => $r !== $role));
+
+        if (\count($updated) === \count($current)) {
+            return;
+        }
+
+        $compte->setRoles($updated);
+    }
+
+    /**
+     * Synchronise le rôle métier lors d'un changement de rattachement Compte ↔ profil.
+     *
+     * - Compte retiré du profil → rôle révoqué sur l'ancien compte ;
+     * - Compte remplacé → rôle révoqué sur l'ancien, ajouté sur le nouveau ;
+     * - Compte ajouté → rôle ajouté sur le nouveau.
+     */
+    private function syncCompteRole(?Compte $previousCompte, ?Compte $newCompte, string $role): void
+    {
+        if ($previousCompte !== null && $previousCompte !== $newCompte) {
+            $this->removeRoleFromCompte($previousCompte, $role);
+        }
+
+        if ($newCompte !== null) {
+            $this->addRoleToCompte($newCompte, $role);
+        }
     }
 }

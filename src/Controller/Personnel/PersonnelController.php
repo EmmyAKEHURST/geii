@@ -96,15 +96,15 @@ final class PersonnelController extends AbstractController
     #[Route('/{id}/edit', name: 'app_espace_personnel_personnels_edit', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
     public function edit(Personnel $personnel, Request $request): Response
     {
+        $previousCompte = $personnel->getCompte();
+
         $form = $this->createForm(PersonnelType::class, $personnel, [
-            'current_compte' => $personnel->getCompte(),
+            'current_compte' => $previousCompte,
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($personnel->getCompte() !== null) {
-                $this->addRoleToCompte($personnel->getCompte(), 'ROLE_PERSONNEL');
-            }
+            $this->syncCompteRole($previousCompte, $personnel->getCompte(), 'ROLE_PERSONNEL');
 
             $this->em->flush();
 
@@ -138,6 +138,10 @@ final class PersonnelController extends AbstractController
 
         if (!$this->isCsrfTokenValid('delete-personnel-' . $personnel->getId(), $csrfToken)) {
             throw $this->createAccessDeniedException('Jeton CSRF invalide.');
+        }
+
+        if ($personnel->getCompte() !== null) {
+            $this->removeRoleFromCompte($personnel->getCompte(), 'ROLE_PERSONNEL');
         }
 
         $this->em->remove($personnel);

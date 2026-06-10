@@ -92,15 +92,15 @@ final class EntrepriseController extends AbstractController
     #[Route('/{id}/edit', name: 'app_espace_personnel_entreprises_edit', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
     public function edit(Entreprise $entreprise, Request $request): Response
     {
+        $previousCompte = $entreprise->getCompte();
+
         $form = $this->createForm(EntrepriseType::class, $entreprise, [
-            'current_compte' => $entreprise->getCompte(),
+            'current_compte' => $previousCompte,
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($entreprise->getCompte() !== null) {
-                $this->addRoleToCompte($entreprise->getCompte(), 'ROLE_ENTREPRISE');
-            }
+            $this->syncCompteRole($previousCompte, $entreprise->getCompte(), 'ROLE_ENTREPRISE');
 
             $this->em->flush();
 
@@ -134,6 +134,10 @@ final class EntrepriseController extends AbstractController
 
         if (!$this->isCsrfTokenValid('delete-entreprise-' . $entreprise->getId(), $csrfToken)) {
             throw $this->createAccessDeniedException('Jeton CSRF invalide.');
+        }
+
+        if ($entreprise->getCompte() !== null) {
+            $this->removeRoleFromCompte($entreprise->getCompte(), 'ROLE_ENTREPRISE');
         }
 
         $this->em->remove($entreprise);

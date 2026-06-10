@@ -94,16 +94,16 @@ final class EnseignantController extends AbstractController
     #[Route('/{id}/edit', name: 'app_espace_personnel_enseignants_edit', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
     public function edit(Enseignant $enseignant, Request $request): Response
     {
+        $previousCompte = $enseignant->getCompte();
+
         $form = $this->createForm(EnseignantType::class, $enseignant, [
-            'current_compte' => $enseignant->getCompte(),
+            'current_compte' => $previousCompte,
         ]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($enseignant->getCompte() !== null) {
-                $this->addRoleToCompte($enseignant->getCompte(), 'ROLE_ENSEIGNANT');
-            }
+            $this->syncCompteRole($previousCompte, $enseignant->getCompte(), 'ROLE_ENSEIGNANT');
 
             $this->em->flush();
 
@@ -137,6 +137,10 @@ final class EnseignantController extends AbstractController
 
         if (!$this->isCsrfTokenValid('delete-enseignant-' . $enseignant->getId(), $csrfToken)) {
             throw $this->createAccessDeniedException('Jeton CSRF invalide.');
+        }
+
+        if ($enseignant->getCompte() !== null) {
+            $this->removeRoleFromCompte($enseignant->getCompte(), 'ROLE_ENSEIGNANT');
         }
 
         $this->em->remove($enseignant);

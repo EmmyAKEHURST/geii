@@ -101,15 +101,15 @@ final class EtudiantController extends AbstractController
         #[MapEntity(mapping: ['numEtudiant' => 'num_etudiant'])] Etudiant $etudiant,
         Request $request,
     ): Response {
+        $previousCompte = $etudiant->getCompte();
+
         $form = $this->createForm(EtudiantType::class, $etudiant, [
-            'current_compte' => $etudiant->getCompte(),
+            'current_compte' => $previousCompte,
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($etudiant->getCompte() !== null) {
-                $this->addRoleToCompte($etudiant->getCompte(), 'ROLE_ETUDIANT');
-            }
+            $this->syncCompteRole($previousCompte, $etudiant->getCompte(), 'ROLE_ETUDIANT');
 
             $this->em->flush();
 
@@ -145,6 +145,10 @@ final class EtudiantController extends AbstractController
 
         if (!$this->isCsrfTokenValid('delete-etudiant-' . $etudiant->getNumEtudiant(), $csrfToken)) {
             throw $this->createAccessDeniedException('Jeton CSRF invalide.');
+        }
+
+        if ($etudiant->getCompte() !== null) {
+            $this->removeRoleFromCompte($etudiant->getCompte(), 'ROLE_ETUDIANT');
         }
 
         $this->em->remove($etudiant);
