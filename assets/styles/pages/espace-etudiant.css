@@ -335,3 +335,48 @@
 .text-muted-sm  { font-size: .9rem; color: #6b7280; }
 .text-meta      { font-size: .875rem; color: #6b7280; }
 .text-label     { font-size: .875rem; color: #9ca3af; }
+
+/* ── Accueil étudiant — layout 3 colonnes responsive ───────────────── */
+
+/*
+ * Sur desktop (≥ lg) : la row occupe 100 % de la zone flex-grow, les
+ * colonnes se partagent la hauteur côte à côte. Sur mobile les colonnes
+ * s'empilent et la hauteur est déterminée par leur contenu.
+ */
+@media (min-width: 992px) {
+    .home-columns-row { height: 100%; }
+}
+
+/*
+ * Contenu scrollable de chaque colonne.
+ * Sur mobile : max 50 vh pour que l'utilisateur voie les sections suivantes.
+ * Sur desktop : flex-grow pour remplir toute la hauteur de la colonne.
+ */
+.home-col-scroll {
+    max-height: 50vh;
+    overflow: auto;
+}
+@media (min-width: 992px) {
+    .home-col-scroll {
+        flex-grow: 1;
+        max-height: none;
+        overflow: auto;
+    }
+}
+
+/* ── Accueil enseignant — mini-EDT ──────────────────────────────────── */
+
+/*
+ * Zone de scroll du mini-EDT sur le tableau de bord enseignant.
+ * Capée sur mobile pour ne pas masquer les sections suivantes.
+ */
+.edt-home-scroll {
+    max-height: 45vh;
+    overflow: auto;
+}
+@media (min-width: 992px) {
+    .edt-home-scroll {
+        max-height: none;
+        overflow: auto;
+    }
+}

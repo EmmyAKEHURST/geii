@@ -54,7 +54,7 @@
 
             {# Contenu principal : 3 colonnes (EDT du jour · Notes · Offres) #}
             <div class="flex-grow-1 overflow-auto">
-                <div class="row g-0" style="height: 100%">
+                <div class="row g-0 home-columns-row">
 
                     {# ── Emploi du temps du jour ─────────────────────────────────── #}
                     <div class="col-lg-4 border-end d-flex flex-column">
@@ -63,7 +63,7 @@
                                 Emploi du temps : {{ scheduleDay }}
                             </span>
                         </div>
-                        <div class="flex-grow-1 overflow-auto">
+                        <div class="home-col-scroll">
                             {# La hauteur totale de la grille = nb d'heures × hauteur par heure #}
                             <div class="d-flex" style="height: {{ (18 - 9) * hourHeightPx }}px;">
 
@@ -119,7 +119,7 @@
                                 Les dernières notes
                             </span>
                         </div>
-                        <div class="flex-grow-1 overflow-auto">
+                        <div class="home-col-scroll">
                             {% for note in notes %}
                                 <div class="px-4 py-3 border-bottom d-flex align-items-center gap-4">
                                     <div class="fw-bold flex-shrink-0 text-geii-black"
@@ -143,7 +143,7 @@
                                 Les offres d'alternance
                             </span>
                         </div>
-                        <div class="flex-grow-1 overflow-auto">
+                        <div class="home-col-scroll">
                             {% for offer in offers %}
                                 <a href="{{ path('app_espace_etudiant_offres_alternance') }}"
                                    class="d-flex align-items-center gap-3 px-4 py-3 border-bottom text-decoration-none text-geii-black"
