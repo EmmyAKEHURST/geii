@@ -3,13 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Compte;
+use App\Entity\SupportCours;
 use App\Enum\StatutAlternance;
 use App\Repository\{EmploiDuTempsRepository, NoteRepository, OffreAlternanceRepository, ProjetTuteureRepository, SupportCoursRepository};
 use DateTime;
 use DateMalformedStringException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -171,6 +174,29 @@ final class EspaceEtudiantController extends AbstractController
             'etudiant' => $compte->getEtudiant(),
             'supports' => $this->supportCoursRepository->findBy([], ['date_depot' => 'DESC']),
         ]);
+    }
+
+    /**
+     * Télécharge un support de cours.
+     */
+    #[Route('/supports-cours/{id}/download', name: 'app_espace_etudiant_supports_cours_download', methods: ['GET'], requirements: ['id' => '\d+'])]
+    public function downloadSupport(SupportCours $support): BinaryFileResponse
+    {
+        /** @var string $projectDir */
+        $projectDir = $this->getParameter('kernel.project_dir');
+        $absolutePath = $projectDir . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'share' . DIRECTORY_SEPARATOR . 'supports' . DIRECTORY_SEPARATOR . $support->getFichierPath();
+
+        if (!is_file($absolutePath)) {
+            throw $this->createNotFoundException('Fichier introuvable.');
+        }
+
+        $response = new BinaryFileResponse($absolutePath);
+        $response->setContentDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $support->getTitre() . '.pdf'
+        );
+
+        return $response;
     }
 
     /**
