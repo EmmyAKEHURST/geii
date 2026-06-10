@@ -1,0 +1,170 @@
+{% extends 'layouts/auth.html.twig' %}
+
+{% block title %}Inscription — GEII{% endblock %}
+
+{% block auth_title %}Créer un compte{% endblock %}
+
+{% block auth_visual %}
+    <span class="badge-geii badge rounded-pill px-3 py-2 mb-4">
+        IUT &middot; Département GEII
+    </span>
+    <h2 class="hero-title text-white fw-bold mb-3">
+        Rejoignez le département GEII
+    </h2>
+    <p class="hero-subtitle mb-0">
+        Créez votre espace personnel en tant qu'étudiant, enseignant ou entreprise partenaire.
+    </p>
+{% endblock %}
+
+{% block content %}
+    {{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm, { attr: { class: 'auth-form', 'data-controller': 'registration-type' } }) }}
+
+        {# ── Sélecteur de profil ──────────────────────────────────────── #}
+        <div class="mb-4">
+            {{ form_label(registrationForm.accountType, null, { label_attr: { class: 'form-label' } }) }}
+            {{ form_widget(registrationForm.accountType, {
+                attr: {
+                    class: 'form-select',
+                    'data-registration-type-target': 'typeSelect',
+                    'data-action': 'change->registration-type#switchType'
+                }
+            }) }}
+            {{ form_errors(registrationForm.accountType) }}
+        </div>
+
+        {# ── Champs communs (email + mot de passe) ────────────────────── #}
+        <div class="d-none" data-registration-type-target="commonFields">
+            <div class="mb-3">
+                {{ form_label(registrationForm.email, 'Email', { label_attr: { class: 'form-label' } }) }}
+                {{ form_widget(registrationForm.email, { attr: { class: 'form-control', placeholder: 'votre@email.fr', autocomplete: 'email' } }) }}
+                {{ form_errors(registrationForm.email) }}
+            </div>
+
+            <div class="mb-3" data-controller="password-strength">
+                {{ form_label(registrationForm.plainPassword.first, null, { label_attr: { class: 'form-label' } }) }}
+                {{ form_widget(registrationForm.plainPassword.first, {
+                    attr: {
+                        class: 'form-control',
+                        placeholder: 'Mot de passe',
+                        autocomplete: 'new-password',
+                        'data-password-strength-target': 'input',
+                        'data-action': 'input->password-strength#update blur->password-strength#update'
+                    }
+                }) }}
+                {{ form_errors(registrationForm.plainPassword.first) }}
+                <div class="password-strength mt-3">
+                    <div class="progress password-strength-progress" role="progressbar" aria-label="Niveau du mot de passe" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar bg-danger" data-password-strength-target="bar" style="width: 0%"></div>
+                    </div>
+                    <p class="small text-body-geii mt-2 mb-2" data-password-strength-target="text">Sécurité du mot de passe : faible</p>
+                    <ul class="password-rules small mb-0">
+                        <li data-password-strength-target="ruleLength">Au moins 13 caractères</li>
+                        <li data-password-strength-target="ruleDigit">Au moins un chiffre</li>
+                        <li data-password-strength-target="ruleUpper">Au moins une lettre majuscule</li>
+                        <li data-password-strength-target="ruleLower">Au moins une lettre minuscule</li>
+                        <li data-password-strength-target="ruleSpecial">Au moins un caractère spécial</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                {{ form_label(registrationForm.plainPassword.second, null, { label_attr: { class: 'form-label' } }) }}
+                {{ form_widget(registrationForm.plainPassword.second, {
+                    attr: { class: 'form-control', placeholder: 'Confirmez le mot de passe', autocomplete: 'new-password' }
+                }) }}
+                {{ form_errors(registrationForm.plainPassword.second) }}
+            </div>
+            {{ form_errors(registrationForm.plainPassword) }}
+        </div>
+
+        {# ── Section Entreprise ───────────────────────────────────────── #}
+        <div class="d-none mb-3" data-registration-type-target="sectionEntreprise">
+            <hr class="my-3">
+            <p class="fw-semibold text-geii-black mb-3" style="font-size:.9rem;">Informations entreprise</p>
+            <div class="mb-3">
+                {{ form_label(registrationForm.nomEntreprise, null, { label_attr: { class: 'form-label' } }) }}
+                {{ form_widget(registrationForm.nomEntreprise, { attr: { class: 'form-control', placeholder: 'Schneider Electric' } }) }}
+                {{ form_errors(registrationForm.nomEntreprise) }}
+            </div>
+            <div class="mb-3">
+                {{ form_label(registrationForm.siret, null, { label_attr: { class: 'form-label' } }) }}
+                {{ form_widget(registrationForm.siret, { attr: { class: 'form-control', placeholder: '12345678901234', maxlength: 14 } }) }}
+                {{ form_errors(registrationForm.siret) }}
+            </div>
+            <div class="mb-3">
+                {{ form_label(registrationForm.secteur, null, { label_attr: { class: 'form-label' } }) }}
+                {{ form_widget(registrationForm.secteur, { attr: { class: 'form-control', placeholder: 'Énergie, Électronique, Automatisme…' } }) }}
+                {{ form_errors(registrationForm.secteur) }}
+            </div>
+            <div class="mb-3">
+                {{ form_label(registrationForm.adresse, null, { label_attr: { class: 'form-label' } }) }}
+                {{ form_widget(registrationForm.adresse, { attr: { class: 'form-control', placeholder: '12 Rue de la République, 75001 Paris' } }) }}
+                {{ form_errors(registrationForm.adresse) }}
+            </div>
+        </div>
+
+        {# ── Section Étudiant ─────────────────────────────────────────── #}
+        <div class="d-none mb-3" data-registration-type-target="sectionEtudiant">
+            <hr class="my-3">
+            <p class="fw-semibold text-geii-black mb-3" style="font-size:.9rem;">Informations étudiant</p>
+            <div class="mb-3">
+                {{ form_label(registrationForm.numEtudiant, null, { label_attr: { class: 'form-label' } }) }}
+                {{ form_widget(registrationForm.numEtudiant, { attr: { class: 'form-control', placeholder: 'E0123456789' } }) }}
+                {{ form_errors(registrationForm.numEtudiant) }}
+            </div>
+            <div class="row g-3 mb-3">
+                <div class="col-6">
+                    {{ form_label(registrationForm.nomEtudiant, null, { label_attr: { class: 'form-label' } }) }}
+                    {{ form_widget(registrationForm.nomEtudiant, { attr: { class: 'form-control', placeholder: 'Dupont' } }) }}
+                    {{ form_errors(registrationForm.nomEtudiant) }}
+                </div>
+                <div class="col-6">
+                    {{ form_label(registrationForm.prenomEtudiant, null, { label_attr: { class: 'form-label' } }) }}
+                    {{ form_widget(registrationForm.prenomEtudiant, { attr: { class: 'form-control', placeholder: 'Marie' } }) }}
+                    {{ form_errors(registrationForm.prenomEtudiant) }}
+                </div>
+            </div>
+        </div>
+
+        {# ── Section Enseignant ───────────────────────────────────────── #}
+        <div class="d-none mb-3" data-registration-type-target="sectionEnseignant">
+            <hr class="my-3">
+            <p class="fw-semibold text-geii-black mb-3" style="font-size:.9rem;">Informations enseignant</p>
+            <div class="row g-3 mb-3">
+                <div class="col-6">
+                    {{ form_label(registrationForm.nomEnseignant, null, { label_attr: { class: 'form-label' } }) }}
+                    {{ form_widget(registrationForm.nomEnseignant, { attr: { class: 'form-control', placeholder: 'Martin' } }) }}
+                    {{ form_errors(registrationForm.nomEnseignant) }}
+                </div>
+                <div class="col-6">
+                    {{ form_label(registrationForm.prenomEnseignant, null, { label_attr: { class: 'form-label' } }) }}
+                    {{ form_widget(registrationForm.prenomEnseignant, { attr: { class: 'form-control', placeholder: 'Sophie' } }) }}
+                    {{ form_errors(registrationForm.prenomEnseignant) }}
+                </div>
+            </div>
+            <div class="mb-3">
+                {{ form_label(registrationForm.specialite, null, { label_attr: { class: 'form-label' } }) }}
+                {{ form_widget(registrationForm.specialite, { attr: { class: 'form-control', placeholder: 'Systèmes Embarqués' } }) }}
+                {{ form_errors(registrationForm.specialite) }}
+            </div>
+            <div class="mb-3">
+                {{ form_label(registrationForm.bureau, null, { label_attr: { class: 'form-label' } }) }}
+                {{ form_widget(registrationForm.bureau, { attr: { class: 'form-control', placeholder: 'A101' } }) }}
+                {{ form_errors(registrationForm.bureau) }}
+            </div>
+        </div>
+
+        {# ── Bouton de soumission ──────────────────────────────────────── #}
+        <button type="submit" class="btn btn-warning btn-lg fw-semibold w-100 auth-submit d-none"
+                data-registration-type-target="submitBtn">
+            Créer mon compte
+        </button>
+
+    {{ form_end(registrationForm) }}
+{% endblock %}
+
+{% block auth_footer_links %}
+    <a class="auth-secondary-link" href="{{ path('app_login') }}">Déjà un compte ? Se connecter</a>
+{% endblock %}

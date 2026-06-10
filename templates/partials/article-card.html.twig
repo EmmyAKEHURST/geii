@@ -11,11 +11,13 @@
             <p class="card-text-geii flex-grow-1">
                 {{ excerpt }}
             </p>
-            <a href="{{ link }}"
-               class="link-yellow mt-3 fw-semibold"
-               aria-label="{{ linkLabel }}">
-                Lire la suite →
-            </a>
+            {% if link is defined and link and link != '#' %}
+                <a href="{{ link }}"
+                   class="link-yellow mt-3 fw-semibold"
+                   aria-label="{{ linkLabel }}">
+                    Lire la suite →
+                </a>
+            {% endif %}
         </div>
     </article>
 </div>

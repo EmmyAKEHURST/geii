@@ -226,7 +226,7 @@
             <div class="row align-items-center g-5">
                 <div class="col-lg-6">
                     <h2 class="section-title text-start mb-4" id="titre-alternance">
-                        Vous êtes une entreprise&nbsp;?
+                        Vous êtes une nouvelle entreprise&nbsp;?
                     </h2>
                     <p class="text-body-geii lh-relaxed mb-4">
                         Le département GEII vous propose des étudiants qualifiés en alternance et des
@@ -234,18 +234,11 @@
                         plus de <strong class="text-geii-black">120 partenaires industriels</strong> et
                         contribuez à la formation des ingénieurs de demain.
                     </p>
-                    <div class="d-flex flex-wrap gap-3">
-                        <a href="{{ path('app_alternance_offre') }}"
-                           class="btn btn-warning fw-semibold"
-                           aria-label="Proposer une offre d'alternance au département GEII">
-                            <i class="bi bi-briefcase me-2" aria-hidden="true"></i>Proposer une offre d'alternance
-                        </a>
-                        <a href="{{ path('app_projet_tuteure') }}"
-                           class="btn btn-outline-dark fw-semibold"
-                           aria-label="Déposer un projet tuteuré au département GEII">
-                            <i class="bi bi-diagram-3 me-2" aria-hidden="true"></i>Déposer un projet tuteuré
-                        </a>
-                    </div>
+                    <a href="{{ path('app_register_entreprise') }}"
+                       class="btn btn-warning fw-semibold"
+                       aria-label="Créer un compte entreprise partenaire GEII">
+                        <i class="bi bi-building me-2" aria-hidden="true"></i>Inscrivez-vous
+                    </a>
                 </div>
                 <div class="col-lg-6">
                     <div class="d-flex flex-column gap-3">

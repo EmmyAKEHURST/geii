@@ -87,6 +87,7 @@ final class EspaceEtudiantController extends AbstractController
         ];
 
         $weekdays = [];
+
         for ($i = 0; $i < 5; $i++) {
             $day = (clone $monday)->modify("+$i days");
             $keys = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi'];

@@ -3,6 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Compte;
+use App\Entity\Enseignant;
+use App\Entity\Entreprise;
+use App\Entity\Etudiant;
+use App\Form\EntrepriseRegistrationFormType;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
@@ -68,6 +72,94 @@ class RegistrationController extends AbstractController
         return $this->render('auth/register.html.twig', [
             'registrationForm' => $form,
         ]);
+    }
+
+    /**
+     * Formulaire d'inscription unifié : entreprise, étudiant ou enseignant.
+     * Le Compte et le profil associé sont créés sans être liés (isVerified = false).
+     */
+    #[Route('/register/choix', name: 'app_register_entreprise')]
+    public function registerEntreprise(
+        Request $request, UserPasswordHasherInterface $userPasswordHasher,
+        EntityManagerInterface $entityManager
+    ): Response
+    {
+        $compte = new Compte();
+        $form   = $this->createForm(EntrepriseRegistrationFormType::class, $compte);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var string $plainPassword */
+            $plainPassword = $form->get('plainPassword')->getData();
+            $type          = $form->get('accountType')->getData();
+
+            $compte
+                ->setPassword($userPasswordHasher->hashPassword($compte, $plainPassword))
+                ->setIsVerified(false)
+            ;
+
+            match ($type) {
+                'entreprise' => $this->persistEntreprise($form, $compte, $entityManager),
+                'etudiant'   => $this->persistEtudiant($form, $compte, $entityManager),
+                'enseignant' => $this->persistEnseignant($form, $compte, $entityManager),
+            };
+
+            $this->addFlash('success', 'Votre demande a bien été enregistrée. Un administrateur validera votre compte prochainement.');
+
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('auth/register-entreprise.html.twig', [
+            'registrationForm' => $form,
+        ]);
+    }
+
+    private function persistEntreprise(mixed $form, Compte $compte, EntityManagerInterface $em): void
+    {
+        $compte->setRoles(['ROLE_ENTREPRISE']);
+
+        $entreprise = (new Entreprise())
+            ->setNom($form->get('nomEntreprise')->getData())
+            ->setSiret($form->get('siret')->getData())
+            ->setSecteur($form->get('secteur')->getData())
+            ->setAdresse($form->get('adresse')->getData())
+        ;
+
+        $em->persist($compte);
+        $em->persist($entreprise);
+        $em->flush();
+    }
+
+    private function persistEtudiant(mixed $form, Compte $compte, EntityManagerInterface $em): void
+    {
+        $compte->setRoles(['ROLE_ETUDIANT']);
+
+        $etudiant = (new Etudiant())
+            ->setNumEtudiant($form->get('numEtudiant')->getData())
+            ->setNom($form->get('nomEtudiant')->getData())
+            ->setPrenom($form->get('prenomEtudiant')->getData())
+            ->setAnnee((int) date('Y'))
+        ;
+
+        $em->persist($compte);
+        $em->persist($etudiant);
+        $em->flush();
+    }
+
+    private function persistEnseignant(mixed $form, Compte $compte, EntityManagerInterface $em): void
+    {
+        $compte->setRoles(['ROLE_ENSEIGNANT']);
+
+        $enseignant = (new Enseignant())
+            ->setNom($form->get('nomEnseignant')->getData())
+            ->setPrenom($form->get('prenomEnseignant')->getData())
+            ->setSpecialite($form->get('specialite')->getData())
+            ->setBureau($form->get('bureau')->getData())
+        ;
+
+        $em->persist($compte);
+        $em->persist($enseignant);
+        $em->flush();
     }
 
     /**
