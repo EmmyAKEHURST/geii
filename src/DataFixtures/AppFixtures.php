@@ -247,30 +247,42 @@ class AppFixtures extends Fixture
                 'siret' => '54205985700013',
                 'adresse' => '35 Rue Joseph Monier, 92500 Rueil-Malmaison',
                 'secteur' => 'Énergie & Automatisme',
+                'email' => 'contact@schneider-electric.fr',
             ],
             [
                 'nom' => 'STMicroelectronics',
                 'siret' => '38802105900036',
                 'adresse' => '29 Blvd Romain Rolland, 75014 Paris',
                 'secteur' => 'Semi-conducteurs',
+                'email' => 'contact@st.com',
             ],
             [
                 'nom' => 'Thales Group',
                 'siret' => '34268680400066',
                 'adresse' => '45 Rue de Villiers, 92200 Neuilly-sur-Seine',
                 'secteur' => 'Défense & Électronique',
+                'email' => 'contact@thalesgroup.fr',
             ],
         ];
 
         $entreprises = [];
         foreach ($data as $d) {
+            $compte = new Compte();
+            $compte->setEmail($d['email'])
+                   ->setPassword($this->hasher->hashPassword($compte, 'Entreprise@1'))
+                   ->setIsVerified(true)
+                   ->setRoles(['ROLE_ENTREPRISE'])
+            ;
+
             $entreprise = (new Entreprise())
                 ->setNom($d['nom'])
                 ->setSiret($d['siret'])
                 ->setAdresse($d['adresse'])
                 ->setSecteur($d['secteur'])
+                ->setCompte($compte)
             ;
 
+            $manager->persist($compte);
             $manager->persist($entreprise);
             $entreprises[] = $entreprise;
         }
