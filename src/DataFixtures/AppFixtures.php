@@ -20,12 +20,16 @@ use DateTime;
 use DateMalformedStringException;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
+    private const string UPLOAD_DIR = 'var/share/supports';
+
     public function __construct(
         private readonly UserPasswordHasherInterface $hasher,
+        private readonly KernelInterface             $kernel,
     ) {}
 
     /**
@@ -417,7 +421,16 @@ class AppFixtures extends Fixture
             ],
         ];
 
+        $uploadDir   = $this->kernel->getProjectDir() . DIRECTORY_SEPARATOR . self::UPLOAD_DIR;
+        $placeholder = $this->kernel->getProjectDir() . DIRECTORY_SEPARATOR . 'dev' . DIRECTORY_SEPARATOR . 'Placeholder-PDF.pdf';
+
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
+
         foreach ($data as $d) {
+            copy($placeholder, $uploadDir . DIRECTORY_SEPARATOR . $d['fichier']);
+
             $support = (new SupportCours())
                 ->setTitre($d['titre'])
                 ->setFichierPath($d['fichier'])
